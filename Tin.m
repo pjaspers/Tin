@@ -47,7 +47,7 @@
     }];
     [request setFailedBlock:^{
         NSError *error = [request error];
-        returnError(error);
+        if(returnError) returnError(error);
     }];
     [request startAsynchronous];
 }
