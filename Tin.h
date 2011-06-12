@@ -15,5 +15,7 @@
 + (void)get:(NSString *)url success:(void(^)(NSArray *data))callback;
 
 - (void)get:(NSString *)url success:(void(^)(NSArray *data))callback;
+- (void)get:(NSString *)url query:(id)aQuery success:(void(^)(NSArray *data))callback;
+
 - (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(NSDictionary *)query andBody:(NSDictionary *)body andSuccessCallback:(void(^)(NSArray *data))returnSuccess andErrorCallback:(void(^)(NSError *error))returnError;
 @end
