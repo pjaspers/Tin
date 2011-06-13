@@ -20,9 +20,14 @@
     
 @implementation Tin
 @synthesize baseURI;
-// This method should be use to handle all `GET` requests.
-//      [TouchPointAPI get:@"http://url.com/" success:(NSDictionary *data) { NSLog(@"Response %@", data)}];
+
+// ## `GET` requests
 //
+// Methods for use with `GET` requests.
+//
+//      [Tin get:@"http://url.com/" success:(NSDictionary *data) { NSLog(@"Response %@", data)}];
+//
+
 + (void)get:(NSString *)url success:(void(^)(NSArray *data))callback {
     [[[[self alloc] init] autorelease] get:url success:callback];
 }
@@ -31,6 +36,23 @@
     [[[[self alloc] init] autorelease] get:url query:aQuery success:callback];
 }
 
+// ## `POST` requests
+//
+// Methods for use with `POST` requests.
+// 
+//      [Tin post:@"http://url.com/" 
+//           body:[NSDictionary dictionaryWithObjectsAndKeys:@"string", @"key", nil] 
+//        success:nil
+//          error:nil];
+//
+
++ (void)post:(NSString *)url body:(NSDictionary *)bodyData success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback {
+    [[[[self alloc] init] autorelease] post:url body:bodyData success:callback error:errorCallback];
+}
+
++ (void)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback{
+    [[[[self alloc] init] autorelease] post:url query:aQuery body:bodyData success:callback error:errorCallback];
+}
 
 // ## Instance methods
 
@@ -42,12 +64,20 @@
     [self performRequest:@"GET" withURL:url andQuery:aQuery andBody:nil andSuccessCallback:callback andErrorCallback:nil];
 }
 
+- (void)post:(NSString *)url body:(NSDictionary *)bodyData success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback {
+    [self post:url query:nil body:bodyData success:callback error:errorCallback];
+}
+- (void)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback {
+    [self performRequest:@"POST" withURL:url andQuery:aQuery andBody:nil andSuccessCallback:callback andErrorCallback:errorCallback];
+}
+
 - (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)aQuery andBody:(NSDictionary *)body andSuccessCallback:(void(^)(NSArray *data))returnSuccess andErrorCallback:(void(^)(NSError *error))returnError {
     
     // Format the URL to our known format, with query appended if needed.
     NSString *url = [self normalizeURL:urlString withQuery:aQuery];
     
     __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+    [request setRequestMethod:method];
     [request setCompletionBlock:^{
         // For now only fetching text data
         NSArray *returnArray = [NSArray arrayWithObject:[request responseString]];
@@ -64,6 +94,7 @@
     }];
     [request setFailedBlock:^{
         NSError *error = [request error];
+        NSLog(@"Error %@", error);
         if(returnError) returnError(error);
     }];
     [request startAsynchronous];

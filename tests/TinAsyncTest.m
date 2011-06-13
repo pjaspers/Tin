@@ -47,6 +47,15 @@
      [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
+- (void)testSimplePostRequest {
+    [self prepare];
+    [Tin post:@"http://httpbin.org/post" body:nil success:^(NSArray *data) {
+        GHTestLog(@"Response: %@", data);
+        GHAssertNotNil(data, @"We should get something back from the server");
+        [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testSimplePostRequest)];
+    } error:nil];     
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
 
 
 @end
