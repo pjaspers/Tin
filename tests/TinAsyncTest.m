@@ -47,15 +47,80 @@
      [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void)testSimplePostRequest {
+- (void)testPostRequest {
     [self prepare];
     [Tin post:@"http://httpbin.org/post" body:nil success:^(NSArray *data) {
         GHTestLog(@"Response: %@", data);
         GHAssertNotNil(data, @"We should get something back from the server");
-        [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testSimplePostRequest)];
+        [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testPostRequest)];
     } error:nil];     
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
+- (void)testPostRequestWithData {
+    [self prepare];
+    NSDictionary *postDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                              @"string",@"keyOne",
+                              @"anotherString", @"keyTwo",nil];
+    
+    [Tin post:@"http://httpbin.org/post" body:postDict success:^(NSArray *data) {
+        GHTestLog(@"Response: %@", data);
+        GHAssertNotNil(data, @"We should get something back from the server");
+        [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testPostRequestWithData)];
+    } error:nil];     
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+- (void)testPostRequestWithQueryData {
+    [self prepare];
+    NSDictionary *postDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                              @"string",@"keyOne",
+                              @"anotherString", @"keyTwo",nil];
+    
+    [Tin post:@"http://httpbin.org/post" query:postDict body:nil success:^(NSArray *data) {
+        GHTestLog(@"Response: %@", data);
+        GHAssertNotNil(data, @"We should get something back from the server");
+        [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testPostRequestWithQueryData)];
+    } error:nil];  
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+- (void)testPutRequest {
+    [self prepare];
+    [Tin put:@"http://httpbin.org/put" body:nil success:^(NSArray *data) {
+        GHTestLog(@"Response: %@", data);
+        GHAssertNotNil(data, @"We should get something back from the server");
+        [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testPutRequest)];
+    } error:nil];     
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+- (void)testPutRequestWithData {
+    [self prepare];
+    NSDictionary *postDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                              @"string",@"keyOne",
+                              @"anotherString", @"keyTwo",nil];
+    
+    [Tin put:@"http://httpbin.org/put" body:postDict success:^(NSArray *data) {
+        GHTestLog(@"Response: %@", data);
+        GHAssertNotNil(data, @"We should get something back from the server");
+        [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testPutRequestWithData)];
+    } error:nil];     
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+- (void)testPutRequestWithQueryData {
+    [self prepare];
+    NSDictionary *postDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                              @"string",@"keyOne",
+                              @"anotherString", @"keyTwo",nil];
+    
+    [Tin put:@"http://httpbin.org/put" query:postDict body:nil success:^(NSArray *data) {
+        GHTestLog(@"Response: %@", data);
+        GHAssertNotNil(data, @"We should get something back from the server");
+        [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testPutRequestWithQueryData)];
+    } error:nil];  
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
 
 @end

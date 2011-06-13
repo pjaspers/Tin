@@ -32,8 +32,17 @@
 - (void)get:(NSString *)url success:(void(^)(NSArray *data))callback;
 - (void)get:(NSString *)url query:(id)aQuery success:(void(^)(NSArray *data))callback;
 
++ (void)post:(NSString *)url query:(id)aQuery success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback;
 + (void)post:(NSString *)url body:(NSDictionary *)bodyData success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback;
 + (void)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback;
+
++ (void)put:(NSString *)url query:(id)aQuery success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback;
++ (void)put:(NSString *)url body:(id)body success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback;
++ (void)put:(NSString *)url query:(id)aQuery body:(id)body success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback;
+
+- (void)put:(NSString *)url query:(id)aQuery success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback;
+- (void)put:(NSString *)url body:(id)body success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback;
+- (void)put:(NSString *)url query:(id)aQuery body:(id)body success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback;
 
 - (void)post:(NSString *)url body:(NSDictionary *)bodyData success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback;
 - (void)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback;

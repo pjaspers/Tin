@@ -9,11 +9,13 @@
 #import "Tin.h"
 // The always great [ASIHTTP](http://allseeing-i.com/ASIHTTPRequest/)
 #import "ASIHTTPRequest.h"
+#import "ASIFormDataRequest.h"
+
 // Contains additions to default objects to aid Tin
 #import "Tin+Extensions.h"
 
 @interface Tin (Utilities)
-- (NSString *)normalizeURL:(NSString *)aURL withQuery:(NSString *)aQuery;
+- (NSString *)normalizeURL:(NSString *)aURL withQuery:(NSString *)query;
 - (NSString *)prependHTTPtoURL:(NSString *)aUrl;
 - (NSString *)normalizeQuery:(id)query;
 @end
@@ -21,6 +23,9 @@
 @implementation Tin
 @synthesize baseURI;
 
+#pragma mark - Class methods
+
+#pragma mark GET
 // ## `GET` requests
 //
 // Methods for use with `GET` requests.
@@ -32,52 +37,109 @@
     [[[[self alloc] init] autorelease] get:url success:callback];
 }
 
-+ (void)get:(NSString *)url query:(id)aQuery success:(void(^)(NSArray *data))callback {
-    [[[[self alloc] init] autorelease] get:url query:aQuery success:callback];
++ (void)get:(NSString *)url query:(id)query success:(void(^)(NSArray *data))callback {
+    [[[[self alloc] init] autorelease] get:url query:query success:callback];
 }
 
+#pragma mark POST
 // ## `POST` requests
 //
 // Methods for use with `POST` requests.
 // 
 //      [Tin post:@"http://url.com/" 
-//           body:[NSDictionary dictionaryWithObjectsAndKeys:@"string", @"key", nil] 
+//           query:[NSDictionary dictionaryWithObjectsAndKeys:@"string", @"key", nil]
 //        success:nil
 //          error:nil];
 //
 
-+ (void)post:(NSString *)url body:(NSDictionary *)bodyData success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback {
-    [[[[self alloc] init] autorelease] post:url body:bodyData success:callback error:errorCallback];
++ (void)post:(NSString *)url query:(id)query success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback {
+    [self post:url query:query body:nil success:callback error:errorCallback];
 }
 
-+ (void)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback{
-    [[[[self alloc] init] autorelease] post:url query:aQuery body:bodyData success:callback error:errorCallback];
++ (void)post:(NSString *)url body:(id)body success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback {
+    [self post:url query:nil body:body success:callback error:errorCallback];
 }
+
++ (void)post:(NSString *)url query:(id)query body:(id)body success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback{
+    [[[[self alloc] init] autorelease] post:url query:query body:body success:callback error:errorCallback];
+}
+
+#pragma mark PUT
+// ## `PUT` requests
+//
+// Methods for use with `PUT` requests.
+// 
+//      [Tin put:@"http://url.com/" 
+//           body:[NSString stringWithFormat:@"user=%@", @"Jake"]
+//        success:nil
+//          error:nil];
+//
+
++ (void)put:(NSString *)url query:(id)query success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback {
+    [self put:url query:query body:nil success:callback error:errorCallback];
+}
+
++ (void)put:(NSString *)url body:(id)body success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback {
+    [self put:url query:nil body:body success:callback error:errorCallback];
+}
+
++ (void)put:(NSString *)url query:(id)query body:(id)body success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback{
+    [[[[self alloc] init] autorelease] put:url query:query body:body success:callback error:errorCallback];
+}
+
+#pragma mark - Instance Methods
 
 // ## Instance methods
+
+#pragma mark GET
 
 - (void)get:(NSString *)url success:(void(^)(NSArray *data))callback {
     [self get:url query:nil success:callback];
 }
 
-- (void)get:(NSString *)url query:(id)aQuery success:(void(^)(NSArray *data))callback {
-    [self performRequest:@"GET" withURL:url andQuery:aQuery andBody:nil andSuccessCallback:callback andErrorCallback:nil];
+- (void)get:(NSString *)url query:(id)query success:(void(^)(NSArray *data))callback {
+    [self performRequest:@"GET" withURL:url andQuery:query andBody:nil andSuccessCallback:callback andErrorCallback:nil];
+}
+
+#pragma mark POST
+
+- (void)post:(NSString *)url query:(id)query success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback {
+
 }
 
 - (void)post:(NSString *)url body:(NSDictionary *)bodyData success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback {
     [self post:url query:nil body:bodyData success:callback error:errorCallback];
 }
-- (void)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback {
-    [self performRequest:@"POST" withURL:url andQuery:aQuery andBody:nil andSuccessCallback:callback andErrorCallback:errorCallback];
+- (void)post:(NSString *)url query:(id)query body:(NSDictionary *)bodyData success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback {
+    [self performRequest:@"POST" withURL:url andQuery:query andBody:bodyData andSuccessCallback:callback andErrorCallback:errorCallback];
 }
 
-- (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)aQuery andBody:(NSDictionary *)body andSuccessCallback:(void(^)(NSArray *data))returnSuccess andErrorCallback:(void(^)(NSError *error))returnError {
+#pragma mark PUT
+
+- (void)put:(NSString *)url query:(id)query success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback {
+    [self put:url query:query body:nil success:callback error:errorCallback];
+}
+
+- (void)put:(NSString *)url body:(id)body success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback {
+    [self put:url query:nil body:body success:callback error:errorCallback];
+}
+
+- (void)put:(NSString *)url query:(id)query body:(id)body success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback{
+    [self performRequest:@"PUT" withURL:url andQuery:query andBody:body andSuccessCallback:callback andErrorCallback:errorCallback];
+}
+
+- (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andSuccessCallback:(void(^)(NSArray *data))returnSuccess andErrorCallback:(void(^)(NSError *error))returnError {
     
     // Format the URL to our known format, with query appended if needed.
-    NSString *url = [self normalizeURL:urlString withQuery:aQuery];
+    NSString *url = [self normalizeURL:urlString withQuery:query];
     
-    __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+    __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
     [request setRequestMethod:method];
+   
+    if (body) {
+        [request setPostBody:[NSMutableData dataWithData:[[body description] dataUsingEncoding:NSUTF8StringEncoding]]];
+    }
+    
     [request setCompletionBlock:^{
         // For now only fetching text data
         NSArray *returnArray = [NSArray arrayWithObject:[request responseString]];
@@ -103,7 +165,7 @@
 // ## Utility methods
 
 // Creates the `URL` which will be used in the actual request.
-- (NSString *)normalizeURL:(NSString *)aURL withQuery:(id) aQuery {
+- (NSString *)normalizeURL:(NSString *)aURL withQuery:(id) query {
     NSString *urlString = @"";
     
     // Formats the URL
@@ -114,7 +176,7 @@
     }
     
     // Adds the query
-    if (aQuery) urlString = [NSString stringWithFormat:@"%@%@", urlString, [self normalizeQuery:aQuery]];
+    if (query) urlString = [NSString stringWithFormat:@"%@%@", urlString, [self normalizeQuery:query]];
     
     return urlString;
 }
