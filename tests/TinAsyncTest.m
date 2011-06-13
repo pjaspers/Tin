@@ -34,7 +34,7 @@
     [Tin get:@"http://httpbin.org/get" success:^(NSArray *data) {
         GHAssertNotNil(data, @"We should get something back from the server");
         [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testSimpleGetRequest)];
-    }];
+    } error:nil];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -43,7 +43,7 @@
     [Tin get:@"http://httpbin.org/" query:@"get" success:^(NSArray *data) {
         //GHAssertNotNil(data, @"We should get something back from the server");
         [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testGetRequestWithQueryString)];
-    }];
+    } error:nil];
      [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 

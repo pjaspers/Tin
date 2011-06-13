@@ -33,12 +33,12 @@
 //      [Tin get:@"http://url.com/" success:(NSDictionary *data) { NSLog(@"Response %@", data)}];
 //
 
-+ (void)get:(NSString *)url success:(void(^)(NSArray *data))callback {
-    [[[[self alloc] init] autorelease] get:url success:callback];
++ (void)get:(NSString *)url success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback {
+    [self get:url query:nil success:callback error:errorCallback];
 }
 
-+ (void)get:(NSString *)url query:(id)query success:(void(^)(NSArray *data))callback {
-    [[[[self alloc] init] autorelease] get:url query:query success:callback];
++ (void)get:(NSString *)url query:(id)query success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback {
+    [[[[self alloc] init] autorelease] get:url query:query success:callback error:errorCallback];
 }
 
 #pragma mark POST
@@ -93,12 +93,12 @@
 
 #pragma mark GET
 
-- (void)get:(NSString *)url success:(void(^)(NSArray *data))callback {
-    [self get:url query:nil success:callback];
+- (void)get:(NSString *)url success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback {
+    [self get:url query:nil success:callback error:errorCallback];
 }
 
-- (void)get:(NSString *)url query:(id)query success:(void(^)(NSArray *data))callback {
-    [self performRequest:@"GET" withURL:url andQuery:query andBody:nil andSuccessCallback:callback andErrorCallback:nil];
+- (void)get:(NSString *)url query:(id)query success:(void(^)(NSArray *data))callback error:(void(^)(NSError *error))errorCallback {
+    [self performRequest:@"GET" withURL:url andQuery:query andBody:nil andSuccessCallback:callback andErrorCallback:errorCallback];
 }
 
 #pragma mark POST
