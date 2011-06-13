@@ -1,6 +1,7 @@
 #import <GHUnitIOS/GHUnit.h> 
 #import "OCMock.h"
 #import "Tin.h"
+#import "TinResponse.h"
 #import "ASIHTTPRequest.h"
 
 @interface TinTest : GHTestCase { }
@@ -31,4 +32,32 @@
 }  
 
 
+// NOT WORKING YET
+- (void)testGetRequest {
+    // create a nice mock
+    id request = [OCMockObject niceMockForClass:[ASIHTTPRequest class]];
+    NSString *responseString = @"iets";
+    
+    [[[(id)request stub] andReturn:responseString] responseString];
+
+    // keep the completion block upon setting
+    __block ASIBasicBlock requestBlock;
+
+    [[(id)request expect] setCompletionBlock:    [OCMArg checkWithBlock:^(id value) { 
+        requestBlock = [value copy]; 
+        return YES;
+    }]];
+//    
+    // start the delayed call response
+    [[[(id)request stub] andDo:^(NSInvocation *invocation) {
+//       // RunAfterDelay(3, ^{
+            requestBlock();
+//            [requestBlock release];
+//       // });
+    }] startAsynchronous];
+    [Tin get:@"apple.com" success:^(TinResponse *response) {
+        NSLog(@"%@", response.response);
+    } error:nil];
+    
+}
 @end
