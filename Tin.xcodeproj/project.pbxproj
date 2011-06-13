@@ -36,6 +36,8 @@
 		055E1A3D13A63EB000C7D258 /* TinAsyncTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 055E1A3C13A63EB000C7D258 /* TinAsyncTest.m */; };
 		055E1A3F13A6482C00C7D258 /* TinUtilityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 055E1A3E13A6482C00C7D258 /* TinUtilityTest.m */; };
 		055E1A4C13A66CC600C7D258 /* TinResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 055E1A4B13A66CC600C7D258 /* TinResponse.m */; };
+		055E1A5613A68E0D00C7D258 /* TinTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 055E1A5513A68E0D00C7D258 /* TinTest.m */; };
+		055E1A6113A68EDE00C7D258 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 055E1A6013A68EDE00C7D258 /* libOCMock.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +90,14 @@
 		055E1A3E13A6482C00C7D258 /* TinUtilityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TinUtilityTest.m; sourceTree = "<group>"; };
 		055E1A4A13A66CC600C7D258 /* TinResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TinResponse.h; path = Tin/TinResponse.h; sourceTree = "<group>"; };
 		055E1A4B13A66CC600C7D258 /* TinResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TinResponse.m; path = Tin/TinResponse.m; sourceTree = "<group>"; };
+		055E1A5513A68E0D00C7D258 /* TinTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TinTest.m; sourceTree = "<group>"; };
+		055E1A5A13A68EDE00C7D258 /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
+		055E1A5B13A68EDE00C7D258 /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
+		055E1A5C13A68EDE00C7D258 /* OCMConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMConstraint.h; sourceTree = "<group>"; };
+		055E1A5D13A68EDE00C7D258 /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
+		055E1A5E13A68EDE00C7D258 /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
+		055E1A5F13A68EDE00C7D258 /* OCMockRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockRecorder.h; sourceTree = "<group>"; };
+		055E1A6013A68EDE00C7D258 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +114,7 @@
 				0514240E13A5521200E5BD31 /* CoreGraphics.framework in Frameworks */,
 				0514242D13A5528E00E5BD31 /* GHUnitIOS.framework in Frameworks */,
 				0514243C13A5578600E5BD31 /* YAJLiOS.framework in Frameworks */,
+				055E1A6113A68EDE00C7D258 /* libOCMock.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,6 +159,7 @@
 				0514243013A5537E00E5BD31 /* ExtensionsTest.m */,
 				055E1A3C13A63EB000C7D258 /* TinAsyncTest.m */,
 				055E1A3E13A6482C00C7D258 /* TinUtilityTest.m */,
+				055E1A5513A68E0D00C7D258 /* TinTest.m */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -155,6 +167,7 @@
 		0514241013A5521200E5BD31 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				055E1A5713A68EDE00C7D258 /* Library */,
 				0514243D13A557C600E5BD31 /* pokeb-asi-http-request-2980421 */,
 				0514243B13A5578600E5BD31 /* YAJLiOS.framework */,
 				0514242C13A5528E00E5BD31 /* GHUnitIOS.framework */,
@@ -243,6 +256,36 @@
 				0514246413A5585600E5BD31 /* SystemConfiguration.framework */,
 			);
 			name = "ASI Dependencies";
+			sourceTree = "<group>";
+		};
+		055E1A5713A68EDE00C7D258 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				055E1A5813A68EDE00C7D258 /* Headers */,
+				055E1A6013A68EDE00C7D258 /* libOCMock.a */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		055E1A5813A68EDE00C7D258 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				055E1A5913A68EDE00C7D258 /* OCMock */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		055E1A5913A68EDE00C7D258 /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				055E1A5A13A68EDE00C7D258 /* NSNotificationCenter+OCMAdditions.h */,
+				055E1A5B13A68EDE00C7D258 /* OCMArg.h */,
+				055E1A5C13A68EDE00C7D258 /* OCMConstraint.h */,
+				055E1A5D13A68EDE00C7D258 /* OCMock.h */,
+				055E1A5E13A68EDE00C7D258 /* OCMockObject.h */,
+				055E1A5F13A68EDE00C7D258 /* OCMockRecorder.h */,
+			);
+			path = OCMock;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -343,6 +386,7 @@
 				055E1A3D13A63EB000C7D258 /* TinAsyncTest.m in Sources */,
 				055E1A3F13A6482C00C7D258 /* TinUtilityTest.m in Sources */,
 				055E1A4C13A66CC600C7D258 /* TinResponse.m in Sources */,
+				055E1A5613A68E0D00C7D258 /* TinTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,11 +439,18 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = tests/Library/Headers;
 				INFOPLIST_FILE = "tests/tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/tests/Library\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
+					"-force_load",
+					"$(PROJECT_DIR)/tests/Library/libOCMock.a",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -425,12 +476,19 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = tests/Library/Headers;
 				INFOPLIST_FILE = "tests/tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/tests/Library\"",
+				);
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
+					"-force_load",
+					"$(PROJECT_DIR)/tests/Library/libOCMock.a",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
