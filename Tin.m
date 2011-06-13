@@ -13,11 +13,13 @@
 #import "Tin+Extensions.h"
 
 @interface Tin (Utilities)
+- (NSString *)normalizeURL:(NSString *)aURL withQuery:(NSString *)aQuery;
+- (NSString *)prependHTTPtoURL:(NSString *)aUrl;
 - (NSString *)normalizeQuery:(id)query;
 @end
     
 @implementation Tin
-
+@synthesize baseURI;
 // This method should be use to handle all `GET` requests.
 //      [TouchPointAPI get:@"http://url.com/" success:(NSDictionary *data) { NSLog(@"Response %@", data)}];
 //
@@ -25,22 +27,27 @@
     [[[[self alloc] init] autorelease] get:url success:callback];
 }
 
++ (void)get:(NSString *)url query:(id)aQuery success:(void(^)(NSArray *data))callback {
+    [[[[self alloc] init] autorelease] get:url query:aQuery success:callback];
+}
 
 
 // ## Instance methods
 
 - (void)get:(NSString *)url success:(void(^)(NSArray *data))callback {
-    [self performRequest:@"GET" withURL:url andQuery:nil andBody:nil andSuccessCallback:callback andErrorCallback:nil];
+    [self get:url query:nil success:callback];
 }
 
 - (void)get:(NSString *)url query:(id)aQuery success:(void(^)(NSArray *data))callback {
-    NSLog(@"%@",[self normalizeQuery:aQuery]);
+    [self performRequest:@"GET" withURL:url andQuery:aQuery andBody:nil andSuccessCallback:callback andErrorCallback:nil];
 }
 
-- (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(NSDictionary *)query andBody:(NSDictionary *)body andSuccessCallback:(void(^)(NSArray *data))returnSuccess andErrorCallback:(void(^)(NSError *error))returnError {
+- (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)aQuery andBody:(NSDictionary *)body andSuccessCallback:(void(^)(NSArray *data))returnSuccess andErrorCallback:(void(^)(NSError *error))returnError {
     
-    __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:urlString]];
+    // Format the URL to our known format, with query appended if needed.
+    NSString *url = [self normalizeURL:urlString withQuery:aQuery];
     
+    __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
     [request setCompletionBlock:^{
         // For now only fetching text data
         NSArray *returnArray = [NSArray arrayWithObject:[request responseString]];
@@ -64,9 +71,34 @@
 
 // ## Utility methods
 
+// Creates the `URL` which will be used in the actual request.
+- (NSString *)normalizeURL:(NSString *)aURL withQuery:(id) aQuery {
+    NSString *urlString = @"";
+    
+    // Formats the URL
+    if (self.baseURI && [self.baseURI length] > 0) {
+        urlString = [NSString stringWithFormat:@"%@%@",[self prependHTTPtoURL:self.baseURI], aURL];
+    } else {
+        urlString = [self prependHTTPtoURL:aURL];
+    }
+    
+    // Adds the query
+    if (aQuery) urlString = [NSString stringWithFormat:@"%@%@", urlString, [self normalizeQuery:aQuery]];
+    
+    return urlString;
+}
+
+// Prepends `http` to a string if needed.
+- (NSString *)prependHTTPtoURL:(NSString *)aUrl {
+    if([aUrl rangeOfString:@"^http(s?)://" options:NSRegularExpressionSearch].length > 0)
+        return aUrl;
+    
+    return [NSString stringWithFormat:@"http://%@", aUrl];
+}
+
 - (NSString *)normalizeQuery:(id)query {
     if ([query isKindOfClass:[NSString class]]) 
-        return query;
+        return [NSString stringWithFormat:@"?%@",query];
     if ([query isKindOfClass:[NSDictionary class]])
         return [(NSDictionary *) query toQueryString];
     return nil;

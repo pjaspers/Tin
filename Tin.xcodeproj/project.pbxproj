@@ -33,6 +33,8 @@
 		0514246713A5586000E5BD31 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0514246613A5586000E5BD31 /* MobileCoreServices.framework */; };
 		0514246913A5586F00E5BD31 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0514246813A5586F00E5BD31 /* libz.1.2.3.dylib */; };
 		0514246B13A5599200E5BD31 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0514246A13A5599200E5BD31 /* CFNetwork.framework */; };
+		055E1A3D13A63EB000C7D258 /* TinAsyncTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 055E1A3C13A63EB000C7D258 /* TinAsyncTest.m */; };
+		055E1A3F13A6482C00C7D258 /* TinUtilityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 055E1A3E13A6482C00C7D258 /* TinUtilityTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +83,8 @@
 		0520608F13A54EB6005072D0 /* Tin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tin.m; sourceTree = "<group>"; };
 		0520609113A5504D005072D0 /* Tin+YAJL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Tin+YAJL.h"; sourceTree = "<group>"; };
 		0520609213A5504D005072D0 /* Tin+YAJL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Tin+YAJL.m"; sourceTree = "<group>"; };
+		055E1A3C13A63EB000C7D258 /* TinAsyncTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TinAsyncTest.m; sourceTree = "<group>"; };
+		055E1A3E13A6482C00C7D258 /* TinUtilityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TinUtilityTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +143,8 @@
 			children = (
 				0514241013A5521200E5BD31 /* Supporting Files */,
 				0514243013A5537E00E5BD31 /* ExtensionsTest.m */,
+				055E1A3C13A63EB000C7D258 /* TinAsyncTest.m */,
+				055E1A3E13A6482C00C7D258 /* TinUtilityTest.m */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -329,6 +335,8 @@
 				0514246113A557C600E5BD31 /* ASIInputStream.m in Sources */,
 				0514246213A557C600E5BD31 /* ASINetworkQueue.m in Sources */,
 				0514246313A557C600E5BD31 /* Reachability.m in Sources */,
+				055E1A3D13A63EB000C7D258 /* TinAsyncTest.m in Sources */,
+				055E1A3F13A6482C00C7D258 /* TinUtilityTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
