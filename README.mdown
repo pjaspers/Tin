@@ -1,0 +1,57 @@
+# Tin
+
+Tin aims to make talking to webservices from Cocoa a lot simpler. It uses `blocks` and (the excellent HTTP library) [ASIHttp](http://allseeing-i.com/ASIHTTPRequest/) to make requests look simple.
+
+## Why?
+
+My previous API attempts always used a lot of delegates, which we needed since we didn't have blocks and synchronous requests is definitely not the way to go in a desktop app.
+
+Now with blocks it's finally possible to make it look like this:
+
+```
+[Tin get:@"http://apple.com" success:(TinResponse *response) {
+  NSLog(@"Response: %@", response.response);
+  NSLog(@"Headers: %@", response.headers);
+}];
+```
+
+## How to install?
+
+The simplest way to install (as long as I don't create downloads of it) will be to clone the project and copy the Tin header files and the Tin subfolder into your own project.
+
+Tin has one big dependency and that is [ASIHttp](http://allseeing-i.com/ASIHTTPRequest/) so make sure to have that installed as well.
+
+## Usage
+
+There are two ways to use `Tin`, the simplest way is to always call the class methods (e.g. `[Tin get:...];`), the downside of this is you don't get some of the goodies the instance methods can use.
+
+For example if you create a:
+
+```
+Tin *tin = [][Tin alloc] init];'
+tin.baseURI = @"http://tin.com";
+```
+
+You can do your requests as such: `[tin get:@"/something/else" success:nil];` which will route the request to `http://tin.com/something/else`. So if you keep that instance around in a handy place, it might save you a lot of typing.
+
+At the moment Tin supports the following methods:
+
+- GET
+- POST
+- PUT
+
+Each of these support both a `query` and a `body` argument to pass on data. If you pass a `NSDictionary` to `query` it will be converted to a string containing its keys and values. E.g.
+
+```
+NSDictionray *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"string", @"key", nil];
+// would be converted to an NSString
+@"key=string"
+```
+
+Al other objects will get their `description` method called to get their string representation to pass on to ASI.
+
+## Can I help?
+
+Please do!
+
+Fork it! Improve it! Test it! Rewrite it! (technology)
