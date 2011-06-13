@@ -106,7 +106,6 @@
 		051423F013A54E7100E5BD31 = {
 			isa = PBXGroup;
 			children = (
-				0514246A13A5599200E5BD31 /* CFNetwork.framework */,
 				0520608E13A54EB6005072D0 /* Tin.h */,
 				0520608F13A54EB6005072D0 /* Tin.m */,
 				0520609013A54EBC005072D0 /* Tin */,
@@ -127,6 +126,7 @@
 		0514240813A5521200E5BD31 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				055E1A3A13A638B900C7D258 /* ASI Dependencies */,
 				0514240913A5521200E5BD31 /* UIKit.framework */,
 				0514240B13A5521200E5BD31 /* Foundation.framework */,
 				0514240D13A5521200E5BD31 /* CoreGraphics.framework */,
@@ -146,9 +146,6 @@
 		0514241013A5521200E5BD31 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				0514246813A5586F00E5BD31 /* libz.1.2.3.dylib */,
-				0514246613A5586000E5BD31 /* MobileCoreServices.framework */,
-				0514246413A5585600E5BD31 /* SystemConfiguration.framework */,
 				0514243D13A557C600E5BD31 /* pokeb-asi-http-request-2980421 */,
 				0514243B13A5578600E5BD31 /* YAJLiOS.framework */,
 				0514242C13A5528E00E5BD31 /* GHUnitIOS.framework */,
@@ -226,6 +223,17 @@
 			name = Tin;
 			sourceTree = "<group>";
 		};
+		055E1A3A13A638B900C7D258 /* ASI Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				0514246A13A5599200E5BD31 /* CFNetwork.framework */,
+				0514246813A5586F00E5BD31 /* libz.1.2.3.dylib */,
+				0514246613A5586000E5BD31 /* MobileCoreServices.framework */,
+				0514246413A5585600E5BD31 /* SystemConfiguration.framework */,
+			);
+			name = "ASI Dependencies";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -236,6 +244,7 @@
 				0514240113A5521200E5BD31 /* Sources */,
 				0514240213A5521200E5BD31 /* Frameworks */,
 				0514240313A5521200E5BD31 /* Resources */,
+				055E1A3B13A638DB00C7D258 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -283,6 +292,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		055E1A3B13A638DB00C7D258 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "sh tests/runtests.sh";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0514240113A5521200E5BD31 /* Sources */ = {
