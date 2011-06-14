@@ -27,28 +27,28 @@
 // Especially useful if you keep the instance somewhere handy.
 @property (nonatomic, retain) NSString *baseURI;
 
-+ (void)get:(NSString *)url success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback;
-+ (void)get:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback;
++ (void)get:(NSString *)url success:(void(^)(TinResponse *response))callback;
++ (void)get:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback;
 
-+ (void)post:(NSString *)url query:(id)aQuery success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback;
-+ (void)post:(NSString *)url body:(NSDictionary *)bodyData success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback;
-+ (void)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback;
++ (void)post:(NSString *)url query:(id)aQuery success:(void(^)(TinResponse *response))callback ;
++ (void)post:(NSString *)url body:(NSDictionary *)bodyData success:(void(^)(TinResponse *response))callback ;
++ (void)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData success:(void(^)(TinResponse *response))callback ;
 
-+ (void)put:(NSString *)url query:(id)aQuery success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback;
-+ (void)put:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback;
-+ (void)put:(NSString *)url query:(id)aQuery body:(id)body success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback;
++ (void)put:(NSString *)url query:(id)aQuery success:(void(^)(TinResponse *response))callback ;
++ (void)put:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback ;
++ (void)put:(NSString *)url query:(id)aQuery body:(id)body success:(void(^)(TinResponse *response))callback ;
 
-- (void)get:(NSString *)url success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback;
-- (void)get:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback;
+- (void)get:(NSString *)url success:(void(^)(TinResponse *response))callback ;
+- (void)get:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback ;
 
-- (void)post:(NSString *)url body:(NSDictionary *)bodyData success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback;
-- (void)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback;
+- (void)post:(NSString *)url body:(NSDictionary *)bodyData success:(void(^)(TinResponse *response))callback ;
+- (void)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData success:(void(^)(TinResponse *response))callback ;
 
-- (void)put:(NSString *)url query:(id)aQuery success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback;
-- (void)put:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback;
-- (void)put:(NSString *)url query:(id)aQuery body:(id)body success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback;
+- (void)put:(NSString *)url query:(id)aQuery success:(void(^)(TinResponse *response))callback ;
+- (void)put:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback ;
+- (void)put:(NSString *)url query:(id)aQuery body:(id)body success:(void(^)(TinResponse *response))callback ;
 
 
 
-- (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(NSString *)queryString andBody:(NSDictionary *)body andSuccessCallback:(void(^)(TinResponse *response))returnSuccess andErrorCallback:(void(^)(NSError *error))returnError;
+- (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andSuccessCallback:(void(^)(TinResponse *response))returnSuccess;
 @end

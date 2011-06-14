@@ -34,7 +34,7 @@
     [Tin get:@"http://httpbin.org/get" success:^(TinResponse *response) {
         GHAssertNotNil(response, @"We should get something back from the server");
         [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testSimpleGetRequest)];
-    } error:nil];
+    }];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -43,7 +43,7 @@
     [Tin get:@"http://httpbin.org/" query:@"get" success:^(TinResponse *response) {
         //GHAssertNotNil(data, @"We should get something back from the server");
         [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testGetRequestWithQueryString)];
-    } error:nil];
+    }];
      [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -53,7 +53,7 @@
         GHTestLog(@"Response: %@", response);
         GHAssertNotNil(response, @"We should get something back from the server");
         [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testPostRequest)];
-    } error:nil];     
+    }];     
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -67,7 +67,7 @@
         GHTestLog(@"Response: %@", response);
         GHAssertNotNil(response, @"We should get something back from the server");
         [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testPostRequestWithData)];
-    } error:nil];     
+    }];     
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -81,7 +81,7 @@
         GHTestLog(@"Response: %@", response);
         GHAssertNotNil(response, @"We should get something back from the server");
         [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testPostRequestWithQueryData)];
-    } error:nil];  
+    }];  
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -91,7 +91,7 @@
         GHTestLog(@"Response: %@", response);
         GHAssertNotNil(response, @"We should get something back from the server");
         [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testPutRequest)];
-    } error:nil];     
+    }];     
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -105,7 +105,7 @@
         GHTestLog(@"Response: %@", response);
         GHAssertNotNil(response, @"We should get something back from the server");
         [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testPutRequestWithData)];
-    } error:nil];     
+    }];     
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
@@ -119,7 +119,7 @@
         GHTestLog(@"Response: %@", response);
         GHAssertNotNil(response, @"We should get something back from the server");
         [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testPutRequestWithQueryData)];
-    } error:nil];  
+    }];  
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 

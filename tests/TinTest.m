@@ -57,7 +57,7 @@
     }] startAsynchronous];
     [Tin get:@"apple.com" success:^(TinResponse *response) {
         NSLog(@"%@", response.response);
-    } error:nil];
+    }];
     
 }
 @end

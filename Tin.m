@@ -36,12 +36,12 @@
 //      [Tin get:@"http://url.com/" success:(NSDictionary *data) { NSLog(@"Response %@", data)}];
 //
 
-+ (void)get:(NSString *)url success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback {
-    [self get:url query:nil success:callback error:errorCallback];
++ (void)get:(NSString *)url success:(void(^)(TinResponse *response))callback {
+    [self get:url query:nil success:callback];
 }
 
-+ (void)get:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback {
-    [[[[self alloc] init] autorelease] get:url query:query success:callback error:errorCallback];
++ (void)get:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback {
+    [[[[self alloc] init] autorelease] get:url query:query success:callback];
 }
 
 #pragma mark POST
@@ -55,16 +55,16 @@
 //          error:nil];
 //
 
-+ (void)post:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback {
-    [self post:url query:query body:nil success:callback error:errorCallback];
++ (void)post:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback {
+    [self post:url query:query body:nil success:callback];
 }
 
-+ (void)post:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback {
-    [self post:url query:nil body:body success:callback error:errorCallback];
++ (void)post:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback {
+    [self post:url query:nil body:body success:callback];
 }
 
-+ (void)post:(NSString *)url query:(id)query body:(id)body success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback{
-    [[[[self alloc] init] autorelease] post:url query:query body:body success:callback error:errorCallback];
++ (void)post:(NSString *)url query:(id)query body:(id)body success:(void(^)(TinResponse *response))callback{
+    [[[[self alloc] init] autorelease] post:url query:query body:body success:callback];
 }
 
 #pragma mark PUT
@@ -78,16 +78,16 @@
 //          error:nil];
 //
 
-+ (void)put:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback {
-    [self put:url query:query body:nil success:callback error:errorCallback];
++ (void)put:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback {
+    [self put:url query:query body:nil success:callback];
 }
 
-+ (void)put:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback {
-    [self put:url query:nil body:body success:callback error:errorCallback];
++ (void)put:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback {
+    [self put:url query:nil body:body success:callback];
 }
 
-+ (void)put:(NSString *)url query:(id)query body:(id)body success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback{
-    [[[[self alloc] init] autorelease] put:url query:query body:body success:callback error:errorCallback];
++ (void)put:(NSString *)url query:(id)query body:(id)body success:(void(^)(TinResponse *response))callback{
+    [[[[self alloc] init] autorelease] put:url query:query body:body success:callback];
 }
 
 #pragma mark - Instance Methods
@@ -96,42 +96,42 @@
 
 #pragma mark GET
 
-- (void)get:(NSString *)url success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback {
-    [self get:url query:nil success:callback error:errorCallback];
+- (void)get:(NSString *)url success:(void(^)(TinResponse *response))callback {
+    [self get:url query:nil success:callback];
 }
 
-- (void)get:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback {
-    [self performRequest:@"GET" withURL:url andQuery:query andBody:nil andSuccessCallback:callback andErrorCallback:errorCallback];
+- (void)get:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback {
+    [self performRequest:@"GET" withURL:url andQuery:query andBody:nil andSuccessCallback:callback];
 }
 
 #pragma mark POST
 
-- (void)post:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback {
+- (void)post:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback {
 
 }
 
-- (void)post:(NSString *)url body:(NSDictionary *)bodyData success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback {
-    [self post:url query:nil body:bodyData success:callback error:errorCallback];
+- (void)post:(NSString *)url body:(NSDictionary *)bodyData success:(void(^)(TinResponse *response))callback {
+    [self post:url query:nil body:bodyData success:callback];
 }
-- (void)post:(NSString *)url query:(id)query body:(NSDictionary *)bodyData success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback {
-    [self performRequest:@"POST" withURL:url andQuery:query andBody:bodyData andSuccessCallback:callback andErrorCallback:errorCallback];
+- (void)post:(NSString *)url query:(id)query body:(NSDictionary *)bodyData success:(void(^)(TinResponse *response))callback {
+    [self performRequest:@"POST" withURL:url andQuery:query andBody:bodyData andSuccessCallback:callback];
 }
 
 #pragma mark PUT
 
-- (void)put:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback {
-    [self put:url query:query body:nil success:callback error:errorCallback];
+- (void)put:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback {
+    [self put:url query:query body:nil success:callback];
 }
 
-- (void)put:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback {
-    [self put:url query:nil body:body success:callback error:errorCallback];
+- (void)put:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback {
+    [self put:url query:nil body:body success:callback];
 }
 
-- (void)put:(NSString *)url query:(id)query body:(id)body success:(void(^)(TinResponse *response))callback error:(void(^)(NSError *error))errorCallback{
-    [self performRequest:@"PUT" withURL:url andQuery:query andBody:body andSuccessCallback:callback andErrorCallback:errorCallback];
+- (void)put:(NSString *)url query:(id)query body:(id)body success:(void(^)(TinResponse *response))callback{
+    [self performRequest:@"PUT" withURL:url andQuery:query andBody:body andSuccessCallback:callback];
 }
 
-- (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andSuccessCallback:(void(^)(TinResponse *response))returnSuccess andErrorCallback:(void(^)(NSError *error))returnError {
+- (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andSuccessCallback:(void(^)(TinResponse *response))returnSuccess {
     
     // Format the URL to our known format, with query appended if needed.
     NSString *url = [self normalizeURL:urlString withQuery:query];
@@ -166,7 +166,8 @@
     [request setFailedBlock:^{
         NSError *error = [request error];
         NSLog(@"Error %@", error);
-        if(returnError) returnError(error);
+        // TODO, return the error in TinResponse
+        //if(returnError) returnError(error);
     }];
     [request startAsynchronous];
 }
