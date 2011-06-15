@@ -149,7 +149,7 @@
         // For now only fetching text data
         NSArray *parsedArray = nil;
         
-        // Check if a parser is available, more info in [Tin+YAJL](Tin+YAJL.html)
+        // Check if a parser is available, more info in [Tin+YAJL](Tin+YAJL.html) or [Tin+JSON](Tin+JSON.html)
         if ([self respondsToSelector:@selector(parseResponse:)]) {
             parsedArray = [self performSelector:@selector(parseResponse:) withObject:[request responseString]];
         }
@@ -166,7 +166,6 @@
         }
     }];
     [request setFailedBlock:^{
-		NSLog(@"Errored: %@", [request error]);
 		TinResponse *response = [TinResponse responseWithRequest:request 
                                                         response:nil 
                                                   parsedResponse:nil 

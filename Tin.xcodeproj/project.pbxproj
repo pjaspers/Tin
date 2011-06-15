@@ -38,6 +38,12 @@
 		055E1A4C13A66CC600C7D258 /* TinResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 055E1A4B13A66CC600C7D258 /* TinResponse.m */; };
 		055E1A5613A68E0D00C7D258 /* TinTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 055E1A5513A68E0D00C7D258 /* TinTest.m */; };
 		055E1A6113A68EDE00C7D258 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 055E1A6013A68EDE00C7D258 /* libOCMock.a */; };
+		6042C68213A8D6AF0035DD1F /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6042C67913A8D6AF0035DD1F /* NSObject+SBJSON.m */; };
+		6042C68313A8D6AF0035DD1F /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6042C67B13A8D6AF0035DD1F /* NSString+SBJSON.m */; };
+		6042C68413A8D6AF0035DD1F /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6042C67D13A8D6AF0035DD1F /* SBJsonBase.m */; };
+		6042C68513A8D6AF0035DD1F /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6042C67F13A8D6AF0035DD1F /* SBJsonParser.m */; };
+		6042C68613A8D6AF0035DD1F /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6042C68113A8D6AF0035DD1F /* SBJsonWriter.m */; };
+		6042C68E13A8D6C40035DD1F /* Tin+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6042C68D13A8D6C40035DD1F /* Tin+JSON.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -98,6 +104,19 @@
 		055E1A5E13A68EDE00C7D258 /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
 		055E1A5F13A68EDE00C7D258 /* OCMockRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockRecorder.h; sourceTree = "<group>"; };
 		055E1A6013A68EDE00C7D258 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
+		6042C67713A8D6AF0035DD1F /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		6042C67813A8D6AF0035DD1F /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
+		6042C67913A8D6AF0035DD1F /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
+		6042C67A13A8D6AF0035DD1F /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
+		6042C67B13A8D6AF0035DD1F /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
+		6042C67C13A8D6AF0035DD1F /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
+		6042C67D13A8D6AF0035DD1F /* SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonBase.m; sourceTree = "<group>"; };
+		6042C67E13A8D6AF0035DD1F /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		6042C67F13A8D6AF0035DD1F /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
+		6042C68013A8D6AF0035DD1F /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		6042C68113A8D6AF0035DD1F /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		6042C68C13A8D6C40035DD1F /* Tin+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Tin+JSON.h"; sourceTree = "<group>"; };
+		6042C68D13A8D6C40035DD1F /* Tin+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Tin+JSON.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +186,7 @@
 		0514241013A5521200E5BD31 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6042C67613A8D6AF0035DD1F /* JSON */,
 				055E1A5713A68EDE00C7D258 /* Library */,
 				0514243D13A557C600E5BD31 /* pokeb-asi-http-request-2980421 */,
 				0514243B13A5578600E5BD31 /* YAJLiOS.framework */,
@@ -237,6 +257,8 @@
 		0520609013A54EBC005072D0 /* Tin */ = {
 			isa = PBXGroup;
 			children = (
+				6042C68C13A8D6C40035DD1F /* Tin+JSON.h */,
+				6042C68D13A8D6C40035DD1F /* Tin+JSON.m */,
 				0520609113A5504D005072D0 /* Tin+YAJL.h */,
 				0520609213A5504D005072D0 /* Tin+YAJL.m */,
 				051423FF13A5508F00E5BD31 /* Tin+Extensions.h */,
@@ -286,6 +308,24 @@
 				055E1A5F13A68EDE00C7D258 /* OCMockRecorder.h */,
 			);
 			path = OCMock;
+			sourceTree = "<group>";
+		};
+		6042C67613A8D6AF0035DD1F /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				6042C67713A8D6AF0035DD1F /* JSON.h */,
+				6042C67813A8D6AF0035DD1F /* NSObject+SBJSON.h */,
+				6042C67913A8D6AF0035DD1F /* NSObject+SBJSON.m */,
+				6042C67A13A8D6AF0035DD1F /* NSString+SBJSON.h */,
+				6042C67B13A8D6AF0035DD1F /* NSString+SBJSON.m */,
+				6042C67C13A8D6AF0035DD1F /* SBJsonBase.h */,
+				6042C67D13A8D6AF0035DD1F /* SBJsonBase.m */,
+				6042C67E13A8D6AF0035DD1F /* SBJsonParser.h */,
+				6042C67F13A8D6AF0035DD1F /* SBJsonParser.m */,
+				6042C68013A8D6AF0035DD1F /* SBJsonWriter.h */,
+				6042C68113A8D6AF0035DD1F /* SBJsonWriter.m */,
+			);
+			path = JSON;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -387,6 +427,12 @@
 				055E1A3F13A6482C00C7D258 /* TinUtilityTest.m in Sources */,
 				055E1A4C13A66CC600C7D258 /* TinResponse.m in Sources */,
 				055E1A5613A68E0D00C7D258 /* TinTest.m in Sources */,
+				6042C68213A8D6AF0035DD1F /* NSObject+SBJSON.m in Sources */,
+				6042C68313A8D6AF0035DD1F /* NSString+SBJSON.m in Sources */,
+				6042C68413A8D6AF0035DD1F /* SBJsonBase.m in Sources */,
+				6042C68513A8D6AF0035DD1F /* SBJsonParser.m in Sources */,
+				6042C68613A8D6AF0035DD1F /* SBJsonWriter.m in Sources */,
+				6042C68E13A8D6C40035DD1F /* Tin+JSON.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
