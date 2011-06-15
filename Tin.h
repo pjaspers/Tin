@@ -26,6 +26,8 @@
 //
 // Especially useful if you keep the instance somewhere handy.
 @property (nonatomic, retain) NSString *baseURI;
+@property (nonatomic, retain) NSString *username;
+@property (nonatomic, retain) NSString *password;
 
 + (void)get:(NSString *)url success:(void(^)(TinResponse *response))callback;
 + (void)get:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback;

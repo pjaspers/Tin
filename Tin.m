@@ -24,7 +24,7 @@
 @end
     
 @implementation Tin
-@synthesize baseURI;
+@synthesize baseURI, password, username;
 
 #pragma mark - Class methods
 
@@ -138,6 +138,8 @@
     
     __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
     [request setRequestMethod:method];
+    [request setUsername:self.username];
+    [request setPassword:self.password];
    
     if (body) {
         [request setPostBody:[NSMutableData dataWithData:[[body description] dataUsingEncoding:NSUTF8StringEncoding]]];
