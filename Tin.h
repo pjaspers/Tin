@@ -26,8 +26,14 @@
 //
 // Especially useful if you keep the instance somewhere handy.
 @property (nonatomic, retain) NSString *baseURI;
+
+// If set will be used to do Basic Authentication
 @property (nonatomic, retain) NSString *username;
 @property (nonatomic, retain) NSString *password;
+
+// Number of seconds before request times out, 
+// default set to 10 seconds
+@property (nonatomic, assign) NSTimeInterval timeoutSeconds;
 
 + (void)get:(NSString *)url success:(void(^)(TinResponse *response))callback;
 + (void)get:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback;

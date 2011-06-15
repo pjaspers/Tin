@@ -21,10 +21,11 @@
 - (NSString *)normalizeURL:(NSString *)aURL withQuery:(NSString *)query;
 - (NSString *)prependHTTPtoURL:(NSString *)aUrl;
 - (NSString *)normalizeQuery:(id)query;
+- (void)setOptionsOnRequest:(ASIHTTPRequest *)request;
 @end
     
 @implementation Tin
-@synthesize baseURI, password, username;
+@synthesize baseURI, password, username, timeoutSeconds;
 
 #pragma mark - Class methods
 
@@ -137,10 +138,12 @@
     NSString *url = [self normalizeURL:urlString withQuery:query];
     
     __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
-    [request setRequestMethod:method];
-    [request setUsername:self.username];
-    [request setPassword:self.password];
-   
+
+	[request setRequestMethod:method];
+
+	// Get the defaults or options (username, password, ...)
+	[self setOptionsOnRequest:request];
+
     if (body) {
         [request setPostBody:[NSMutableData dataWithData:[[body description] dataUsingEncoding:NSUTF8StringEncoding]]];
     }
@@ -181,6 +184,16 @@
 }
 
 // ## Utility methods
+
+// Sets all specified options to the request
+- (void)setOptionsOnRequest:(ASIHTTPRequest *)request {
+	[request setUsername:self.username];
+	[request setPassword:self.password];
+	if (self.timeoutSeconds) {
+		[request setTimeOutSeconds:self.timeoutSeconds];
+	}
+}
+
 
 // Creates the `URL` which will be used in the actual request.
 - (NSString *)normalizeURL:(NSString *)aURL withQuery:(id) query {

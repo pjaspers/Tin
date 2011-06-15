@@ -1,6 +1,7 @@
 #import <GHUnitIOS/GHUnit.h> 
 
 #import "Tin.h"
+#import "ASIHTTPRequest.h"
 
 @interface TinUtilityTest : GHTestCase { }
 @property (nonatomic, retain) Tin *tinInstance;
@@ -34,6 +35,28 @@
 }  
 
 #pragma mark - URL
+- (void)testUsernameSetter {
+	tinInstance.username = @"Jake";
+	ASIHTTPRequest *aRequest = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@"http://iets.com"]];
+	[tinInstance setOptionsOnRequest:aRequest];
+	GHAssertEqualObjects(@"Jake", aRequest.username, nil);
+}
+
+- (void)testPasswordSetter {
+	tinInstance.password = @"password";
+	ASIHTTPRequest *aRequest = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@"http://iets.com"]];
+	[tinInstance setOptionsOnRequest:aRequest];
+	GHAssertEqualObjects(@"password", aRequest.password, nil);
+}
+
+- (void)testTimeOutInSeconds {
+	tinInstance.timeoutSeconds = 20;
+	ASIHTTPRequest *aRequest = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@"http://iets.com"]];
+	[tinInstance setOptionsOnRequest:aRequest];
+	// TODO: Type mismatch
+	GHAssertEquals(20, (NSTimeInterval)aRequest.timeOutSeconds, nil);
+}
+
 - (void)testBaseURIWihtoutHTTPURL {
     tinInstance.baseURI = @"apple.com";
     GHAssertEqualObjects(@"http://apple.com", [tinInstance normalizeURL:@"" withQuery:nil], nil);
