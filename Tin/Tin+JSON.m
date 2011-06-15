@@ -16,7 +16,8 @@
 // Create a new Category and implement this method.
 - (NSArray *)parseResponse:(NSString *)responseString {
 	id objectFromJSON = [responseString JSONValue];
-    
+    if (!objectFromJSON) return nil;
+	
     // Return the parsed JSON in an NSArray
     if ([objectFromJSON isKindOfClass:[NSArray class]]) return (NSArray *)objectFromJSON;
     return [NSArray arrayWithObject:objectFromJSON];
