@@ -166,10 +166,17 @@
         }
     }];
     [request setFailedBlock:^{
-        NSError *error = [request error];
-        NSLog(@"Error %@", error);
-        // TODO, return the error in TinResponse
-        //if(returnError) returnError(error);
+		NSLog(@"Errored: %@", [request error]);
+		TinResponse *response = [TinResponse responseWithRequest:request 
+                                                        response:nil 
+                                                  parsedResponse:nil 
+                                                    responseData:nil
+                                                      andHeaders:nil];
+        if (returnSuccess) {
+            dispatch_async(dispatch_get_main_queue(), ^{ 
+                returnSuccess(response);
+            });
+        }
     }];
     [request startAsynchronous];
 }

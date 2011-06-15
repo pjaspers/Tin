@@ -37,4 +37,8 @@
 - (NSString *)description {
     return [NSString stringWithFormat:@"Response (%p) parsedResponse: %@ response: %@ headers: %@", self, self.parsedResponse, self.response, self.headers];
 }
+
+- (NSError *)error {
+	return self.request.error;
+}
 @end

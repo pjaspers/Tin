@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSData                *responseData;
 @property (nonatomic, retain) NSArray               *parsedResponse;
 @property (nonatomic, retain) NSDictionary          *headers;
+@property (nonatomic, readonly) NSError				*error;
 
 + (id)responseWithRequest:(ASIHTTPRequest *)_request response:(NSString *)_responseString parsedResponse:(NSArray *)_parsedResponse responseData:(NSData *)_responseData andHeaders:(NSDictionary *)_headers;
 
