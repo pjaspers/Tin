@@ -90,8 +90,8 @@
 		0514246A13A5599200E5BD31 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		0520608E13A54EB6005072D0 /* Tin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tin.h; sourceTree = "<group>"; };
 		0520608F13A54EB6005072D0 /* Tin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tin.m; sourceTree = "<group>"; };
-		0520609113A5504D005072D0 /* Tin+YAJL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Tin+YAJL.h"; sourceTree = "<group>"; };
-		0520609213A5504D005072D0 /* Tin+YAJL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Tin+YAJL.m"; sourceTree = "<group>"; };
+		0520609113A5504D005072D0 /* Tin+YAJL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Tin+YAJL.h"; path = "Tin/Tin+YAJL.h"; sourceTree = "<group>"; };
+		0520609213A5504D005072D0 /* Tin+YAJL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Tin+YAJL.m"; path = "Tin/Tin+YAJL.m"; sourceTree = "<group>"; };
 		055E1A3C13A63EB000C7D258 /* TinAsyncTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TinAsyncTest.m; sourceTree = "<group>"; };
 		055E1A3E13A6482C00C7D258 /* TinUtilityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TinUtilityTest.m; sourceTree = "<group>"; };
 		055E1A4A13A66CC600C7D258 /* TinResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TinResponse.h; path = Tin/TinResponse.h; sourceTree = "<group>"; };
@@ -115,8 +115,8 @@
 		6042C67F13A8D6AF0035DD1F /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
 		6042C68013A8D6AF0035DD1F /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		6042C68113A8D6AF0035DD1F /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
-		6042C68C13A8D6C40035DD1F /* Tin+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Tin+JSON.h"; sourceTree = "<group>"; };
-		6042C68D13A8D6C40035DD1F /* Tin+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Tin+JSON.m"; sourceTree = "<group>"; };
+		6042C68C13A8D6C40035DD1F /* Tin+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Tin+JSON.h"; path = "Tin/Tin+JSON.h"; sourceTree = "<group>"; };
+		6042C68D13A8D6C40035DD1F /* Tin+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Tin+JSON.m"; path = "Tin/Tin+JSON.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
