@@ -38,6 +38,30 @@
 // default set to 10 seconds
 @property (nonatomic, assign) NSTimeInterval timeoutSeconds;
 
+// ## Synchronous calls
+
++ (TinResponse *)get:(NSString *)url;
++ (TinResponse *)get:(NSString *)url query:(id)query;
+
++ (TinResponse *)post:(NSString *)url query:(id)aQuery;
++ (TinResponse *)post:(NSString *)url body:(NSDictionary *)bodyData;
++ (TinResponse *)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData;
+
++ (TinResponse *)put:(NSString *)url query:(id)aQuery;
++ (TinResponse *)put:(NSString *)url body:(id)body;
++ (TinResponse *)put:(NSString *)url query:(id)aQuery body:(id)body;
+
+- (TinResponse *)get:(NSString *)url;
+- (TinResponse *)get:(NSString *)url query:(id)query;
+
+- (TinResponse *)post:(NSString *)url body:(NSDictionary *)bodyData;
+- (TinResponse *)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData;
+
+- (TinResponse *)put:(NSString *)url query:(id)aQuery;
+- (TinResponse *)put:(NSString *)url body:(id)body;
+- (TinResponse *)put:(NSString *)url query:(id)aQuery body:(id)body;
+
+// ## Asynchronous calls
 + (void)get:(NSString *)url success:(void(^)(TinResponse *response))callback;
 + (void)get:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback;
 

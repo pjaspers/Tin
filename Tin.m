@@ -25,7 +25,11 @@
 - (NSString *)normalizeQuery:(id)query;
 - (void)setOptionsOnRequest:(ASIHTTPRequest *)request;
 @end
-    
+
+@interface Tin (ResponseHandling)
+- (TinResponse *)responseFromError:(ASIHTTPRequest *)request;
+- (TinResponse *)responseFromSuccess:(ASIHTTPRequest *)request;
+@end
 @implementation Tin
 @synthesize baseURI, password, username, timeoutSeconds, contentType, headers;
 
@@ -147,6 +151,56 @@
 
 - (void)put:(NSString *)url query:(id)query body:(id)body files:(NSMutableDictionary *)files success:(void(^)(TinResponse *response))callback {
     [self performRequest:@"PUT" withURL:url andQuery:query andBody:body andFiles:files andSuccessCallback:callback];
+}
+
+- (TinResponse *)performSynchronousRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body {
+    
+    // Format the URL to our known format, with query appended if needed.
+    NSString *url = [self normalizeURL:urlString withQuery:query];
+    
+    __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
+    
+	[request setRequestMethod:method];
+    
+	// Get the defaults or options (username, password, ...)
+	[self setOptionsOnRequest:request];
+    
+    if (body) {
+        [request setPostBody:[NSMutableData dataWithData:[[body description] dataUsingEncoding:NSUTF8StringEncoding]]];
+    }
+    
+    [request startSynchronous];
+    
+    // Catch requests with an error, and bail out quickly
+    if ([request error]) {
+        return [self responseFromError:request];
+	}
+
+    return [self responseFromSuccess:request];
+}
+
+- (TinResponse *)responseFromError:(ASIHTTPRequest *)request {
+    return [TinResponse responseWithRequest:request 
+                                   response:nil 
+                             parsedResponse:nil 
+                               responseData:nil
+                                 andHeaders:nil];
+}
+
+- (TinResponse *)responseFromSuccess:(ASIHTTPRequest *)request {
+    // For now only fetching text data
+    NSArray *parsedArray = nil;
+    
+    // Check if a parser is available, more info in [Tin+YAJL](Tin+YAJL.html) or [Tin+JSON](Tin+JSON.html)
+    if ([self respondsToSelector:@selector(parseResponse:)]) {
+        parsedArray = [self performSelector:@selector(parseResponse:) withObject:[request responseString]];
+    }
+    
+    return [TinResponse responseWithRequest:request 
+                                   response:[request responseString] 
+                             parsedResponse:parsedArray 
+                               responseData:[request responseData]
+                                 andHeaders:[request responseHeaders]];
 }
 
 - (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andSuccessCallback:(void(^)(TinResponse *response))returnSuccess {
