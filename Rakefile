@@ -1,11 +1,7 @@
 require 'rake'
+require "ghrunit"
 
-task :default => [:default]
-
-desc "Default action"
-task :default do
-
-end
+task :default => [:test]
 
 desc "Cleans the build folder"
 task :clean do
@@ -15,5 +11,5 @@ end
 desc "Cleans the build folder"
 task :test do
   ENV['GHUNIT_CLI']="1"
-  puts %x{xcodebuild -target tests -configuration Debug -sdk iphonesimulator build}
+  GHRunit.new(:target => "tests")
 end

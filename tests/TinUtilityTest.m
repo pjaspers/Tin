@@ -54,7 +54,7 @@
 	ASIHTTPRequest *aRequest = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@"http://iets.com"]];
 	[tinInstance setOptionsOnRequest:aRequest];
 	// TODO: Type mismatch
-	GHAssertEquals(20, (NSTimeInterval)aRequest.timeOutSeconds, nil);
+	GHAssertTrue(20 == aRequest.timeOutSeconds, nil);
 }
 
 - (void)testBaseURIWihtoutHTTPURL {
