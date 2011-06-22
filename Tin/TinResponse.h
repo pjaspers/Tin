@@ -13,7 +13,7 @@
     
 }
 
-@property (nonatomic, assign) ASIHTTPRequest        *request;
+@property (nonatomic, retain) ASIHTTPRequest        *request;
 @property (nonatomic, retain) NSString              *response;
 @property (nonatomic, retain) NSData                *responseData;
 @property (nonatomic, retain) NSArray               *parsedResponse;
