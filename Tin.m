@@ -11,6 +11,8 @@
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
 
+#import "JSON.h"
+
 // Each request returns a [TinResponse](TinResponse.html)
 #import "TinResponse.h"
 
@@ -25,7 +27,7 @@
 @end
     
 @implementation Tin
-@synthesize baseURI, password, username, timeoutSeconds;
+@synthesize baseURI, password, username, timeoutSeconds, contentType;
 
 #pragma mark - Class methods
 
@@ -145,6 +147,9 @@
 	[self setOptionsOnRequest:request];
 
     if (body) {
+        if (self.contentType != nil && ![self.contentType isEqualToString:@""]) {
+            [request addRequestHeader:@"Content-Type" value:self.contentType];
+        }
         [request setPostBody:[NSMutableData dataWithData:[[body description] dataUsingEncoding:NSUTF8StringEncoding]]];
     }
     

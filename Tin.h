@@ -30,6 +30,7 @@
 // If set will be used to do Basic Authentication
 @property (nonatomic, retain) NSString *username;
 @property (nonatomic, retain) NSString *password;
+@property (nonatomic, retain) NSString *contentType;
 
 // Number of seconds before request times out, 
 // default set to 10 seconds
