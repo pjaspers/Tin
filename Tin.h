@@ -42,22 +42,25 @@
 + (void)post:(NSString *)url query:(id)aQuery success:(void(^)(TinResponse *response))callback ;
 + (void)post:(NSString *)url body:(NSDictionary *)bodyData success:(void(^)(TinResponse *response))callback ;
 + (void)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData success:(void(^)(TinResponse *response))callback ;
++ (void)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData files:(NSMutableDictionary *)files success:(void(^)(TinResponse *response))callback;
 
 + (void)put:(NSString *)url query:(id)aQuery success:(void(^)(TinResponse *response))callback ;
 + (void)put:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback ;
 + (void)put:(NSString *)url query:(id)aQuery body:(id)body success:(void(^)(TinResponse *response))callback ;
++ (void)put:(NSString *)url query:(id)aQuery body:(id)body files:(NSMutableDictionary *)files success:(void(^)(TinResponse *response))callback;
 
 - (void)get:(NSString *)url success:(void(^)(TinResponse *response))callback ;
 - (void)get:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback ;
 
 - (void)post:(NSString *)url body:(NSDictionary *)bodyData success:(void(^)(TinResponse *response))callback ;
 - (void)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData success:(void(^)(TinResponse *response))callback ;
+- (void)post:(NSString *)url query:(id)query body:(NSDictionary *)bodyData files:(NSMutableDictionary *)files success:(void(^)(TinResponse *response))callback;
 
-- (void)put:(NSString *)url query:(id)aQuery success:(void(^)(TinResponse *response))callback ;
-- (void)put:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback ;
-- (void)put:(NSString *)url query:(id)aQuery body:(id)body success:(void(^)(TinResponse *response))callback ;
-
-
+- (void)put:(NSString *)url query:(id)aQuery success:(void(^)(TinResponse *response))callback;
+- (void)put:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback;
+- (void)put:(NSString *)url query:(id)aQuery body:(id)body success:(void(^)(TinResponse *response))callback;
+- (void)put:(NSString *)url query:(id)query body:(id)body files:(NSMutableDictionary *)files success:(void(^)(TinResponse *response))callback;
 
 - (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andSuccessCallback:(void(^)(TinResponse *response))returnSuccess;
+- (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andFiles:(NSMutableDictionary *)files andSuccessCallback:(void(^)(TinResponse *response))returnSuccess;
 @end

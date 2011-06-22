@@ -66,8 +66,12 @@
     [self post:url query:nil body:body success:callback];
 }
 
-+ (void)post:(NSString *)url query:(id)query body:(id)body success:(void(^)(TinResponse *response))callback{
-    [[[[self alloc] init] autorelease] post:url query:query body:body success:callback];
++ (void)post:(NSString *)url query:(id)query body:(id)body success:(void(^)(TinResponse *response))callback {
+    [self post:url query:query body:body files:nil success:callback];
+}
+
++ (void)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData files:(NSMutableDictionary *)files success:(void(^)(TinResponse *response))callback {
+    [[[[self alloc] init] autorelease] post:url query:aQuery body:bodyData files:files success:callback];
 }
 
 #pragma mark PUT
@@ -90,7 +94,11 @@
 }
 
 + (void)put:(NSString *)url query:(id)query body:(id)body success:(void(^)(TinResponse *response))callback{
-    [[[[self alloc] init] autorelease] put:url query:query body:body success:callback];
+    [self put:url query:query body:body files:nil success:callback];
+}
+
++ (void)put:(NSString *)url query:(id)aQuery body:(id)body files:(NSMutableDictionary *)files success:(void(^)(TinResponse *response))callback {
+    [[[[self alloc] init] autorelease] put:url query:aQuery body:body files:files success:callback];
 }
 
 #pragma mark - Instance Methods
@@ -117,7 +125,10 @@
     [self post:url query:nil body:bodyData success:callback];
 }
 - (void)post:(NSString *)url query:(id)query body:(NSDictionary *)bodyData success:(void(^)(TinResponse *response))callback {
-    [self performRequest:@"POST" withURL:url andQuery:query andBody:bodyData andSuccessCallback:callback];
+    [self post:url query:query body:bodyData files:nil success:callback];
+}
+- (void)post:(NSString *)url query:(id)query body:(NSDictionary *)bodyData files:(NSMutableDictionary *)files success:(void(^)(TinResponse *response))callback {
+    [self performRequest:@"POST" withURL:url andQuery:query andBody:bodyData andFiles:files andSuccessCallback:callback];
 }
 
 #pragma mark PUT
@@ -131,10 +142,18 @@
 }
 
 - (void)put:(NSString *)url query:(id)query body:(id)body success:(void(^)(TinResponse *response))callback{
-    [self performRequest:@"PUT" withURL:url andQuery:query andBody:body andSuccessCallback:callback];
+    [self put:url query:query body:body files:nil success:callback];
+}
+
+- (void)put:(NSString *)url query:(id)query body:(id)body files:(NSMutableDictionary *)files success:(void(^)(TinResponse *response))callback {
+    [self performRequest:@"PUT" withURL:url andQuery:query andBody:body andFiles:files andSuccessCallback:callback];
 }
 
 - (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andSuccessCallback:(void(^)(TinResponse *response))returnSuccess {
+    [self performRequest:method withURL:urlString andQuery:query andBody:body andFiles:nil andSuccessCallback:returnSuccess];
+}
+
+- (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andFiles:(NSMutableDictionary *)files andSuccessCallback:(void(^)(TinResponse *response))returnSuccess {
     
     // Format the URL to our known format, with query appended if needed.
     NSString *url = [self normalizeURL:urlString withQuery:query];
@@ -145,6 +164,12 @@
 
 	// Get the defaults or options (username, password, ...)
 	[self setOptionsOnRequest:request];
+    
+    if (files) {
+        [files enumerateKeysAndObjectsUsingBlock:^(id attribute_name, id file, BOOL *stop) {
+            [request setFile:file forKey:attribute_name];
+        }];
+    }
 
     if (body) {
         if (self.contentType != nil && ![self.contentType isEqualToString:@""]) {
