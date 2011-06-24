@@ -164,20 +164,6 @@
 
 	// Get the defaults or options (username, password, ...)
 	[self setOptionsOnRequest:request];
-    
-    if (files) {
-        [files enumerateKeysAndObjectsUsingBlock:^(id attribute_name, id file, BOOL *stop) {
-            [request setFile:file forKey:attribute_name];
-        }];
-    }
-
-    if (body) {
-        if (self.contentType != nil && ![self.contentType isEqualToString:@""]) {
-            [request addRequestHeader:@"Content-Type" value:self.contentType];
-        }
-        [request setPostBody:[NSMutableData dataWithData:[[body description] dataUsingEncoding:NSUTF8StringEncoding]]];
-    }
-    
     [request setCompletionBlock:^{
         // For now only fetching text data
         NSArray *parsedArray = nil;
@@ -198,6 +184,7 @@
             });
         }
     }];
+    
     [request setFailedBlock:^{
 		TinResponse *response = [TinResponse responseWithRequest:request 
                                                         response:nil 
@@ -210,6 +197,20 @@
             });
         }
     }];
+    
+    if (files) {
+        [files enumerateKeysAndObjectsUsingBlock:^(id attribute_name, id file, BOOL *stop) {
+            [request setFile:file forKey:attribute_name];
+        }];
+    }
+
+    if (body) {
+        if (self.contentType != nil && ![self.contentType isEqualToString:@""]) {
+            [request addRequestHeader:@"Content-Type" value:self.contentType];
+        }
+        [request setPostBody:[NSMutableData dataWithData:[[body description] dataUsingEncoding:NSUTF8StringEncoding]]];
+    }
+    
     [request startAsynchronous];
 }
 
