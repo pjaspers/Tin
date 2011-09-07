@@ -41,4 +41,12 @@
 - (NSError *)error {
 	return self.request.error;
 }
+
+- (void)dealloc {
+	[request release];
+	[reponse release];
+	[reponseData release];
+	[parsedResponse release];
+	[header release];
+}
 @end
