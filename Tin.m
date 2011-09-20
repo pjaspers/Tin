@@ -153,17 +153,12 @@
     [self performRequest:@"PUT" withURL:url andQuery:query andBody:body andFiles:files andSuccessCallback:callback];
 }
 
-+ (ASIFormDataRequest *)getRequestWithURL:(NSString *)url {
-    return [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
-}
-
-
 - (TinResponse *)performSynchronousRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body {
     
     // Format the URL to our known format, with query appended if needed.
     NSString *url = [self normalizeURL:urlString withQuery:query];
     
-    __block ASIFormDataRequest *request = [Tin getRequestWithURL:url];
+    __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
     
 	[request setRequestMethod:method];
     
@@ -217,7 +212,7 @@
     // Format the URL to our known format, with query appended if needed.
     NSString *url = [self normalizeURL:urlString withQuery:query];
     
-    __block ASIFormDataRequest *request = [Tin getRequestWithURL:url];
+    __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
 
 	[request setRequestMethod:method];
 

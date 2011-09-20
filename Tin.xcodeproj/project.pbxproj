@@ -7,19 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0503109D13E0ACD800891031 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0503109C13E0ACD800891031 /* CoreFoundation.framework */; };
-		050310A313E0ACD800891031 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 050310A113E0ACD800891031 /* InfoPlist.strings */; };
-		050310A813E0AFA300891031 /* Tin.h in Sources */ = {isa = PBXBuildFile; fileRef = 0520608E13A54EB6005072D0 /* Tin.h */; };
-		050310A913E0AFA300891031 /* Tin.m in Sources */ = {isa = PBXBuildFile; fileRef = 0520608F13A54EB6005072D0 /* Tin.m */; };
-		050310AA13E0AFA300891031 /* Tin+JSON.h in Sources */ = {isa = PBXBuildFile; fileRef = 6042C68C13A8D6C40035DD1F /* Tin+JSON.h */; };
-		050310AB13E0AFA300891031 /* Tin+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6042C68D13A8D6C40035DD1F /* Tin+JSON.m */; };
-		050310AC13E0AFA300891031 /* Tin+YAJL.h in Sources */ = {isa = PBXBuildFile; fileRef = 0520609113A5504D005072D0 /* Tin+YAJL.h */; };
-		050310AD13E0AFA300891031 /* Tin+YAJL.m in Sources */ = {isa = PBXBuildFile; fileRef = 0520609213A5504D005072D0 /* Tin+YAJL.m */; };
-		050310AE13E0AFA300891031 /* Tin+Extensions.h in Sources */ = {isa = PBXBuildFile; fileRef = 051423FF13A5508F00E5BD31 /* Tin+Extensions.h */; };
-		050310AF13E0AFA300891031 /* Tin+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0514240013A5508F00E5BD31 /* Tin+Extensions.m */; };
-		050310B013E0AFA300891031 /* TinResponse.h in Sources */ = {isa = PBXBuildFile; fileRef = 055E1A4A13A66CC600C7D258 /* TinResponse.h */; };
-		050310B113E0AFA300891031 /* TinResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 055E1A4B13A66CC600C7D258 /* TinResponse.m */; };
-		050310B213E0AFFA00891031 /* YAJLiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0514243B13A5578600E5BD31 /* YAJLiOS.framework */; };
 		0514240A13A5521200E5BD31 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0514240913A5521200E5BD31 /* UIKit.framework */; };
 		0514240C13A5521200E5BD31 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0514240B13A5521200E5BD31 /* Foundation.framework */; };
 		0514240E13A5521200E5BD31 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0514240D13A5521200E5BD31 /* CoreGraphics.framework */; };
@@ -60,11 +47,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0503109B13E0ACD800891031 /* tin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = tin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		0503109C13E0ACD800891031 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		050310A013E0ACD800891031 /* tin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "tin-Info.plist"; sourceTree = "<group>"; };
-		050310A213E0ACD800891031 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		050310A413E0ACD800891031 /* tin-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "tin-Prefix.pch"; sourceTree = "<group>"; };
 		051423FF13A5508F00E5BD31 /* Tin+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Tin+Extensions.h"; path = "Tin/Tin+Extensions.h"; sourceTree = "<group>"; };
 		0514240013A5508F00E5BD31 /* Tin+Extensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "Tin+Extensions.m"; path = "Tin/Tin+Extensions.m"; sourceTree = "<group>"; };
 		0514240513A5521200E5BD31 /* tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tests.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -138,15 +120,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		0503109813E0ACD800891031 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0503109D13E0ACD800891031 /* CoreFoundation.framework in Frameworks */,
-				050310B213E0AFFA00891031 /* YAJLiOS.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		0514240213A5521200E5BD31 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -167,24 +140,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0503109E13E0ACD800891031 /* tin */ = {
-			isa = PBXGroup;
-			children = (
-				0503109F13E0ACD800891031 /* Supporting Files */,
-			);
-			path = tin;
-			sourceTree = "<group>";
-		};
-		0503109F13E0ACD800891031 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				050310A013E0ACD800891031 /* tin-Info.plist */,
-				050310A113E0ACD800891031 /* InfoPlist.strings */,
-				050310A413E0ACD800891031 /* tin-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		051423F013A54E7100E5BD31 = {
 			isa = PBXGroup;
 			children = (
@@ -192,7 +147,6 @@
 				0520608F13A54EB6005072D0 /* Tin.m */,
 				0520609013A54EBC005072D0 /* Tin */,
 				0514240F13A5521200E5BD31 /* tests */,
-				0503109E13E0ACD800891031 /* tin */,
 				0514240813A5521200E5BD31 /* Frameworks */,
 				0514240613A5521200E5BD31 /* Products */,
 			);
@@ -202,7 +156,6 @@
 			isa = PBXGroup;
 			children = (
 				0514240513A5521200E5BD31 /* tests.app */,
-				0503109B13E0ACD800891031 /* tin.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -214,7 +167,6 @@
 				0514240913A5521200E5BD31 /* UIKit.framework */,
 				0514240B13A5521200E5BD31 /* Foundation.framework */,
 				0514240D13A5521200E5BD31 /* CoreGraphics.framework */,
-				0503109C13E0ACD800891031 /* CoreFoundation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -379,23 +331,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0503109A13E0ACD800891031 /* tin */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 050310A713E0ACD800891031 /* Build configuration list for PBXNativeTarget "tin" */;
-			buildPhases = (
-				0503109713E0ACD800891031 /* Sources */,
-				0503109813E0ACD800891031 /* Frameworks */,
-				0503109913E0ACD800891031 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = tin;
-			productName = tin;
-			productReference = 0503109B13E0ACD800891031 /* tin.bundle */;
-			productType = "com.apple.product-type.bundle";
-		};
 		0514240413A5521200E5BD31 /* tests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0514242913A5521200E5BD31 /* Build configuration list for PBXNativeTarget "tests" */;
@@ -435,20 +370,11 @@
 			projectRoot = "";
 			targets = (
 				0514240413A5521200E5BD31 /* tests */,
-				0503109A13E0ACD800891031 /* tin */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		0503109913E0ACD800891031 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				050310A313E0ACD800891031 /* InfoPlist.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		0514240313A5521200E5BD31 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -479,23 +405,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		0503109713E0ACD800891031 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				050310A813E0AFA300891031 /* Tin.h in Sources */,
-				050310A913E0AFA300891031 /* Tin.m in Sources */,
-				050310AA13E0AFA300891031 /* Tin+JSON.h in Sources */,
-				050310AB13E0AFA300891031 /* Tin+JSON.m in Sources */,
-				050310AC13E0AFA300891031 /* Tin+YAJL.h in Sources */,
-				050310AD13E0AFA300891031 /* Tin+YAJL.m in Sources */,
-				050310AE13E0AFA300891031 /* Tin+Extensions.h in Sources */,
-				050310AF13E0AFA300891031 /* Tin+Extensions.m in Sources */,
-				050310B013E0AFA300891031 /* TinResponse.h in Sources */,
-				050310B113E0AFA300891031 /* TinResponse.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		0514240113A5521200E5BD31 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -530,14 +439,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		050310A113E0ACD800891031 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				050310A213E0ACD800891031 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		0514241213A5521200E5BD31 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -549,73 +450,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		050310A513E0ACD800891031 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				COPY_PHASE_STRIP = NO;
-				EXECUTABLE_EXTENSION = bundle;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/tests\"",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "tin/tin-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "tin/tin-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Debug;
-		};
-		050310A613E0ACD800891031 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EXECUTABLE_EXTENSION = bundle;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/tests\"",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "tin/tin-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "tin/tin-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
 		051423F713A54E7100E5BD31 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -713,15 +547,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		050310A713E0ACD800891031 /* Build configuration list for PBXNativeTarget "tin" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				050310A513E0ACD800891031 /* Debug */,
-				050310A613E0ACD800891031 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		051423F513A54E7100E5BD31 /* Build configuration list for PBXProject "Tin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
