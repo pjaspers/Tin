@@ -21,21 +21,21 @@
 @synthesize headers;
 
 + (id)responseWithRequest:(ASIHTTPRequest *)_request response:(NSString *)_responseString parsedResponse:(NSArray *)_parsedResponse responseData:(NSData *)_responseData andHeaders:(NSDictionary *)_headers {
-    return [[[self alloc] initWithRequest:_request response:_responseString parsedResponse:_parsedResponse responseData:_responseData andHeaders:_headers] autorelease];
+  return [[[self alloc] initWithRequest:_request response:_responseString parsedResponse:_parsedResponse responseData:_responseData andHeaders:_headers] autorelease];
 }
 
 - (id)initWithRequest:(ASIHTTPRequest *)_request response:(NSString *)_responseString parsedResponse:(NSArray *)_parsedResponse responseData:(NSData *)_responseData andHeaders:(NSDictionary *)_headers {
-    if(!(self = [super init])) return nil;
-    
-    self.request = _request;
-    self.response = _responseString;
-    self.parsedResponse = _parsedResponse;
-    self.responseData = _responseData;
-    self.headers = _headers;
-    return self;
+  if(!(self = [super init])) return nil;
+
+  self.request = _request;
+  self.response = _responseString;
+  self.parsedResponse = _parsedResponse;
+  self.responseData = _responseData;
+  self.headers = _headers;
+  return self;
 }
 - (NSString *)description {
-    return [NSString stringWithFormat:@"Response (%p) parsedResponse: %@ response: %@ headers: %@", self, self.parsedResponse, self.response, self.headers];
+  return [NSString stringWithFormat:@"Response (%p) parsedResponse: %@ response: %@ headers: %@", self, self.parsedResponse, self.response, self.headers];
 }
 
 - (NSError *)error {
@@ -44,9 +44,11 @@
 
 - (void)dealloc {
 	[request release];
-	[reponse release];
-	[reponseData release];
+	[response release];
+	[responseData release];
 	[parsedResponse release];
-	[header release];
+	[headers release];
+  [super dealloc];
 }
+
 @end
