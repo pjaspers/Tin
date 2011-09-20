@@ -11,8 +11,6 @@
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
 
-#import "JSON.h"
-
 // Each request returns a [TinResponse](TinResponse.html)
 #import "TinResponse.h"
 
@@ -34,6 +32,63 @@
 @synthesize baseURI, password, username, timeoutSeconds, contentType, headers;
 
 #pragma mark - Class methods
+
+// ## Synchrnous requests
++ (TinResponse *)get:(NSString *)url{ 
+    return nil;
+}
++ (TinResponse *)get:(NSString *)url query:(id)query{
+    return nil;
+}
+
++ (TinResponse *)post:(NSString *)url query:(id)aQuery{
+    return nil;
+}
+
++ (TinResponse *)post:(NSString *)url body:(NSDictionary *)bodyData{
+    return nil;
+}
++ (TinResponse *)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData{
+    return nil;
+}
+
++ (TinResponse *)put:(NSString *)url query:(id)aQuery{
+    return nil;
+}
+
++ (TinResponse *)put:(NSString *)url body:(id)body{
+    return nil;
+}
++ (TinResponse *)put:(NSString *)url query:(id)aQuery body:(id)body{
+    return nil;
+}
+
+- (TinResponse *)get:(NSString *)url{
+    return nil;
+}
+- (TinResponse *)get:(NSString *)url query:(id)query{
+    return nil;
+}
+
+- (TinResponse *)post:(NSString *)url body:(NSDictionary *)bodyData{
+    return nil;
+}
+
+- (TinResponse *)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData{
+    return nil;
+}
+
+- (TinResponse *)put:(NSString *)url query:(id)aQuery{
+    return nil;
+}
+
+- (TinResponse *)put:(NSString *)url body:(id)body{
+    return nil;
+}
+
+- (TinResponse *)put:(NSString *)url query:(id)aQuery body:(id)body{
+    return nil;
+}
 
 #pragma mark GET
 // ## `GET` requests
@@ -289,7 +344,7 @@
         urlString = [NSString stringWithFormat:@"%@%@",[self prependHTTPtoURL:self.baseURI], aURL];
     } else {
         urlString = [self prependHTTPtoURL:aURL];
-    }
+    } 
     
     // Adds the query
     if (query) urlString = [NSString stringWithFormat:@"%@%@", urlString, [self normalizeQuery:query]];
