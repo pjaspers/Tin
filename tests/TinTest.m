@@ -3,6 +3,22 @@
 #import "Tin.h"
 #import "TinResponse.h"
 #import "ASIHTTPRequest.h"
+#include <objc/runtime.h>
+
+typedef void (^BasicBlock)(void);
+
+void RunAfterDelay(NSTimeInterval delay, BasicBlock block) {
+    [[[block copy] autorelease] performSelector:@selector(ps_callBlock) withObject:nil afterDelay:delay];
+}
+
+@implementation NSObject (BlocksAdditions)
+
+- (void)ps_callBlock {
+    void (^block)(void) = (id)self;
+    block();
+}
+
+@end
 
 @interface TinTest : GHTestCase { }
 @end
@@ -30,34 +46,40 @@
 - (void)tearDown {
     // Run after each test method
 }  
+typedef void(^BlockTypedef)(void);
 
 
-// NOT WORKING YET
-- (void)testGetRequest {
+- (ASIHTTPRequest *)mockRequest
+{
+    NSLog(@"USING ZE MOCK");
     // create a nice mock
     id request = [OCMockObject niceMockForClass:[ASIHTTPRequest class]];
-    NSString *responseString = @"iets";
+    NSString *responseString = @"Some string";
     
     [[[(id)request stub] andReturn:responseString] responseString];
-
-    // keep the completion block upon setting
-    __block ASIBasicBlock requestBlock;
-
-    [[(id)request expect] setCompletionBlock:    [OCMArg checkWithBlock:^(id value) { 
-        requestBlock = [value copy]; 
+    
+    [[(id)request expect] setCompletionBlock:[OCMArg checkWithBlock:^(id value) { 
+        BlockTypedef myBlock = Block_copy(value);
+        myBlock();
+        Block_release(myBlock);
         return YES;
     }]];
-//    
-    // start the delayed call response
-    [[[(id)request stub] andDo:^(NSInvocation *invocation) {
-//       // RunAfterDelay(3, ^{
-            requestBlock();
-//            [requestBlock release];
-//       // });
-    }] startAsynchronous];
+    
+    return [request retain];
+}
+
+- (void)testGetRequest {
+    Method originalRequest = class_getClassMethod([Tin class], @selector(getRequestWithURL:));
+    Method mockRequest = class_getInstanceMethod([self class], @selector(mockRequest));
+    method_exchangeImplementations(originalRequest, mockRequest);
+
     [Tin get:@"apple.com" success:^(TinResponse *response) {
         NSLog(@"%@", response.response);
     }];
+    
+    method_exchangeImplementations(mockRequest, originalRequest);
+
+
     
 }
 @end
