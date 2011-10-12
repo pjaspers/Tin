@@ -32,6 +32,8 @@
 @property (nonatomic, retain) NSString *password;
 @property (nonatomic, retain) NSString *contentType;
 
+@property (nonatomic, retain) NSDictionary *headers;
+
 // Number of seconds before request times out, 
 // default set to 10 seconds
 @property (nonatomic, assign) NSTimeInterval timeoutSeconds;

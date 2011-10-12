@@ -27,7 +27,7 @@
 @end
     
 @implementation Tin
-@synthesize baseURI, password, username, timeoutSeconds, contentType;
+@synthesize baseURI, password, username, timeoutSeconds, contentType, headers;
 
 #pragma mark - Class methods
 
