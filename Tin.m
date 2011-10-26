@@ -18,7 +18,7 @@
 #import "Tin+Extensions.h"
 
 @interface Tin (Utilities)
-- (NSString *)normalizeURL:(NSString *)aURL withQuery:(NSString *)query;
+- (NSString *)normalizeURL:(NSString *)aURL withQuery:(id)query;
 - (NSString *)prependHTTPtoURL:(NSString *)aUrl;
 - (NSString *)normalizeQuery:(id)query;
 - (void)setOptionsOnRequest:(ASIHTTPRequest *)request;

@@ -3,6 +3,11 @@
 #import "Tin.h"
 #import "ASIHTTPRequest.h"
 
+@interface Tin (Testing)
+- (void)setOptionsOnRequest:(ASIHTTPRequest *)request;
+- (NSString *)normalizeURL:(NSString *)aURL withQuery:(id)query;
+@end
+
 @interface TinUtilityTest : GHTestCase { }
 @property (nonatomic, retain) Tin *tinInstance;
 @end
