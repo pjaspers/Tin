@@ -58,7 +58,6 @@
 	tinInstance.timeoutSeconds = 20;
 	ASIHTTPRequest *aRequest = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@"http://iets.com"]];
 	[tinInstance setOptionsOnRequest:aRequest];
-	// TODO: Type mismatch
 	GHAssertTrue(20 == aRequest.timeOutSeconds, nil);
 }
 

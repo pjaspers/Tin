@@ -17,7 +17,7 @@
 - (NSArray *)parseResponse:(NSString *)responseString {
  	NSError *error = nil;
 	id objectFromJSON = [responseString yajl_JSONWithOptions:YAJLParserOptionsAllowComments error:&error];
-    // TODO: Make error passing a bit more sane, might even use another block.
+    // TBD: Make error passing a bit more sane, might even use another block.
     if (error) return nil;
     
     // Return the parsed JSON in an NSArray
