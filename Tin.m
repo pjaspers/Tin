@@ -338,6 +338,11 @@
 	if (self.timeoutSeconds) {
 		[request setTimeOutSeconds:self.timeoutSeconds];
 	}
+    if (self.headers) {
+        [self.headers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            [request addRequestHeader:key value:obj];
+        }];
+    }
 }
 
 
