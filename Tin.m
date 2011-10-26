@@ -22,6 +22,7 @@
 - (NSString *)prependHTTPtoURL:(NSString *)aUrl;
 - (NSString *)normalizeQuery:(id)query;
 - (void)setOptionsOnRequest:(ASIHTTPRequest *)request;
++ (ASIFormDataRequest *)requestWithURL:(NSString *)url;
 @end
 
 @interface Tin (ResponseHandling)
@@ -258,6 +259,11 @@
                                  andHeaders:[request responseHeaders]];
 }
 
++ (ASIFormDataRequest *)requestWithURL:(NSString *)url {
+    return [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
+}
+
+
 - (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andSuccessCallback:(void(^)(TinResponse *response))returnSuccess {
     [self performRequest:method withURL:urlString andQuery:query andBody:body andFiles:nil andSuccessCallback:returnSuccess];
 }
@@ -267,7 +273,7 @@
     // Format the URL to our known format, with query appended if needed.
     NSString *url = [self normalizeURL:urlString withQuery:query];
     
-    __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
+    __block ASIFormDataRequest *request = [Tin requestWithURL:url];
 
 	[request setRequestMethod:method];
 
