@@ -50,6 +50,10 @@ NSDictionray *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"string", @"key
 
 Al other objects will get their `description` method called to get their string representation to pass on to ASI.
 
+## Tests
+
+Normally a `rake test` should run all the unit tests. At the moment most of them still have a dependency on a network connection being up, but I'm refactoring that to go away (see `TinTest.m`)
+
 ## Can I help?
 
 Please do!
