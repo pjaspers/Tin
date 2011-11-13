@@ -31,6 +31,7 @@
 @end
 @implementation Tin
 @synthesize baseURI, password, username, timeoutSeconds, contentType, headers;
+@synthesize debugOutput;
 
 #pragma mark - Class methods
 
@@ -272,6 +273,7 @@
     
     // Format the URL to our known format, with query appended if needed.
     NSString *url = [self normalizeURL:urlString withQuery:query];
+    if (self.debugOutput) NSLog(@"Making request to: %@", url);
     
     __block ASIFormDataRequest *request = [Tin requestWithURL:url];
 
@@ -280,6 +282,8 @@
 	// Get the defaults or options (username, password, ...)
 	[self setOptionsOnRequest:request];
     [request setCompletionBlock:^{
+        if (self.debugOutput) NSLog(@"\t Request succesfull");
+
         // For now only fetching text data
         NSArray *parsedArray = nil;
         
@@ -301,6 +305,7 @@
     }];
     
     [request setFailedBlock:^{
+        if (self.debugOutput) NSLog(@"\t Request failed, error: %@", request.error);
 		TinResponse *response = [TinResponse responseWithRequest:request 
                                                         response:nil 
                                                   parsedResponse:nil 

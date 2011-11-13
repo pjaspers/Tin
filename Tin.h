@@ -38,6 +38,8 @@
 // default set to 10 seconds
 @property (nonatomic, assign) NSTimeInterval timeoutSeconds;
 
+@property (nonatomic, assign) BOOL debugOutput;
+
 // ## Synchronous calls
 
 + (TinResponse *)get:(NSString *)url;
