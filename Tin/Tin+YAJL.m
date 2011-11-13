@@ -22,6 +22,7 @@
     
     // Return the parsed JSON in an NSArray
     if ([objectFromJSON isKindOfClass:[NSArray class]]) return (NSArray *)objectFromJSON;
+    if (!objectFromJSON) return nil;
     return [NSArray arrayWithObject:objectFromJSON];
 }
 @end
