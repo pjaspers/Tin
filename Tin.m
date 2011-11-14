@@ -182,13 +182,13 @@
 
 }
 
-- (void)post:(NSString *)url body:(NSDictionary *)bodyData success:(void(^)(TinResponse *response))callback {
+- (void)post:(NSString *)url body:(id)bodyData success:(void(^)(TinResponse *response))callback {
     [self post:url query:nil body:bodyData success:callback];
 }
-- (void)post:(NSString *)url query:(id)query body:(NSDictionary *)bodyData success:(void(^)(TinResponse *response))callback {
+- (void)post:(NSString *)url query:(id)query body:(id)bodyData success:(void(^)(TinResponse *response))callback {
     [self post:url query:query body:bodyData files:nil success:callback];
 }
-- (void)post:(NSString *)url query:(id)query body:(NSDictionary *)bodyData files:(NSMutableDictionary *)files success:(void(^)(TinResponse *response))callback {
+- (void)post:(NSString *)url query:(id)query body:(id)bodyData files:(NSMutableDictionary *)files success:(void(^)(TinResponse *response))callback {
     [self performRequest:@"POST" withURL:url andQuery:query andBody:bodyData andFiles:files andSuccessCallback:callback];
 }
 

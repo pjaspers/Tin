@@ -81,7 +81,7 @@
 - (void)get:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback ;
 
 - (void)post:(NSString *)url body:(NSDictionary *)bodyData success:(void(^)(TinResponse *response))callback ;
-- (void)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData success:(void(^)(TinResponse *response))callback ;
+- (void)post:(NSString *)url query:(id)aQuery body:(id)bodyData success:(void(^)(TinResponse *response))callback ;
 - (void)post:(NSString *)url query:(id)query body:(NSDictionary *)bodyData files:(NSMutableDictionary *)files success:(void(^)(TinResponse *response))callback;
 
 - (void)put:(NSString *)url query:(id)aQuery success:(void(^)(TinResponse *response))callback;
