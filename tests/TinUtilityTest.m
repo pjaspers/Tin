@@ -5,6 +5,7 @@
 
 @interface Tin (Testing)
 - (void)setOptionsOnClient:(AFHTTPClient *)client;
+- (void)setOptionsOnRequest:(NSMutableURLRequest *)request;
 - (NSString *)normalizeURL:(NSString *)aURL withQuery:(id)query;
 @end
 
@@ -50,12 +51,14 @@
 }
 
 // TODO: set timeout
-//- (void)testTimeOutInSeconds {
-//	tinInstance.timeoutSeconds = 20;
-//	ASIHTTPRequest *aRequest = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@"http://iets.com"]];
-//	[tinInstance setOptionsOnRequest:aRequest];
-//	GHAssertTrue(20 == aRequest.timeOutSeconds, nil);
-//}
+- (void)testTimeOutInSeconds {
+	tinInstance.timeoutSeconds = 20;
+    
+    AFHTTPClient *_client = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://nog.iets.be"]];
+    NSMutableURLRequest *_request = [_client requestWithMethod:@"GET" path:@"test" parameters:nil];
+	[tinInstance setOptionsOnRequest:_request];
+	GHAssertTrue(20 == _request.timeoutInterval, nil);
+}
 
 - (void)testWithNSDictQuery {
     NSDictionary *queryDict = [NSDictionary dictionaryWithObjectsAndKeys:@"Tin", @"string", nil];
