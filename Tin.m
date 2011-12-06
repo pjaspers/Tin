@@ -26,7 +26,7 @@
 @end
 
 @interface Tin (Authorization)
-- (void)setOptionsOnRequest:(AFHTTPClient *)request;
+- (void)setOptionsOnClient:(AFHTTPClient *)request;
 @end
 
 @interface Tin (Blocks)
@@ -288,7 +288,7 @@
 - (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andFiles:(NSMutableDictionary *)files andSuccessCallback:(void(^)(TinResponse *response))returnSuccess {
     // Initialize client
     __block AFHTTPClient *_client = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:self.baseURI]];
-    [self setOptionsOnRequest:_client];
+    [self setOptionsOnClient:_client];
     
     if (body) {
         if (self.contentType != nil && ![self.contentType isEqualToString:@""]) {
@@ -340,7 +340,7 @@
 #pragma mark - Utility
 
 // Sets all specified options to the request
-- (void)setOptionsOnRequest:(AFHTTPClient *)client {
+- (void)setOptionsOnClient:(AFHTTPClient *)client {
     if (self.username && self.password && ![self.username isEqualToString:@""] && ![self.password isEqualToString:@""]) {
         [client setAuthorizationHeaderWithUsername:username password:password];
     }

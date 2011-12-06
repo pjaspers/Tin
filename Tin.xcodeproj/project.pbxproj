@@ -16,17 +16,12 @@
 		0514243113A5537E00E5BD31 /* ExtensionsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0514243013A5537E00E5BD31 /* ExtensionsTest.m */; };
 		0514243613A5574400E5BD31 /* Tin.m in Sources */ = {isa = PBXBuildFile; fileRef = 0520608F13A54EB6005072D0 /* Tin.m */; };
 		0514243A13A5574B00E5BD31 /* Tin+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0514240013A5508F00E5BD31 /* Tin+Extensions.m */; };
-		0514243C13A5578600E5BD31 /* YAJLiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0514243B13A5578600E5BD31 /* YAJLiOS.framework */; };
 		055E1A3D13A63EB000C7D258 /* TinAsyncTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 055E1A3C13A63EB000C7D258 /* TinAsyncTest.m */; };
 		055E1A3F13A6482C00C7D258 /* TinUtilityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 055E1A3E13A6482C00C7D258 /* TinUtilityTest.m */; };
 		055E1A4C13A66CC600C7D258 /* TinResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 055E1A4B13A66CC600C7D258 /* TinResponse.m */; };
 		055E1A5613A68E0D00C7D258 /* TinTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 055E1A5513A68E0D00C7D258 /* TinTest.m */; };
 		055E1A6113A68EDE00C7D258 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 055E1A6013A68EDE00C7D258 /* libOCMock.a */; };
-		6042C68213A8D6AF0035DD1F /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6042C67913A8D6AF0035DD1F /* NSObject+SBJSON.m */; };
-		6042C68313A8D6AF0035DD1F /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 6042C67B13A8D6AF0035DD1F /* NSString+SBJSON.m */; };
-		6042C68413A8D6AF0035DD1F /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6042C67D13A8D6AF0035DD1F /* SBJsonBase.m */; };
-		6042C68513A8D6AF0035DD1F /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 6042C67F13A8D6AF0035DD1F /* SBJsonParser.m */; };
-		6042C68613A8D6AF0035DD1F /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6042C68113A8D6AF0035DD1F /* SBJsonWriter.m */; };
+		9D85CD8B148E80B300DBEFAC /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D85CD8A148E80B300DBEFAC /* JSONKit.m */; };
 		9DDB7EBB148E4E4100EE6E90 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDB7EA6148E4E4100EE6E90 /* AFHTTPClient.m */; };
 		9DDB7EBC148E4E4100EE6E90 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDB7EA8148E4E4100EE6E90 /* AFHTTPRequestOperation.m */; };
 		9DDB7EBD148E4E4100EE6E90 /* AFImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDB7EAA148E4E4100EE6E90 /* AFImageCache.m */; };
@@ -52,7 +47,6 @@
 		0514242C13A5528E00E5BD31 /* GHUnitIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GHUnitIOS.framework; sourceTree = "<group>"; };
 		0514242E13A5530B00E5BD31 /* GHUnitIOSTestMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHUnitIOSTestMain.m; sourceTree = "<group>"; };
 		0514243013A5537E00E5BD31 /* ExtensionsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExtensionsTest.m; sourceTree = "<group>"; };
-		0514243B13A5578600E5BD31 /* YAJLiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = YAJLiOS.framework; sourceTree = "<group>"; };
 		0520608E13A54EB6005072D0 /* Tin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tin.h; sourceTree = "<group>"; };
 		0520608F13A54EB6005072D0 /* Tin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tin.m; sourceTree = "<group>"; };
 		055E1A3C13A63EB000C7D258 /* TinAsyncTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TinAsyncTest.m; sourceTree = "<group>"; };
@@ -67,17 +61,8 @@
 		055E1A5E13A68EDE00C7D258 /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
 		055E1A5F13A68EDE00C7D258 /* OCMockRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockRecorder.h; sourceTree = "<group>"; };
 		055E1A6013A68EDE00C7D258 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
-		6042C67713A8D6AF0035DD1F /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
-		6042C67813A8D6AF0035DD1F /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
-		6042C67913A8D6AF0035DD1F /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
-		6042C67A13A8D6AF0035DD1F /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
-		6042C67B13A8D6AF0035DD1F /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
-		6042C67C13A8D6AF0035DD1F /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
-		6042C67D13A8D6AF0035DD1F /* SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonBase.m; sourceTree = "<group>"; };
-		6042C67E13A8D6AF0035DD1F /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
-		6042C67F13A8D6AF0035DD1F /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
-		6042C68013A8D6AF0035DD1F /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
-		6042C68113A8D6AF0035DD1F /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		9D85CD89148E80B300DBEFAC /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		9D85CD8A148E80B300DBEFAC /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		9DDB7EA5148E4E4100EE6E90 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		9DDB7EA6148E4E4100EE6E90 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		9DDB7EA7148E4E4100EE6E90 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -111,7 +96,6 @@
 				0514240C13A5521200E5BD31 /* Foundation.framework in Frameworks */,
 				0514240E13A5521200E5BD31 /* CoreGraphics.framework in Frameworks */,
 				0514242D13A5528E00E5BD31 /* GHUnitIOS.framework in Frameworks */,
-				0514243C13A5578600E5BD31 /* YAJLiOS.framework in Frameworks */,
 				055E1A6113A68EDE00C7D258 /* libOCMock.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -164,10 +148,9 @@
 		0514241013A5521200E5BD31 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9D85CD88148E80B300DBEFAC /* jsonkit */,
 				9DDB7EA4148E4E4100EE6E90 /* AFNetworking */,
-				6042C67613A8D6AF0035DD1F /* JSON */,
 				055E1A5713A68EDE00C7D258 /* Library */,
-				0514243B13A5578600E5BD31 /* YAJLiOS.framework */,
 				0514242C13A5528E00E5BD31 /* GHUnitIOS.framework */,
 				0514241113A5521200E5BD31 /* tests-Info.plist */,
 				0514241213A5521200E5BD31 /* InfoPlist.strings */,
@@ -218,23 +201,15 @@
 			path = OCMock;
 			sourceTree = "<group>";
 		};
-		6042C67613A8D6AF0035DD1F /* JSON */ = {
+		9D85CD88148E80B300DBEFAC /* jsonkit */ = {
 			isa = PBXGroup;
 			children = (
-				6042C67713A8D6AF0035DD1F /* JSON.h */,
-				6042C67813A8D6AF0035DD1F /* NSObject+SBJSON.h */,
-				6042C67913A8D6AF0035DD1F /* NSObject+SBJSON.m */,
-				6042C67A13A8D6AF0035DD1F /* NSString+SBJSON.h */,
-				6042C67B13A8D6AF0035DD1F /* NSString+SBJSON.m */,
-				6042C67C13A8D6AF0035DD1F /* SBJsonBase.h */,
-				6042C67D13A8D6AF0035DD1F /* SBJsonBase.m */,
-				6042C67E13A8D6AF0035DD1F /* SBJsonParser.h */,
-				6042C67F13A8D6AF0035DD1F /* SBJsonParser.m */,
-				6042C68013A8D6AF0035DD1F /* SBJsonWriter.h */,
-				6042C68113A8D6AF0035DD1F /* SBJsonWriter.m */,
+				9D85CD89148E80B300DBEFAC /* JSONKit.h */,
+				9D85CD8A148E80B300DBEFAC /* JSONKit.m */,
 			);
-			path = JSON;
-			sourceTree = "<group>";
+			name = jsonkit;
+			path = Vendor/jsonkit;
+			sourceTree = SOURCE_ROOT;
 		};
 		9DDB7EA4148E4E4100EE6E90 /* AFNetworking */ = {
 			isa = PBXGroup;
@@ -354,11 +329,6 @@
 				055E1A3F13A6482C00C7D258 /* TinUtilityTest.m in Sources */,
 				055E1A4C13A66CC600C7D258 /* TinResponse.m in Sources */,
 				055E1A5613A68E0D00C7D258 /* TinTest.m in Sources */,
-				6042C68213A8D6AF0035DD1F /* NSObject+SBJSON.m in Sources */,
-				6042C68313A8D6AF0035DD1F /* NSString+SBJSON.m in Sources */,
-				6042C68413A8D6AF0035DD1F /* SBJsonBase.m in Sources */,
-				6042C68513A8D6AF0035DD1F /* SBJsonParser.m in Sources */,
-				6042C68613A8D6AF0035DD1F /* SBJsonWriter.m in Sources */,
 				9DDB7EBB148E4E4100EE6E90 /* AFHTTPClient.m in Sources */,
 				9DDB7EBC148E4E4100EE6E90 /* AFHTTPRequestOperation.m in Sources */,
 				9DDB7EBD148E4E4100EE6E90 /* AFImageCache.m in Sources */,
@@ -369,6 +339,7 @@
 				9DDB7EC2148E4E4100EE6E90 /* AFURLConnectionOperation.m in Sources */,
 				9DDB7EC3148E4E4100EE6E90 /* AFXMLRequestOperation.m in Sources */,
 				9DDB7EC4148E4E4100EE6E90 /* UIImageView+AFNetworking.m in Sources */,
+				9D85CD8B148E80B300DBEFAC /* JSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
