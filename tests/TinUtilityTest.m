@@ -1,7 +1,6 @@
 #import <GHUnitIOS/GHUnit.h> 
 
 #import "Tin.h"
-#import "ASIHTTPRequest.h"
 
 @interface Tin (Testing)
 - (void)setOptionsOnRequest:(ASIHTTPRequest *)request;

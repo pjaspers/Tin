@@ -2,7 +2,7 @@
 #import "OCMock.h"
 #import "Tin.h"
 #import "TinResponse.h"
-#import "ASIHTTPRequest.h"
+#import "AFHTTPClient.h"
 #include <objc/runtime.h>
 
 typedef void (^BasicBlock)(void);
@@ -49,16 +49,16 @@ void RunAfterDelay(NSTimeInterval delay, BasicBlock block) {
 typedef void(^BlockTypedef)(void);
 
 
-- (ASIHTTPRequest *)mockRequest
+- (AFHTTPClient *)mockClient
 {
     NSLog(@"USING ZE MOCK");
     // create a nice mock
-    id request = [OCMockObject niceMockForClass:[ASIHTTPRequest class]];
+    id client = [OCMockObject niceMockForClass:[AFHTTPClient class]];
     NSString *responseString = @"Some string";
     
-    [[[(id)request stub] andReturn:responseString] responseString];
+    [[[(id)client stub] andReturn:responseString] responseString];
     
-    [[(id)request expect] setCompletionBlock:[OCMArg checkWithBlock:^(id value) { 
+    [[(id)(id) expect] setCompletionBlock:[OCMArg checkWithBlock:^(id value) { 
         BlockTypedef myBlock = Block_copy(value);
         myBlock();
         Block_release(myBlock);
