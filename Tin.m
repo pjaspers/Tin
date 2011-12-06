@@ -271,7 +271,7 @@
     
     [self waitFor:^(void(^done)(void)) {
         [self performRequest:method withURL:urlString andQuery:query andBody:body andFiles:files andSuccessCallback:^(TinResponse *response) {
-            synchronousRequest = response;
+            synchronousRequest = [response retain];
             done();
         }]; 
     }];
