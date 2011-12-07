@@ -291,10 +291,8 @@
     __block AFHTTPClient *_client = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:self.baseURI]];
     [self setOptionsOnClient:_client];
     
-    if (body) {
-        if (self.contentType != nil && ![self.contentType isEqualToString:@""]) {
-            [_client setDefaultHeader:@"Content-Type" value:self.contentType];
-        }
+    if (body && self.contentType != nil && ![self.contentType isEqualToString:@""]) {
+        [_client setDefaultHeader:@"Content-Type" value:self.contentType];
     }
     
     // Initialize request
