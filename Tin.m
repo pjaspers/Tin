@@ -349,6 +349,8 @@
             [client setDefaultHeader:key value:obj];
         }];
     }
+    
+    client.parameterEncoding = AFJSONParameterEncoding;
 }
 
 #pragma mark - URL helpers
