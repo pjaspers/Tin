@@ -15,6 +15,7 @@
 
 // Each request returns a [TinResponse](TinResponse.html)
 #import "TinResponse.h"
+#import "TinFile.h"
 
 // Contains additions to default objects to aid Tin
 #import "Tin+Extensions.h"
@@ -300,8 +301,8 @@
     NSMutableURLRequest *_request;
     if (files) {
         _request = [_client multipartFormRequestWithMethod:method path:_url parameters:body constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-            [files enumerateKeysAndObjectsUsingBlock:^(id attribute_name, id file, BOOL *stop) {
-                [formData appendPartWithFileData:file name:attribute_name fileName:nil mimeType:nil];
+            [files enumerateKeysAndObjectsUsingBlock:^(id attribute_name, TinFile *file, BOOL *stop) {
+                [formData appendPartWithFileData:file.data name:attribute_name fileName:file.name mimeType:file.mimeType];
             }];
         }];
     } else {
