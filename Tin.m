@@ -25,9 +25,8 @@
 - (NSString *)normalizeQuery:(id)query;
 @end
 
-@interface Tin (Options)
+@interface Tin (Authorization)
 - (void)setOptionsOnClient:(AFHTTPClient *)request;
-- (void)setOptionsOnRequest:(NSMutableURLRequest *)request;
 @end
 
 @interface Tin (Blocks)
@@ -309,7 +308,6 @@
         _request = [_client requestWithMethod:method path:_url parameters:body];
     }
     
-    [self setOptionsOnRequest:_request];
     
     // Initialize operation
     AFHTTPRequestOperation *_operation = [[[AFHTTPRequestOperation alloc] initWithRequest:_request] autorelease];
@@ -350,13 +348,6 @@
         [self.headers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
             [client setDefaultHeader:key value:obj];
         }];
-    }
-}
-
-// Sets all specified options to the request
-- (void)setOptionsOnRequest:(NSMutableURLRequest *)request {
-    if (self.timeoutSeconds) {
-        [request setTimeoutInterval:self.timeoutSeconds];
     }
 }
 
