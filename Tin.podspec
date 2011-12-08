@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
 
   s.description = 'An optional longer description of Tin.'
 
-  s.source_files = 'Classes', 'Classes/**/*.{h,m}', "Tin"
+  s.source_files = 'Classes', 'Classes/**/*.{h,m}', "Tin", "/"
 
   s.dependency 'JSONKit'
   s.dependency "AFNetworking"
