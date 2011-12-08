@@ -13,5 +13,5 @@ Pod::Spec.new do |s|
   s.source_files = 'Classes', 'Classes/**/*.{h,m}', "Tin", "*.{h,m}"
 
   s.dependency 'JSONKit'
-  s.dependency "AFNetworking", "~> 0.8.0"
+  # s.dependency "AFNetworking", "~> 0.8.0" => require this from the AFNetworking github repo directly until it gets updated in the podspecs
 end
