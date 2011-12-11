@@ -28,6 +28,7 @@
 
 @interface Tin (Authorization)
 - (void)setOptionsOnClient:(AFHTTPClient *)request;
+- (void)setOptionsOnRequest:(NSMutableURLRequest *)request;
 @end
 
 @interface Tin (Blocks)
@@ -261,6 +262,34 @@
     return [self performSynchronousRequest:@"PUT" withURL:url andQuery:aQuery andBody:body andFiles:files];
 }
 
+#pragma mark DELETE ASYNCHRONOUS
+
+- (void)delete:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback {
+    [self delete:url query:query body:nil success:callback];
+}
+
+- (void)delete:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback {
+    [self delete:url query:nil body:body success:callback];
+}
+
+- (void)delete:(NSString *)url query:(id)query body:(id)body success:(void(^)(TinResponse *response))callback{
+    [self performRequest:@"DELETE" withURL:url andQuery:query andBody:body andFiles:nil andSuccessCallback:callback];
+}
+
+#pragma mark DELETE SYNCHRONOUS
+
+- (TinResponse *)delete:(NSString *)url query:(id)aQuery{
+    return [self delete:url query:aQuery body:nil];
+}
+
+- (TinResponse *)delete:(NSString *)url body:(id)body{
+    return [self delete:url query:nil body:body];
+}
+
+- (TinResponse *)delete:(NSString *)url query:(id)aQuery body:(id)body {
+    return [self performSynchronousRequest:@"DELETE" withURL:url andQuery:aQuery andBody:body andFiles:nil];
+}
+
 #pragma mark - Synchronous requests
 
 - (TinResponse *)performSynchronousRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body {
@@ -309,6 +338,7 @@
         _request = [_client requestWithMethod:method path:_url parameters:body];
     }
     
+    [self setOptionsOnRequest:_request];
     
     // Initialize operation
     AFHTTPRequestOperation *_operation = [[[AFHTTPRequestOperation alloc] initWithRequest:_request] autorelease];
@@ -352,6 +382,13 @@
     }
     
     client.parameterEncoding = AFJSONParameterEncoding;
+}
+
+// Sets all specified options to the request
+- (void)setOptionsOnRequest:(NSMutableURLRequest *)request {
+    if (self.timeoutSeconds) {
+        [request setTimeoutInterval:self.timeoutSeconds];
+    }
 }
 
 #pragma mark - URL helpers
