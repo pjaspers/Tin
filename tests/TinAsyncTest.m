@@ -124,6 +124,44 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
+- (void)testDeleteRequest {
+    [self prepare];
+    [Tin delete:@"http://httpbin.org/delete" body:nil success:^(TinResponse *response) {
+        GHTestLog(@"Response: %@", response);
+        GHAssertNotNil(response, @"We should get something back from the server");
+        [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testDeleteRequest)];
+    }];    
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+- (void)testDeleteRequestWithData {
+    [self prepare];
+    NSDictionary *postDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                              @"string",@"keyOne",
+                              @"anotherString", @"keyTwo",nil];
+    
+    [Tin delete:@"http://httpbin.org/delete" body:postDict success:^(TinResponse *response) {
+        GHTestLog(@"Response: %@", response);
+        GHAssertNotNil(response, @"We should get something back from the server");
+        [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testDeleteRequestWithData)];
+    }];     
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+- (void)testDeleteRequestWithQueryData {
+    [self prepare];
+    NSDictionary *postDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                              @"string",@"keyOne",
+                              @"anotherString", @"keyTwo",nil];
+    
+    [Tin delete:@"http://httpbin.org/delete" query:postDict body:nil success:^(TinResponse *response) {
+        GHTestLog(@"Response: %@", response);
+        GHAssertNotNil(response, @"We should get something back from the server");
+        [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testDeleteRequestWithQueryData)];
+    }];  
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
 - (void)testErroredRequest { 
     [self prepare];
 	Tin *tin = [[Tin alloc] init];

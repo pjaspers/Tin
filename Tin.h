@@ -43,6 +43,10 @@
 + (TinResponse *)put:(NSString *)url query:(id)aQuery body:(id)body;
 + (TinResponse *)put:(NSString *)url query:(id)aQuery body:(id)body files:(NSMutableDictionary *)files;
 
++ (TinResponse *)delete:(NSString *)url query:(id)aQuery;
++ (TinResponse *)delete:(NSString *)url body:(id)body;
++ (TinResponse *)delete:(NSString *)url query:(id)aQuery body:(id)body;
+
 - (TinResponse *)get:(NSString *)url;
 - (TinResponse *)get:(NSString *)url query:(id)query;
 
@@ -55,6 +59,10 @@
 - (TinResponse *)put:(NSString *)url body:(id)body;
 - (TinResponse *)put:(NSString *)url query:(id)aQuery body:(id)body;
 - (TinResponse *)put:(NSString *)url query:(id)aQuery body:(id)body files:(NSMutableDictionary *)files;
+
+- (TinResponse *)delete:(NSString *)url query:(id)aQuery;
+- (TinResponse *)delete:(NSString *)url body:(id)body;
+- (TinResponse *)delete:(NSString *)url query:(id)aQuery body:(id)body;
 
 + (void)get:(NSString *)url success:(void(^)(TinResponse *response))callback;
 + (void)get:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback;
@@ -69,6 +77,10 @@
 + (void)put:(NSString *)url query:(id)aQuery body:(id)body success:(void(^)(TinResponse *response))callback ;
 + (void)put:(NSString *)url query:(id)aQuery body:(id)body files:(NSMutableDictionary *)files success:(void(^)(TinResponse *response))callback;
 
++ (void)delete:(NSString *)url query:(id)aQuery success:(void(^)(TinResponse *response))callback ;
++ (void)delete:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback ;
++ (void)delete:(NSString *)url query:(id)aQuery body:(id)body success:(void(^)(TinResponse *response))callback ;
+
 - (void)get:(NSString *)url success:(void(^)(TinResponse *response))callback ;
 - (void)get:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback ;
 
@@ -80,4 +92,8 @@
 - (void)put:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback;
 - (void)put:(NSString *)url query:(id)aQuery body:(id)body success:(void(^)(TinResponse *response))callback;
 - (void)put:(NSString *)url query:(id)query body:(id)body files:(NSMutableDictionary *)files success:(void(^)(TinResponse *response))callback;
+
+- (void)delete:(NSString *)url query:(id)aQuery success:(void(^)(TinResponse *response))callback;
+- (void)delete:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback;
+- (void)delete:(NSString *)url query:(id)aQuery body:(id)body success:(void(^)(TinResponse *response))callback;
 @end

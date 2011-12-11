@@ -162,11 +162,39 @@
 }
 
 + (TinResponse *)put:(NSString *)url query:(id)aQuery body:(id)body {
-    return [[[[self alloc] init] autorelease] put:url query:aQuery body:body files:nil];
+    return [self put:url query:aQuery body:body files:nil];
 }
 
 + (TinResponse *)put:(NSString *)url query:(id)aQuery body:(id)body files:(NSMutableDictionary *)files {
     return [[[[self alloc] init] autorelease] put:url query:aQuery body:body files:files];
+}
+
+#pragma mark DELETE ASYNCHRONOUS
+
++ (void)delete:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback {
+    [self delete:url query:query body:nil success:callback];
+}
+
++ (void)delete:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback {
+    [self delete:url query:nil body:body success:callback];
+}
+
++ (void)delete:(NSString *)url query:(id)query body:(id)body success:(void(^)(TinResponse *response))callback {
+    [[[[self alloc] init] autorelease] delete:url query:query body:body success:callback];
+}
+
+#pragma mark DELETE SYNCHRONOUS
+
++ (TinResponse *)delete:(NSString *)url query:(id)aQuery{
+    return [self delete:url query:aQuery body:nil];
+}
+
++ (TinResponse *)delete:(NSString *)url body:(id)body {
+    return [self delete:url query:nil body:body];
+}
+
++ (TinResponse *)delete:(NSString *)url query:(id)aQuery body:(id)body {
+    return [[[[self alloc] init] autorelease] delete:url query:aQuery body:body];
 }
 
 #pragma mark - Instance Methods
