@@ -44,8 +44,7 @@
 
 @implementation Tin
 @synthesize baseURI;
-@synthesize password;
-@synthesize username;
+@synthesize authenticator = _authenticator;
 @synthesize timeoutSeconds;
 @synthesize contentType;
 @synthesize headers;
@@ -199,6 +198,23 @@
 
 #pragma mark - Instance Methods
 
+#pragma mark - initialisation & dealloc
+
+- (id)init {
+    if ((self = [super init])) {
+    }
+    return self;
+}
+
+- (void)dealloc {
+    self.authenticator = nil;
+    self.baseURI = nil;
+    self.contentType = nil;
+    self.headers = nil;
+
+    [super dealloc];
+}
+
 #pragma mark GET ASYNCHRONOUS
 
 - (void)get:(NSString *)url success:(void(^)(TinResponse *response))callback {
@@ -351,6 +367,9 @@
     if (body && self.contentType != nil && ![self.contentType isEqualToString:@""]) {
         [_client setDefaultHeader:@"Content-Type" value:self.contentType];
     }
+
+    if ([self.authenticator respondsToSelector:@selector(tin:transformQuery:)]) 
+        query = [self.authenticator tin:self transformQuery:query];
     
     // Initialize request
     NSString *_url = [self normalizeURL:urlString withQuery:query];
@@ -398,9 +417,8 @@
 
 // Sets all specified options to the request
 - (void)setOptionsOnClient:(AFHTTPClient *)client {
-    if (self.username && self.password && ![self.username isEqualToString:@""] && ![self.password isEqualToString:@""]) {
-        [client setAuthorizationHeaderWithUsername:username password:password];
-    }
+    if ([self.authenticator respondsToSelector:@selector(tin:setOptionsOnClient:)]) 
+        [self.authenticator tin:self setOptionsOnClient:client];
     
     if (self.headers) {
         [self.headers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
