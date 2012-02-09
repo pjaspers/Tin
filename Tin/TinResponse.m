@@ -7,48 +7,51 @@
 //
 
 #import "TinResponse.h"
-#import "ASIHTTPRequest.h"
+
+#import "AFHTTPClient.h"
 
 @interface TinResponse (Private)
-- (id)initWithRequest:(ASIHTTPRequest *)_request response:(NSString *)_responseString parsedResponse:(NSArray *)_parsedResponse responseData:(NSData *)_responseData andHeaders:(NSDictionary *)_headers;
+- (id)initWithClient:(AFHTTPClient *)_client URL:(NSURL *)_URL parsedResponse:(id)_parsedResponse error:(NSError *)_error;
 @end
 
 @implementation TinResponse
-@synthesize request;
-@synthesize response;
-@synthesize responseData;
+@synthesize client;
+@synthesize URL;
 @synthesize parsedResponse;
-@synthesize headers;
+@synthesize error;
 
-+ (id)responseWithRequest:(ASIHTTPRequest *)_request response:(NSString *)_responseString parsedResponse:(NSArray *)_parsedResponse responseData:(NSData *)_responseData andHeaders:(NSDictionary *)_headers {
-  return [[[self alloc] initWithRequest:_request response:_responseString parsedResponse:_parsedResponse responseData:_responseData andHeaders:_headers] autorelease];
+#pragma mark - Initialization
+
++ (id)responseWithClient:(AFHTTPClient *)_client URL:(NSURL *)_URL parsedResponse:(id)_parsedResponse error:(NSError *)_error {
+  return [[[self alloc] initWithClient:_client URL:_URL parsedResponse:_parsedResponse error:_error] autorelease];
 }
 
-- (id)initWithRequest:(ASIHTTPRequest *)_request response:(NSString *)_responseString parsedResponse:(NSArray *)_parsedResponse responseData:(NSData *)_responseData andHeaders:(NSDictionary *)_headers {
-  if(!(self = [super init])) return nil;
+- (id)initWithClient:(AFHTTPClient *)_client URL:(NSURL *)_URL parsedResponse:(id)_parsedResponse error:(NSError *)_error {
+    if(!(self = [super init])) return nil;
 
-  self.request = _request;
-  self.response = _responseString;
-  self.parsedResponse = _parsedResponse;
-  self.responseData = _responseData;
-  self.headers = _headers;
-  return self;
+    self.client = _client;
+    self.URL = _URL;
+    self.parsedResponse = _parsedResponse;
+    self.error = _error;
+    
+    return self;
 }
+
+#pragma mark - Utility
+
 - (NSString *)description {
-  return [NSString stringWithFormat:@"Response (%p) parsedResponse: %@ response: %@ headers: %@", self, self.parsedResponse, self.response, self.headers];
+    return [NSString stringWithFormat:@"Client (%p) parsedResponse: %@ URL: %@", self, self.parsedResponse, self.URL];
 }
 
-- (NSError *)error {
-	return self.request.error;
-}
+#pragma mark - Memory
 
 - (void)dealloc {
-	[request release];
-	[response release];
-	[responseData release];
-	[parsedResponse release];
-	[headers release];
-  [super dealloc];
+	self.client = nil;
+    self.URL = nil;
+    self.parsedResponse = nil;
+    self.error = nil;
+    
+    [super dealloc];
 }
 
 @end

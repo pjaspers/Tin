@@ -7,92 +7,53 @@
 //
 
 #import "Tin.h"
-// The always great [ASIHTTP](http://allseeing-i.com/ASIHTTPRequest/)
-#import "ASIHTTPRequest.h"
-#import "ASIFormDataRequest.h"
+
+// Since ASIHTTP is no longer maintained, we switched to [AFNetworking](https://github.com/AFNetworking/AFNetworking)
+#import "AFHTTPClient.h"
+#import "AFHTTPRequestOperation.h"
+#import "AFJSONUtilities.h"
 
 // Each request returns a [TinResponse](TinResponse.html)
 #import "TinResponse.h"
+#import "TinFile.h"
 
 // Contains additions to default objects to aid Tin
 #import "Tin+Extensions.h"
 
-@interface Tin (Utilities)
+@interface Tin (URL)
 - (NSString *)normalizeURL:(NSString *)aURL withQuery:(id)query;
 - (NSString *)prependHTTPtoURL:(NSString *)aUrl;
 - (NSString *)normalizeQuery:(id)query;
-- (void)setOptionsOnRequest:(ASIHTTPRequest *)request;
-+ (ASIFormDataRequest *)requestWithURL:(NSString *)url;
 @end
 
-@interface Tin (ResponseHandling)
-- (TinResponse *)responseFromError:(ASIHTTPRequest *)request;
-- (TinResponse *)responseFromSuccess:(ASIHTTPRequest *)request;
+@interface Tin (Authorization)
+- (void)setOptionsOnClient:(AFHTTPClient *)request;
+- (void)setOptionsOnRequest:(NSMutableURLRequest *)request;
 @end
+
+@interface Tin (Blocks)
+- (void)waitFor:(void(^)(void(^endCallback)(void)))block;
+@end
+
+@interface Tin (Requests)
+- (TinResponse *)performSynchronousRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andFiles:(NSMutableDictionary *)files;
+- (TinResponse *)performSynchronousRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body;
+- (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andSuccessCallback:(void(^)(TinResponse *response))returnSuccess;
+- (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andFiles:(NSMutableDictionary *)files andSuccessCallback:(void(^)(TinResponse *response))returnSuccess;
+@end
+
 @implementation Tin
-@synthesize baseURI, password, username, timeoutSeconds, contentType, headers;
+@synthesize baseURI;
+@synthesize password;
+@synthesize username;
+@synthesize timeoutSeconds;
+@synthesize contentType;
+@synthesize headers;
 @synthesize debugOutput;
 
 #pragma mark - Class methods
 
-// ## Synchrnous requests
-+ (TinResponse *)get:(NSString *)url{ 
-    return nil;
-}
-+ (TinResponse *)get:(NSString *)url query:(id)query{
-    return nil;
-}
-
-+ (TinResponse *)post:(NSString *)url query:(id)aQuery{
-    return nil;
-}
-
-+ (TinResponse *)post:(NSString *)url body:(NSDictionary *)bodyData{
-    return nil;
-}
-+ (TinResponse *)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData{
-    return nil;
-}
-
-+ (TinResponse *)put:(NSString *)url query:(id)aQuery{
-    return nil;
-}
-
-+ (TinResponse *)put:(NSString *)url body:(id)body{
-    return nil;
-}
-+ (TinResponse *)put:(NSString *)url query:(id)aQuery body:(id)body{
-    return nil;
-}
-
-- (TinResponse *)get:(NSString *)url{
-    return nil;
-}
-- (TinResponse *)get:(NSString *)url query:(id)query{
-    return nil;
-}
-
-- (TinResponse *)post:(NSString *)url body:(NSDictionary *)bodyData{
-    return nil;
-}
-
-- (TinResponse *)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData{
-    return nil;
-}
-
-- (TinResponse *)put:(NSString *)url query:(id)aQuery{
-    return nil;
-}
-
-- (TinResponse *)put:(NSString *)url body:(id)body{
-    return nil;
-}
-
-- (TinResponse *)put:(NSString *)url query:(id)aQuery body:(id)body{
-    return nil;
-}
-
-#pragma mark GET
+#pragma mark GET ASYNCHRONOUS
 // ## `GET` requests
 //
 // Methods for use with `GET` requests.
@@ -108,7 +69,17 @@
     [[[[self alloc] init] autorelease] get:url query:query success:callback];
 }
 
-#pragma mark POST
+#pragma mark GET SYNCHRONOUS
+
++ (TinResponse *)get:(NSString *)url{ 
+    return [self get:url query:nil];
+}
+
++ (TinResponse *)get:(NSString *)url query:(id)query {
+    return [[[[self alloc] init] autorelease] get:url query:query];
+}
+
+#pragma mark POST ASYNCHRONOUS
 // ## `POST` requests
 //
 // Methods for use with `POST` requests.
@@ -135,7 +106,25 @@
     [[[[self alloc] init] autorelease] post:url query:aQuery body:bodyData files:files success:callback];
 }
 
-#pragma mark PUT
+#pragma mark POST SYNCHRONOUS
+
++ (TinResponse *)post:(NSString *)url query:(id)aQuery{
+    return [self post:url query:aQuery body:nil];
+}
+
++ (TinResponse *)post:(NSString *)url body:(NSDictionary *)bodyData{
+    return [self post:url query:nil body:bodyData];
+}
+
++ (TinResponse *)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData {
+    return [[[[self alloc] init] autorelease] post:url query:aQuery body:bodyData files:nil];
+}
+
++ (TinResponse *)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData files:(NSMutableDictionary *)files {
+    return [[[[self alloc] init] autorelease] post:url query:aQuery body:bodyData files:files];
+}
+
+#pragma mark PUT ASYNCHRONOUS
 // ## `PUT` requests
 //
 // Methods for use with `PUT` requests.
@@ -154,7 +143,7 @@
     [self put:url query:nil body:body success:callback];
 }
 
-+ (void)put:(NSString *)url query:(id)query body:(id)body success:(void(^)(TinResponse *response))callback{
++ (void)put:(NSString *)url query:(id)query body:(id)body success:(void(^)(TinResponse *response))callback {
     [self put:url query:query body:body files:nil success:callback];
 }
 
@@ -162,11 +151,55 @@
     [[[[self alloc] init] autorelease] put:url query:aQuery body:body files:files success:callback];
 }
 
+#pragma mark PUT SYNCHRONOUS
+
++ (TinResponse *)put:(NSString *)url query:(id)aQuery{
+    return [self put:url query:aQuery body:nil];
+}
+
++ (TinResponse *)put:(NSString *)url body:(id)body {
+    return [self put:url query:nil body:body];
+}
+
++ (TinResponse *)put:(NSString *)url query:(id)aQuery body:(id)body {
+    return [self put:url query:aQuery body:body files:nil];
+}
+
++ (TinResponse *)put:(NSString *)url query:(id)aQuery body:(id)body files:(NSMutableDictionary *)files {
+    return [[[[self alloc] init] autorelease] put:url query:aQuery body:body files:files];
+}
+
+#pragma mark DELETE ASYNCHRONOUS
+
++ (void)delete:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback {
+    [self delete:url query:query body:nil success:callback];
+}
+
++ (void)delete:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback {
+    [self delete:url query:nil body:body success:callback];
+}
+
++ (void)delete:(NSString *)url query:(id)query body:(id)body success:(void(^)(TinResponse *response))callback {
+    [[[[self alloc] init] autorelease] delete:url query:query body:body success:callback];
+}
+
+#pragma mark DELETE SYNCHRONOUS
+
++ (TinResponse *)delete:(NSString *)url query:(id)aQuery{
+    return [self delete:url query:aQuery body:nil];
+}
+
++ (TinResponse *)delete:(NSString *)url body:(id)body {
+    return [self delete:url query:nil body:body];
+}
+
++ (TinResponse *)delete:(NSString *)url query:(id)aQuery body:(id)body {
+    return [[[[self alloc] init] autorelease] delete:url query:aQuery body:body];
+}
+
 #pragma mark - Instance Methods
 
-// ## Instance methods
-
-#pragma mark GET
+#pragma mark GET ASYNCHRONOUS
 
 - (void)get:(NSString *)url success:(void(^)(TinResponse *response))callback {
     [self get:url query:nil success:callback];
@@ -176,15 +209,26 @@
     [self performRequest:@"GET" withURL:url andQuery:query andBody:nil andSuccessCallback:callback];
 }
 
-#pragma mark POST
+#pragma mark GET SYNCHRONOUS
+
+- (TinResponse *)get:(NSString *)url {
+    return [self get:url query:nil];
+}
+
+- (TinResponse *)get:(NSString *)url query:(id)query {
+    return [self performSynchronousRequest:@"GET" withURL:url andQuery:query andBody:nil];
+}
+
+#pragma mark POST ASYNCHRONOUS
 
 - (void)post:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback {
-
+    [self post:url query:query body:nil success:callback];
 }
 
 - (void)post:(NSString *)url body:(id)bodyData success:(void(^)(TinResponse *response))callback {
     [self post:url query:nil body:bodyData success:callback];
 }
+
 - (void)post:(NSString *)url query:(id)query body:(id)bodyData success:(void(^)(TinResponse *response))callback {
     [self post:url query:query body:bodyData files:nil success:callback];
 }
@@ -192,7 +236,25 @@
     [self performRequest:@"POST" withURL:url andQuery:query andBody:bodyData andFiles:files andSuccessCallback:callback];
 }
 
-#pragma mark PUT
+#pragma mark POST SYNCHRONOUS
+
+- (TinResponse *)post:(NSString *)url body:(NSDictionary *)bodyData {
+    return [self post:url query:nil body:bodyData];
+}
+
+- (TinResponse *)post:(NSString *)url query:(id)aQuery {
+    return [self post:url query:aQuery body:nil];
+}
+
+- (TinResponse *)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData {
+    return [self post:url query:aQuery body:bodyData files:nil];
+}
+
+- (TinResponse *)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData files:(NSMutableDictionary *)files {
+    return [self performSynchronousRequest:@"POST" withURL:url andQuery:aQuery andBody:bodyData andFiles:files];
+}
+
+#pragma mark PUT ASYNCHRONOUS
 
 - (void)put:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback {
     [self put:url query:query body:nil success:callback];
@@ -210,170 +272,163 @@
     [self performRequest:@"PUT" withURL:url andQuery:query andBody:body andFiles:files andSuccessCallback:callback];
 }
 
+#pragma mark PUT SYNCHRONOUS
+
+- (TinResponse *)put:(NSString *)url query:(id)aQuery{
+    return [self put:url query:aQuery body:nil];
+}
+
+- (TinResponse *)put:(NSString *)url body:(id)body{
+    return [self put:url query:nil body:body];
+}
+
+- (TinResponse *)put:(NSString *)url query:(id)aQuery body:(id)body {
+    return [self put:url query:aQuery body:body files:nil];
+}
+
+- (TinResponse *)put:(NSString *)url query:(id)aQuery body:(id)body files:(NSMutableDictionary *)files {
+    return [self performSynchronousRequest:@"PUT" withURL:url andQuery:aQuery andBody:body andFiles:files];
+}
+
+#pragma mark DELETE ASYNCHRONOUS
+
+- (void)delete:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback {
+    [self delete:url query:query body:nil success:callback];
+}
+
+- (void)delete:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback {
+    [self delete:url query:nil body:body success:callback];
+}
+
+- (void)delete:(NSString *)url query:(id)query body:(id)body success:(void(^)(TinResponse *response))callback{
+    [self performRequest:@"DELETE" withURL:url andQuery:query andBody:body andFiles:nil andSuccessCallback:callback];
+}
+
+#pragma mark DELETE SYNCHRONOUS
+
+- (TinResponse *)delete:(NSString *)url query:(id)aQuery{
+    return [self delete:url query:aQuery body:nil];
+}
+
+- (TinResponse *)delete:(NSString *)url body:(id)body{
+    return [self delete:url query:nil body:body];
+}
+
+- (TinResponse *)delete:(NSString *)url query:(id)aQuery body:(id)body {
+    return [self performSynchronousRequest:@"DELETE" withURL:url andQuery:aQuery andBody:body andFiles:nil];
+}
+
+#pragma mark - Synchronous requests
+
 - (TinResponse *)performSynchronousRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body {
-    
-    // Format the URL to our known format, with query appended if needed.
-    NSString *url = [self normalizeURL:urlString withQuery:query];
-    
-    __block ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
-    
-	[request setRequestMethod:method];
-    
-	// Get the defaults or options (username, password, ...)
-	[self setOptionsOnRequest:request];
-    
-    if (body) {
-        [request setPostBody:[NSMutableData dataWithData:[[body description] dataUsingEncoding:NSUTF8StringEncoding]]];
-    }
-    
-    [request startSynchronous];
-    
-    // Catch requests with an error, and bail out quickly
-    if ([request error]) {
-        return [self responseFromError:request];
-	}
-
-    return [self responseFromSuccess:request];
+    return [self performSynchronousRequest:method withURL:urlString andQuery:query andBody:body andFiles:nil];
 }
 
-- (TinResponse *)responseFromError:(ASIHTTPRequest *)request {
-    return [TinResponse responseWithRequest:request 
-                                   response:nil 
-                             parsedResponse:nil 
-                               responseData:nil
-                                 andHeaders:nil];
-}
-
-- (TinResponse *)responseFromSuccess:(ASIHTTPRequest *)request {
-    // For now only fetching text data
-    NSArray *parsedArray = nil;
+- (TinResponse *)performSynchronousRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andFiles:(NSMutableDictionary *)files {
+    __block TinResponse *synchronousRequest = nil;
     
-    // Check if a parser is available, more info in [Tin+YAJL](Tin+YAJL.html) or [Tin+JSON](Tin+JSON.html)
-    if ([self respondsToSelector:@selector(parseResponse:)]) {
-        parsedArray = [self performSelector:@selector(parseResponse:) withObject:[request responseString]];
-    }
+    [self waitFor:^(void(^done)(void)) {
+        [self performRequest:method withURL:urlString andQuery:query andBody:body andFiles:files andSuccessCallback:^(TinResponse *response) {
+            synchronousRequest = [response retain];
+            done();
+        }]; 
+    }];
     
-    return [TinResponse responseWithRequest:request 
-                                   response:[request responseString] 
-                             parsedResponse:parsedArray 
-                               responseData:[request responseData]
-                                 andHeaders:[request responseHeaders]];
+    return synchronousRequest;
 }
 
-+ (ASIFormDataRequest *)requestWithURL:(NSString *)url {
-    return [ASIFormDataRequest requestWithURL:[NSURL URLWithString:url]];
-}
-
+#pragma mark - Asynchronous requests
 
 - (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andSuccessCallback:(void(^)(TinResponse *response))returnSuccess {
     [self performRequest:method withURL:urlString andQuery:query andBody:body andFiles:nil andSuccessCallback:returnSuccess];
 }
 
 - (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andFiles:(NSMutableDictionary *)files andSuccessCallback:(void(^)(TinResponse *response))returnSuccess {
+    // Initialize client
+    __block AFHTTPClient *_client = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:self.baseURI]];
+    [self setOptionsOnClient:_client];
     
-    // Format the URL to our known format, with query appended if needed.
-    NSString *url = [self normalizeURL:urlString withQuery:query];
-    if (self.debugOutput) NSLog(@"Making request to: %@", url);
+    if (body && self.contentType != nil && ![self.contentType isEqualToString:@""]) {
+        [_client setDefaultHeader:@"Content-Type" value:self.contentType];
+    }
     
-    __block ASIFormDataRequest *request = [Tin requestWithURL:url];
-
-	[request setRequestMethod:method];
-
-	// Get the defaults or options (username, password, ...)
-	[self setOptionsOnRequest:request];
-    [request setCompletionBlock:^{
-        if (self.debugOutput) NSLog(@"\t Request succesfull");
-
-        // For now only fetching text data
-        NSArray *parsedArray = nil;
-        
-        // Check if a parser is available, more info in [Tin+YAJL](Tin+YAJL.html) or [Tin+JSON](Tin+JSON.html)
-        if ([self respondsToSelector:@selector(parseResponse:)]) {
-            parsedArray = [self performSelector:@selector(parseResponse:) withObject:[request responseString]];
-        }
-        
-        TinResponse *response = [TinResponse responseWithRequest:request 
-                                                        response:[request responseString] 
-                                                  parsedResponse:parsedArray 
-                                                    responseData:[request responseData]
-                                                      andHeaders:[request responseHeaders]];
-        if (returnSuccess) {
-            dispatch_async(dispatch_get_main_queue(), ^{ 
-                returnSuccess(response);
-            });
-        }
-    }];
-    
-    [request setFailedBlock:^{
-        if (self.debugOutput) NSLog(@"\t Request failed, error: %@", request.error);
-		TinResponse *response = [TinResponse responseWithRequest:request 
-                                                        response:nil 
-                                                  parsedResponse:nil 
-                                                    responseData:nil
-                                                      andHeaders:nil];
-        if (returnSuccess) {
-            dispatch_async(dispatch_get_main_queue(), ^{ 
-                returnSuccess(response);
-            });
-        }
-    }];
-    
+    // Initialize request
+    NSString *_url = [self normalizeURL:urlString withQuery:query];
+    if (self.debugOutput) NSLog(@"Making request to: %@", _url);
+    NSMutableURLRequest *_request;
     if (files) {
-        [files enumerateKeysAndObjectsUsingBlock:^(id attribute_name, id file, BOOL *stop) {
-            [request setFile:file forKey:attribute_name];
+        _request = [_client multipartFormRequestWithMethod:method path:_url parameters:body constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+            [files enumerateKeysAndObjectsUsingBlock:^(id attribute_name, TinFile *file, BOOL *stop) {
+                [formData appendPartWithFileData:file.data name:attribute_name fileName:file.name mimeType:file.mimeType];
+            }];
         }];
-    }
-
-    if (body) {
-        if (self.contentType != nil && ![self.contentType isEqualToString:@""]) {
-            [request addRequestHeader:@"Content-Type" value:self.contentType];
-        }
-        [request setPostBody:[NSMutableData dataWithData:[[body description] dataUsingEncoding:NSUTF8StringEncoding]]];
+    } else {
+        _request = [_client requestWithMethod:method path:_url parameters:body];
     }
     
-    [request startAsynchronous];
+    [self setOptionsOnRequest:_request];
+    
+    // Initialize operation
+    AFHTTPRequestOperation *_operation = [[[AFHTTPRequestOperation alloc] initWithRequest:_request] autorelease];
+    [_operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if (self.debugOutput) NSLog(@"\t Request succesfull");
+        
+        NSError *_error = nil;
+        id _parsedResponse = AFJSONDecode(responseObject, &_error);
+        
+        TinResponse *_response = [TinResponse responseWithClient:_client URL:operation.request.URL parsedResponse:_parsedResponse error:_error];
+        if (returnSuccess) {
+            dispatch_async(dispatch_get_main_queue(), ^{ 
+                returnSuccess(_response);
+            });
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (self.debugOutput) NSLog(@"\t Request failed, error: %@", error);
+        
+        TinResponse *_response = [TinResponse responseWithClient:_client URL:operation.request.URL parsedResponse:nil error:error];
+        if (returnSuccess) {
+            dispatch_async(dispatch_get_main_queue(), ^{ 
+                returnSuccess(_response);
+            });
+        }
+    }];
+    [_operation start];
 }
 
-// ## Utility methods
+#pragma mark - Utility
 
 // Sets all specified options to the request
-- (void)setOptionsOnRequest:(ASIHTTPRequest *)request {
-	[request setUsername:self.username];
-	[request setPassword:self.password];
-	if (self.timeoutSeconds) {
-		[request setTimeOutSeconds:self.timeoutSeconds];
-	}
+- (void)setOptionsOnClient:(AFHTTPClient *)client {
+    if (self.username && self.password && ![self.username isEqualToString:@""] && ![self.password isEqualToString:@""]) {
+        [client setAuthorizationHeaderWithUsername:username password:password];
+    }
+    
     if (self.headers) {
         [self.headers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-            [request addRequestHeader:key value:obj];
+            [client setDefaultHeader:key value:obj];
         }];
+    }
+    
+    client.parameterEncoding = AFJSONParameterEncoding;
+}
+
+// Sets all specified options to the request
+- (void)setOptionsOnRequest:(NSMutableURLRequest *)request {
+    if (self.timeoutSeconds) {
+        [request setTimeoutInterval:self.timeoutSeconds];
     }
 }
 
+#pragma mark - URL helpers
 
 // Creates the `URL` which will be used in the actual request.
 - (NSString *)normalizeURL:(NSString *)aURL withQuery:(id) query {
-    NSString *urlString = @"";
-    
-    // Formats the URL
-    if (self.baseURI && [self.baseURI length] > 0) {
-        urlString = [NSString stringWithFormat:@"%@%@",[self prependHTTPtoURL:self.baseURI], aURL];
-    } else {
-        urlString = [self prependHTTPtoURL:aURL];
-    } 
+    NSString *urlString = aURL;
     
     // Adds the query
     if (query) urlString = [NSString stringWithFormat:@"%@%@", urlString, [self normalizeQuery:query]];
     
     return urlString;
-}
-
-// Prepends `http` to a string if needed.
-- (NSString *)prependHTTPtoURL:(NSString *)aUrl {
-    if([aUrl rangeOfString:@"^http(s?)://" options:NSRegularExpressionSearch].length > 0)
-        return aUrl;
-    
-    return [NSString stringWithFormat:@"http://%@", aUrl];
 }
 
 - (NSString *)normalizeQuery:(id)query {
@@ -383,6 +438,20 @@
         return [(NSDictionary *) query toQueryString];
     return nil;
 }
+
+#pragma mark - Synchronous helper
+
+- (void)waitFor:(void(^)(void(^endCallback)(void)))block {
+    dispatch_semaphore_t waiter = dispatch_semaphore_create(0);
+    
+    block(^{
+        dispatch_semaphore_signal(waiter);
+    });
+    
+    dispatch_semaphore_wait(waiter, DISPATCH_TIME_FOREVER);
+    dispatch_release(waiter);
+}
+
 @end
 
 
