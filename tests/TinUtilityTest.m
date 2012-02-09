@@ -2,7 +2,7 @@
 
 #import "Tin.h"
 #import "AFHTTPClient.h"
-
+#import "Tin+BasicAuthentication.h"
 @interface Tin (Testing)
 - (void)setOptionsOnClient:(AFHTTPClient *)client;
 - (void)setOptionsOnRequest:(NSMutableURLRequest *)request;
@@ -43,8 +43,7 @@
 #pragma mark - Client
 
 - (void)testAuthenticationSetter {
-	tinInstance.username = @"Jake";
-    tinInstance.password = @"TheSnake";
+    tinInstance = [tinInstance authenticateWithUsername:@"Jake" password:@"TheSnake"];
 	AFHTTPClient *_client = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"http://nog.iets.be"]];
 	[tinInstance setOptionsOnClient:_client];
     GHAssertEqualStrings(@"Basic SmFrZTpUaGVTbmFrZQ==", [_client defaultValueForHeader:@"Authorization"], nil);
