@@ -355,6 +355,7 @@
     // Initialize request
     NSString *_url = [self normalizeURL:urlString withQuery:query];
     if (self.debugOutput) NSLog(@"Making request to: %@", _url);
+
     NSMutableURLRequest *_request;
     if (files) {
         _request = [_client multipartFormRequestWithMethod:method path:_url parameters:body constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
@@ -374,9 +375,7 @@
         if (self.debugOutput) NSLog(@"\t Request succesfull");
         
         NSError *_error = nil;
-        id _parsedResponse = AFJSONDecode(responseObject, &_error);
-        
-        TinResponse *_response = [TinResponse responseWithClient:_client URL:operation.request.URL parsedResponse:_parsedResponse error:_error];
+        TinResponse *_response = [TinResponse responseWithClient:_client URL:operation.request.URL body:responseObject error:_error];
         if (returnSuccess) {
             dispatch_async(dispatch_get_main_queue(), ^{ 
                 returnSuccess(_response);
@@ -385,7 +384,7 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (self.debugOutput) NSLog(@"\t Request failed, error: %@", error);
         
-        TinResponse *_response = [TinResponse responseWithClient:_client URL:operation.request.URL parsedResponse:nil error:error];
+        TinResponse *_response = [TinResponse responseWithClient:_client URL:operation.request.URL body:nil error:error];
         if (returnSuccess) {
             dispatch_async(dispatch_get_main_queue(), ^{ 
                 returnSuccess(_response);
@@ -408,12 +407,13 @@
             [client setDefaultHeader:key value:obj];
         }];
     }
-    
+     
     client.parameterEncoding = AFJSONParameterEncoding;
 }
 
 // Sets all specified options to the request
 - (void)setOptionsOnRequest:(NSMutableURLRequest *)request {
+    request.HTTPShouldHandleCookies = NO;
     if (self.timeoutSeconds) {
         [request setTimeoutInterval:self.timeoutSeconds];
     }
