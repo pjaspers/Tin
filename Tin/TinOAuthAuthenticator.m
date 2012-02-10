@@ -1,6 +1,6 @@
 //
 //  TinOAuthAuthenticator.m
-//  Faering
+//  Created by Tom Adriaenssen on 09/02/12.
 //
 //  Based on asi-http-request-oauth, by Scott James Remnant
 //  see: https://github.com/keybuk/asi-http-request-oauth

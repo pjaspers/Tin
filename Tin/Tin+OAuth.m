@@ -1,7 +1,5 @@
 //
 //  Tin+OAuth.m
-//  Faering
-//
 //  Created by Tom Adriaenssen on 09/02/12.
 //
 
