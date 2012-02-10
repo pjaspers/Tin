@@ -12,9 +12,8 @@
 
 @protocol TinAuthenticator <NSObject>
 
-@optional
-- (void)tin:(Tin*)tin setOptionsOnClient:(AFHTTPClient *)client;
-- (NSString*)tin:(Tin*)tin transformQuery:(NSString *)query;
+@required
+- (NSString *)tin:(Tin *)tin applyAuthenticationOnClient:(AFHTTPClient *)client withMethod:(NSString*)method url:(NSString *)url query:(NSString *)query;
 
 @end
 

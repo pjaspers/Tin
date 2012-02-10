@@ -14,6 +14,7 @@
 #import "AFJSONUtilities.h"
 
 // Each request returns a [TinResponse](TinResponse.html)
+#import "TinBasicAuthenticator.h"
 #import "TinResponse.h"
 #import "TinFile.h"
 
@@ -368,8 +369,9 @@
         [_client setDefaultHeader:@"Content-Type" value:self.contentType];
     }
 
-    if ([self.authenticator respondsToSelector:@selector(tin:transformQuery:)]) 
-        query = [self.authenticator tin:self transformQuery:query];
+    query = [self normalizeQuery:query];
+    if ([self.authenticator respondsToSelector:@selector(tin:applyAuthenticationOnClient:withMethod:url:query:)]) 
+        query = [self.authenticator tin:self applyAuthenticationOnClient:_client withMethod:method url:urlString query:query];
     
     // Initialize request
     NSString *_url = [self normalizeURL:urlString withQuery:query];
@@ -417,15 +419,12 @@
 
 // Sets all specified options to the request
 - (void)setOptionsOnClient:(AFHTTPClient *)client {
-    if ([self.authenticator respondsToSelector:@selector(tin:setOptionsOnClient:)]) 
-        [self.authenticator tin:self setOptionsOnClient:client];
-    
     if (self.headers) {
         [self.headers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
             [client setDefaultHeader:key value:obj];
         }];
     }
-     
+
     client.parameterEncoding = AFJSONParameterEncoding;
 }
 
@@ -450,8 +449,11 @@
 }
 
 - (NSString *)normalizeQuery:(id)query {
-    if ([query isKindOfClass:[NSString class]]) 
-        return [NSString stringWithFormat:@"?%@",query];
+    if ([query isKindOfClass:[NSString class]]) {
+        if ([query length] > 0 && [query characterAtIndex:0] != '?')
+            query = [NSString stringWithFormat:@"?%@", query];
+        return query;
+    }
     if ([query isKindOfClass:[NSDictionary class]])
         return [(NSDictionary *) query toQueryString];
     return nil;

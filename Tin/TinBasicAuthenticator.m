@@ -29,10 +29,11 @@
     [super dealloc];
 }
 
-- (void)tin:(Tin *)tin setOptionsOnClient:(AFHTTPClient *)client {
+- (NSString *)tin:(Tin *)tin applyAuthenticationOnClient:(AFHTTPClient *)client withMethod:(NSString*)method url:(NSString *)url query:(NSString *)query {
     if (self.username && self.password && ![self.username isEqualToString:@""] && ![self.password isEqualToString:@""]) {
         [client setAuthorizationHeaderWithUsername:self.username password:self.password];
     }
+    return query;
 }
 
 + (TinBasicAuthenticator*)basicAuthenticatorWithUsername:(NSString*)username password:(NSString*)password {

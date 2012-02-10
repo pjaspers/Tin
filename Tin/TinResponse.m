@@ -11,38 +11,111 @@
 
 #import "AFHTTPClient.h"
 
-@interface TinResponse (Private)
+@interface TinResponse () {
+    BOOL _didParse;
+}
+
 - (id)initWithClient:(AFHTTPClient *)_client URL:(NSURL *)_URL body:(id)_response error:(NSError *)_error;
+- (NSString *)decodeFromURL:(NSString*)source;
+- (NSDictionary*)splitQuery:(NSString*)query;
+
 @end
 
 @implementation TinResponse
-@synthesize client;
-@synthesize URL;
-@synthesize body;
-@synthesize parsedResponse;
-@synthesize error;
+
+@synthesize client = _client;
+@synthesize URL = _url;
+@synthesize body = _body;
+@synthesize parsedResponse = _parsedResponse;
+@synthesize parseMethod = _parseMethod;
+@synthesize error = _error;
 
 #pragma mark - Initialization
 
-+ (id)responseWithClient:(AFHTTPClient *)_client URL:(NSURL *)_URL body:(id)_body error:(NSError *)_error {
-  return [[[self alloc] initWithClient:_client URL:_URL body:_body error:_error] autorelease];
++ (id)responseWithClient:(AFHTTPClient *)client URL:(NSURL *)URL body:(id)body error:(NSError *)error {
+  return [[[self alloc] initWithClient:client URL:URL body:body error:error] autorelease];
 }
 
-- (id)initWithClient:(AFHTTPClient *)_client URL:(NSURL *)_URL body:(id)_body error:(NSError *)_error {
+- (id)initWithClient:(AFHTTPClient *)client URL:(NSURL *)URL body:(id)body error:(NSError *)error {
     if(!(self = [super init])) return nil;
 
-    self.client = _client;
-    self.URL = _URL;
-    self.body = _body;
-    if(self.body != nil){
-        self.parsedResponse = AFJSONDecode(_body, &_error);   
-    }
-    self.error = _error;
+    self.client = client;
+    self.URL = URL;
+    self.body = body;
+    self.error = error;
+    self.parseMethod = TinJSONParseMethod;
+    _didParse = NO;
     
     return self;
 }
 
+- (id)parsedResponse {
+    if (!_didParse) {
+        _didParse = YES;
+        NSError* error = nil;
+        switch (self.parseMethod) {
+            case TinFormURLParseMethod:
+                self.parsedResponse = [self splitQuery:self.body];
+                break;
+                
+            case TinJSONParseMethod:
+                self.parsedResponse = AFJSONDecode(self.body, &error);   
+                break;
+                
+            default:
+                self.parsedResponse = self.body;
+                break;
+        }
+        if (error) self.error = error;
+    }
+
+    return _parsedResponse;
+}
+
 #pragma mark - Utility
+
+
+- (NSDictionary*)splitQuery:(id)query
+{
+    if (!query) return nil;
+    if ([query isKindOfClass:[NSDictionary class]]) return query;
+    if ([query isKindOfClass:[NSArray class]]) return query;
+    if ([query isKindOfClass:[NSData class]]) 
+        query = [[NSString alloc] initWithData:query encoding:NSUTF8StringEncoding];
+
+    // make sure we have a string
+    query = [query description];
+
+    // Decode the parameters given in the query string, and add their encoded counterparts
+    if ([query length] > 0 && [query characterAtIndex:0] == '?')
+        query = [query substringFromIndex:1];
+    
+    NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    NSArray *pairs = [query componentsSeparatedByString:@"&"];
+    for (NSString *pair in pairs) {
+        NSString *key, *value;
+        NSRange separator = [pair rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"="]];
+        if (separator.location != NSNotFound) {
+            key = [self decodeFromURL:[pair substringToIndex:separator.location]];
+            value = [self decodeFromURL:[pair substringFromIndex:separator.location + 1]];
+        } else {
+            key = [self decodeFromURL:pair];
+            value = @"";
+        }
+        
+        if (key && key.length > 0) {
+            [result setObject:value forKey:key];
+        }
+    }
+    
+    return result;
+}
+
+- (NSString *)decodeFromURL:(NSString*)source
+{
+    NSString *decoded = [NSMakeCollectable(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (CFStringRef)source, CFSTR(""), kCFStringEncodingUTF8)) autorelease];
+    return [decoded stringByReplacingOccurrencesOfString:@"+" withString:@" "];
+}
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"Client (%p) parsedResponse: %@ URL: %@", self, self.parsedResponse, self.URL];

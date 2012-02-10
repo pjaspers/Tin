@@ -32,6 +32,8 @@
 		9DDB7EC2148E4E4100EE6E90 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDB7EB6148E4E4100EE6E90 /* AFURLConnectionOperation.m */; };
 		9DDB7EC3148E4E4100EE6E90 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDB7EB8148E4E4100EE6E90 /* AFXMLRequestOperation.m */; };
 		9DDB7EC4148E4E4100EE6E90 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDB7EBA148E4E4100EE6E90 /* UIImageView+AFNetworking.m */; };
+		E2AA690314E5286B007262B7 /* Tin+OAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = E2AA690014E5286B007262B7 /* Tin+OAuth.m */; };
+		E2AA690414E5286B007262B7 /* TinOAuthAuthenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = E2AA690214E5286B007262B7 /* TinOAuthAuthenticator.m */; };
 		E2ECE00914E4718400CF91DB /* Tin+BasicAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = E2ECE00414E4718400CF91DB /* Tin+BasicAuthentication.m */; };
 		E2ECE00A14E4718400CF91DB /* TinBasicAuthenticator.m in Sources */ = {isa = PBXBuildFile; fileRef = E2ECE00614E4718400CF91DB /* TinBasicAuthenticator.m */; };
 		E2ECE00B14E4718400CF91DB /* TinFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E2ECE00814E4718400CF91DB /* TinFile.m */; };
@@ -88,6 +90,10 @@
 		9DDB7EB8148E4E4100EE6E90 /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFXMLRequestOperation.m; sourceTree = "<group>"; };
 		9DDB7EB9148E4E4100EE6E90 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
 		9DDB7EBA148E4E4100EE6E90 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
+		E2AA68FF14E5286B007262B7 /* Tin+OAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Tin+OAuth.h"; path = "Tin/Tin+OAuth.h"; sourceTree = "<group>"; };
+		E2AA690014E5286B007262B7 /* Tin+OAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Tin+OAuth.m"; path = "Tin/Tin+OAuth.m"; sourceTree = "<group>"; };
+		E2AA690114E5286B007262B7 /* TinOAuthAuthenticator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TinOAuthAuthenticator.h; path = Tin/TinOAuthAuthenticator.h; sourceTree = "<group>"; };
+		E2AA690214E5286B007262B7 /* TinOAuthAuthenticator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TinOAuthAuthenticator.m; path = Tin/TinOAuthAuthenticator.m; sourceTree = "<group>"; };
 		E2ECE00314E4718400CF91DB /* Tin+BasicAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Tin+BasicAuthentication.h"; path = "Tin/Tin+BasicAuthentication.h"; sourceTree = "<group>"; };
 		E2ECE00414E4718400CF91DB /* Tin+BasicAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Tin+BasicAuthentication.m"; path = "Tin/Tin+BasicAuthentication.m"; sourceTree = "<group>"; };
 		E2ECE00514E4718400CF91DB /* TinBasicAuthenticator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TinBasicAuthenticator.h; path = Tin/TinBasicAuthenticator.h; sourceTree = "<group>"; };
@@ -182,6 +188,10 @@
 				E2ECE00414E4718400CF91DB /* Tin+BasicAuthentication.m */,
 				E2ECE00514E4718400CF91DB /* TinBasicAuthenticator.h */,
 				E2ECE00614E4718400CF91DB /* TinBasicAuthenticator.m */,
+				E2AA68FF14E5286B007262B7 /* Tin+OAuth.h */,
+				E2AA690014E5286B007262B7 /* Tin+OAuth.m */,
+				E2AA690114E5286B007262B7 /* TinOAuthAuthenticator.h */,
+				E2AA690214E5286B007262B7 /* TinOAuthAuthenticator.m */,
 			);
 			name = Tin;
 			sourceTree = "<group>";
@@ -358,6 +368,8 @@
 				E2ECE00914E4718400CF91DB /* Tin+BasicAuthentication.m in Sources */,
 				E2ECE00A14E4718400CF91DB /* TinBasicAuthenticator.m in Sources */,
 				E2ECE00B14E4718400CF91DB /* TinFile.m in Sources */,
+				E2AA690314E5286B007262B7 /* Tin+OAuth.m in Sources */,
+				E2AA690414E5286B007262B7 /* TinOAuthAuthenticator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
