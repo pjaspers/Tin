@@ -72,7 +72,8 @@
         
         if ([self respondsToSelector:@selector(transformParsedResponse:)]) 
             parsedResponse = [self performSelector:@selector(transformParsedResponse:) withObject:parsedResponse];
-        self.parsedResponse = parsedResponse;
+        [_parsedResponse release]; // should be nil but can't hurt
+        _parsedResponse = [parsedResponse retain];
         if (error) self.error = error;
     }
     
@@ -134,7 +135,7 @@
 - (void)dealloc {
 	self.client = nil;
     self.URL = nil;
-    self.parsedResponse = nil;
+    [_parsedResponse release];
     self.error = nil;
     self.body = nil;
     
