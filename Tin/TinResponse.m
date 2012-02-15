@@ -53,24 +53,32 @@
     if (!_didParse) {
         _didParse = YES;
         NSError* error = nil;
+        id parsedResponse = nil;
         switch (self.parseMethod) {
             case TinFormURLParseMethod:
-                self.parsedResponse = [self splitQuery:self.body];
+                parsedResponse = [self splitQuery:self.body];
                 break;
                 
             case TinJSONParseMethod:
-                self.parsedResponse = AFJSONDecode(self.body, &error);   
+                if (self.body) {
+                    parsedResponse = AFJSONDecode(self.body, &error);   
+                }
                 break;
                 
             default:
-                self.parsedResponse = self.body;
+                parsedResponse = self.body;
                 break;
         }
+        
+        if ([self respondsToSelector:@selector(transformParsedResponse:)]) 
+            parsedResponse = [self performSelector:@selector(transformParsedResponse:) withObject:parsedResponse];
+        self.parsedResponse = parsedResponse;
         if (error) self.error = error;
     }
-
+    
     return _parsedResponse;
 }
+
 
 #pragma mark - Utility
 
