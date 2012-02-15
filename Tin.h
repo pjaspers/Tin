@@ -6,7 +6,16 @@
 //  Copyright 2011 10to1. All rights reserved.
 //
 
+@class Tin;
 @class TinResponse;
+@class AFHTTPClient;
+
+@protocol TinAuthenticator <NSObject>
+
+@required
+- (NSString *)tin:(Tin *)tin applyAuthenticationOnClient:(AFHTTPClient *)client withMethod:(NSString*)method url:(NSString *)url query:(NSString *)query;
+
+@end
 
 @interface Tin : NSObject
 
@@ -23,12 +32,11 @@
 //
 // Especially useful if you keep the instance somewhere handy.
 @property (nonatomic, retain) NSString *baseURI;
-@property (nonatomic, retain) NSString *username;
-@property (nonatomic, retain) NSString *password;
 @property (nonatomic, retain) NSString *contentType;
 @property (nonatomic, retain) NSDictionary *headers;
 @property (nonatomic, assign) NSTimeInterval timeoutSeconds;
 @property (nonatomic, assign) BOOL debugOutput;
+@property (nonatomic, retain) id<TinAuthenticator> authenticator;
 
 + (TinResponse *)get:(NSString *)url;
 + (TinResponse *)get:(NSString *)url query:(id)query;

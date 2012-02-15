@@ -2,6 +2,7 @@
 
 #import "Tin.h"
 #import "TinResponse.h"
+#import "Tin+BasicAuthentication.h"
 
 @interface TinAsyncTest : GHAsyncTestCase  { }
 @end
@@ -162,11 +163,21 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void)testErroredRequest { 
+- (void)testUnauthenticatedRequest { 
     [self prepare];
 	Tin *tin = [[Tin alloc] init];
-	tin.username = @"bla";
-	tin.password = @"haha";
+    [tin get:@"http://httpbin.org/basic-auth/user/passwd" success:^(TinResponse *response) {
+        GHTestLog(@"Response: %@", response);
+		GHTestLog(@"Error: %@", response.error);
+        GHAssertNotNil(response.error, @"We should receive an error");
+        [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testUnauthenticatedRequest)];
+    }];
+    [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
+}
+
+- (void)testErroredRequest { 
+    [self prepare];
+	Tin *tin = [[[Tin alloc] init] authenticateWithUsername:@"bla" password:@"haha"];
     [tin get:@"http://httpbin.org/basic-auth/user/passwd" success:^(TinResponse *response) {
         GHTestLog(@"Response: %@", response);
 		GHTestLog(@"Error: %@", response.error);
@@ -178,9 +189,7 @@
 
 - (void)testBasicAuthentication { 
     [self prepare];
-	Tin *tin = [[Tin alloc] init];
-	tin.username = @"user";
-	tin.password = @"passwd";
+	Tin *tin = [[[Tin alloc] init] authenticateWithUsername:@"user" password:@"passwd"];
     [tin get:@"http://httpbin.org/basic-auth/user/passwd" success:^(TinResponse *response) {
         GHTestLog(@"Response: %@", response);
         GHAssertNil(response.error, @"We should be authenticated");

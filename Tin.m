@@ -14,6 +14,7 @@
 #import "AFJSONUtilities.h"
 
 // Each request returns a [TinResponse](TinResponse.html)
+#import "TinBasicAuthenticator.h"
 #import "TinResponse.h"
 #import "TinFile.h"
 
@@ -44,8 +45,7 @@
 
 @implementation Tin
 @synthesize baseURI;
-@synthesize password;
-@synthesize username;
+@synthesize authenticator = _authenticator;
 @synthesize timeoutSeconds;
 @synthesize contentType;
 @synthesize headers;
@@ -199,6 +199,23 @@
 
 #pragma mark - Instance Methods
 
+#pragma mark - initialisation & dealloc
+
+- (id)init {
+    if ((self = [super init])) {
+    }
+    return self;
+}
+
+- (void)dealloc {
+    self.authenticator = nil;
+    self.baseURI = nil;
+    self.contentType = nil;
+    self.headers = nil;
+
+    [super dealloc];
+}
+
 #pragma mark GET ASYNCHRONOUS
 
 - (void)get:(NSString *)url success:(void(^)(TinResponse *response))callback {
@@ -351,10 +368,15 @@
     if (body && self.contentType != nil && ![self.contentType isEqualToString:@""]) {
         [_client setDefaultHeader:@"Content-Type" value:self.contentType];
     }
+
+    query = [self normalizeQuery:query];
+    if ([self.authenticator respondsToSelector:@selector(tin:applyAuthenticationOnClient:withMethod:url:query:)]) 
+        query = [self.authenticator tin:self applyAuthenticationOnClient:_client withMethod:method url:urlString query:query];
     
     // Initialize request
     NSString *_url = [self normalizeURL:urlString withQuery:query];
     if (self.debugOutput) NSLog(@"Making request to: %@", _url);
+
     NSMutableURLRequest *_request;
     if (files) {
         _request = [_client multipartFormRequestWithMethod:method path:_url parameters:body constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
@@ -374,9 +396,7 @@
         if (self.debugOutput) NSLog(@"\t Request succesfull");
         
         NSError *_error = nil;
-        id _parsedResponse = AFJSONDecode(responseObject, &_error);
-        
-        TinResponse *_response = [TinResponse responseWithClient:_client URL:operation.request.URL parsedResponse:_parsedResponse error:_error];
+        TinResponse *_response = [TinResponse responseWithClient:_client URL:operation.request.URL body:responseObject error:_error];
         if (returnSuccess) {
             dispatch_async(dispatch_get_main_queue(), ^{ 
                 returnSuccess(_response);
@@ -385,7 +405,7 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (self.debugOutput) NSLog(@"\t Request failed, error: %@", error);
         
-        TinResponse *_response = [TinResponse responseWithClient:_client URL:operation.request.URL parsedResponse:nil error:error];
+        TinResponse *_response = [TinResponse responseWithClient:_client URL:operation.request.URL body:nil error:error];
         if (returnSuccess) {
             dispatch_async(dispatch_get_main_queue(), ^{ 
                 returnSuccess(_response);
@@ -399,21 +419,18 @@
 
 // Sets all specified options to the request
 - (void)setOptionsOnClient:(AFHTTPClient *)client {
-    if (self.username && self.password && ![self.username isEqualToString:@""] && ![self.password isEqualToString:@""]) {
-        [client setAuthorizationHeaderWithUsername:username password:password];
-    }
-    
     if (self.headers) {
         [self.headers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
             [client setDefaultHeader:key value:obj];
         }];
     }
-    
+
     client.parameterEncoding = AFJSONParameterEncoding;
 }
 
 // Sets all specified options to the request
 - (void)setOptionsOnRequest:(NSMutableURLRequest *)request {
+    request.HTTPShouldHandleCookies = NO;
     if (self.timeoutSeconds) {
         [request setTimeoutInterval:self.timeoutSeconds];
     }
@@ -432,8 +449,11 @@
 }
 
 - (NSString *)normalizeQuery:(id)query {
-    if ([query isKindOfClass:[NSString class]]) 
-        return [NSString stringWithFormat:@"?%@",query];
+    if ([query isKindOfClass:[NSString class]]) {
+        if ([query length] > 0 && [query characterAtIndex:0] != '?')
+            query = [NSString stringWithFormat:@"?%@", query];
+        return query;
+    }
     if ([query isKindOfClass:[NSDictionary class]])
         return [(NSDictionary *) query toQueryString];
     return nil;
