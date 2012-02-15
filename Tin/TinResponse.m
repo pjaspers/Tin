@@ -49,6 +49,10 @@
     return self;
 }
 
+- (NSString*)bodyString {
+    return self.body ? [[[NSString alloc] initWithData:self.body encoding:NSUTF8StringEncoding] autorelease] : nil;
+}
+
 - (id)parsedResponse {
     if (!_didParse) {
         _didParse = YES;

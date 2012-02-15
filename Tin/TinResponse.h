@@ -18,6 +18,7 @@ typedef enum {
 @property (nonatomic, retain) AFHTTPClient *client;
 @property (nonatomic, retain) NSURL *URL;
 @property (nonatomic, retain, readonly) id parsedResponse;
+@property (nonatomic, retain, readonly) NSString* bodyString;
 @property (nonatomic, retain) NSError * error;
 @property (nonatomic, retain) id body;
 @property (nonatomic, assign) TinResponseParseMethod parseMethod;
