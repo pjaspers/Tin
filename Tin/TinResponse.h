@@ -6,20 +6,13 @@
 //  Copyright 2011 10to1. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-@class ASIHTTPRequest;
+@class AFHTTPClient;
 
-@interface TinResponse : NSObject {
-    
-}
+@interface TinResponse : NSObject
+@property (nonatomic, retain) AFHTTPClient *client;
+@property (nonatomic, retain) NSURL *URL;
+@property (nonatomic, retain) id parsedResponse;
+@property (nonatomic, retain) NSError *error;
 
-@property (nonatomic, retain) ASIHTTPRequest        *request;
-@property (nonatomic, retain) NSString              *response;
-@property (nonatomic, retain) NSData                *responseData;
-@property (nonatomic, retain) NSArray               *parsedResponse;
-@property (nonatomic, retain) NSDictionary          *headers;
-@property (nonatomic, readonly) NSError				*error;
-
-+ (id)responseWithRequest:(ASIHTTPRequest *)_request response:(NSString *)_responseString parsedResponse:(NSArray *)_parsedResponse responseData:(NSData *)_responseData andHeaders:(NSDictionary *)_headers;
-
++ (id)responseWithClient:(AFHTTPClient *)_client URL:(NSURL *)_URL parsedResponse:(id)_parsedResponse error:(NSError *)_error;
 @end
