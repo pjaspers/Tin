@@ -8,11 +8,21 @@
 
 @class AFHTTPClient;
 
+typedef enum {
+    TinFormURLParseMethod,
+    TinJSONParseMethod,
+} TinResponseParseMethod;
+
 @interface TinResponse : NSObject
+
 @property (nonatomic, retain) AFHTTPClient *client;
 @property (nonatomic, retain) NSURL *URL;
-@property (nonatomic, retain) id parsedResponse;
-@property (nonatomic, retain) NSError *error;
+@property (nonatomic, retain, readonly) id parsedResponse;
+@property (nonatomic, retain, readonly) NSString* bodyString;
+@property (nonatomic, retain) NSError * error;
+@property (nonatomic, retain) id body;
+@property (nonatomic, assign) TinResponseParseMethod parseMethod;
 
-+ (id)responseWithClient:(AFHTTPClient *)_client URL:(NSURL *)_URL parsedResponse:(id)_parsedResponse error:(NSError *)_error;
+
++ (id)responseWithClient:(AFHTTPClient *)_client URL:(NSURL *)_URL body:(id)_body error:(NSError *)_error;
 @end
