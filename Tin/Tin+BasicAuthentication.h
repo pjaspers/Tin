@@ -8,5 +8,6 @@
 @interface Tin (BasicAuthentication)
 
 - (Tin*)authenticateWithUsername:(NSString*)username password:(NSString*)password;
+- (Tin*)authenticateWithToken:(NSString *)token;
 
 @end
