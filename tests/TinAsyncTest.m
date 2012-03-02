@@ -187,13 +187,13 @@
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
 
-- (void)testBasicAuthentication { 
+- (void)testBasicPasswordAuthentication { 
     [self prepare];
 	Tin *tin = [[[Tin alloc] init] authenticateWithUsername:@"user" password:@"passwd"];
     [tin get:@"http://httpbin.org/basic-auth/user/passwd" success:^(TinResponse *response) {
         GHTestLog(@"Response: %@", response);
         GHAssertNil(response.error, @"We should be authenticated");
-        [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testBasicAuthentication)];
+        [self notify:kGHUnitWaitStatusSuccess forSelector:@selector(testBasicPasswordAuthentication)];
     }];
     [self waitForStatus:kGHUnitWaitStatusSuccess timeout:10.0];
 }
