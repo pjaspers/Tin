@@ -13,4 +13,9 @@
     return self;
 }
 
+- (Tin*)authenticateWithToken:(NSString *)token {
+    self.authenticator = [TinBasicAuthenticator basicAuthenticatorWithToken:token];
+    return self;
+}
+
 @end
