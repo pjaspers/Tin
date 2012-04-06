@@ -396,7 +396,7 @@
         if (self.debugOutput) NSLog(@"\t Request succesfull");
         
         NSError *_error = nil;
-        TinResponse *_response = [TinResponse responseWithClient:_client URL:operation.request.URL body:responseObject error:_error];
+        TinResponse *_response = [TinResponse responseWithOperation:operation body:responseObject error:_error];
         if (returnSuccess) {
             dispatch_async(dispatch_get_main_queue(), ^{ 
                 returnSuccess(_response);
@@ -405,7 +405,7 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (self.debugOutput) NSLog(@"\t Request failed, error: %@", error);
         
-        TinResponse *_response = [TinResponse responseWithClient:_client URL:operation.request.URL body:nil error:error];
+        TinResponse *_response = [TinResponse responseWithOperation:operation body:nil error:error];
         if (returnSuccess) {
             dispatch_async(dispatch_get_main_queue(), ^{ 
                 returnSuccess(_response);
