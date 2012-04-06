@@ -430,9 +430,7 @@
         TinResponse *_response = [TinResponse responseWithOperation:operation body:responseObject error:_error];
         [self.delegate didEndRequest:operation.request withResponse:_response];
         if (returnSuccess) {
-            dispatch_async(dispatch_get_main_queue(), ^{ 
-                returnSuccess(_response);
-            });
+            returnSuccess(_response);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (self.debugOutput) NSLog(@"\t Request failed, error: %@", error);
@@ -440,9 +438,7 @@
         TinResponse *_response = [TinResponse responseWithOperation:operation body:nil error:error];
         [self.delegate didEndRequest:operation.request withResponse:_response];
         if (returnSuccess) {
-            dispatch_async(dispatch_get_main_queue(), ^{ 
-                returnSuccess(_response);
-            });
+            returnSuccess(_response);
         }
     }];
     
