@@ -37,6 +37,7 @@
 @end
 
 @interface Tin (Requests)
+- (NSArray*)buildRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andFiles:(NSMutableDictionary *)files;
 - (TinResponse *)performSynchronousRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andFiles:(NSMutableDictionary *)files;
 - (TinResponse *)performSynchronousRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body;
 - (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andSuccessCallback:(void(^)(TinResponse *response))returnSuccess;
@@ -239,6 +240,10 @@
     return [self performSynchronousRequest:@"GET" withURL:url andQuery:query andBody:nil];
 }
 
+- (NSURLRequest*)requestGet:(NSString *)url query:(id)query {
+    return [[self buildRequest:@"GET" withURL:url andQuery:query andBody:nil andFiles:nil] objectAtIndex:1];
+}
+
 #pragma mark POST ASYNCHRONOUS
 
 - (void)post:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback {
@@ -272,6 +277,10 @@
 
 - (TinResponse *)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData files:(NSMutableDictionary *)files {
     return [self performSynchronousRequest:@"POST" withURL:url andQuery:aQuery andBody:bodyData andFiles:files];
+}
+
+- (NSURLRequest*)requestPost:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData files:(NSMutableDictionary *)files {
+    return [[self buildRequest:@"POST" withURL:url andQuery:aQuery andBody:bodyData andFiles:files] objectAtIndex:1];
 }
 
 #pragma mark PUT ASYNCHRONOUS
@@ -310,6 +319,10 @@
     return [self performSynchronousRequest:@"PUT" withURL:url andQuery:aQuery andBody:body andFiles:files];
 }
 
+- (NSURLRequest *)requestPut:(NSString *)url query:(id)aQuery body:(id)body files:(NSMutableDictionary *)files {
+    return [[self buildRequest:@"PUT" withURL:url andQuery:aQuery andBody:body andFiles:files] objectAtIndex:1];
+}
+
 #pragma mark DELETE ASYNCHRONOUS
 
 - (void)delete:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback {
@@ -338,6 +351,10 @@
     return [self performSynchronousRequest:@"DELETE" withURL:url andQuery:aQuery andBody:body andFiles:nil];
 }
 
+- (NSURLRequest*)requestDelete:(NSString *)url query:(id)aQuery body:(id)body {
+    return [[self buildRequest:@"DELETE" withURL:url andQuery:aQuery andBody:body andFiles:nil] objectAtIndex:1];
+}
+
 #pragma mark - Synchronous requests
 
 - (TinResponse *)performSynchronousRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body {
@@ -363,9 +380,9 @@
     [self performRequest:method withURL:urlString andQuery:query andBody:body andFiles:nil andSuccessCallback:returnSuccess];
 }
 
-- (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andFiles:(NSMutableDictionary *)files andSuccessCallback:(void(^)(TinResponse *response))returnSuccess {
+- (NSArray*)buildRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andFiles:(NSMutableDictionary *)files {
     // Initialize client
-    __block AFHTTPClient *_client = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:self.baseURI]];
+    AFHTTPClient *_client = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:self.baseURI]];
     [self setOptionsOnClient:_client];
     
     if (body && self.contentType != nil && ![self.contentType isEqualToString:@""]) {
@@ -396,6 +413,13 @@
     }
     
     [self setOptionsOnRequest:_request];
+    return [NSArray arrayWithObjects:_client, _request, nil];
+}
+
+- (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andFiles:(NSMutableDictionary *)files andSuccessCallback:(void(^)(TinResponse *response))returnSuccess {
+    NSArray* req = [self buildRequest:method withURL:urlString andQuery:query andBody:body andFiles:files];
+    __block AFHTTPClient* _client = [req objectAtIndex:0];
+    NSURLRequest* _request = [req objectAtIndex:1];
     
     // Initialize operation
     AFHTTPRequestOperation *_operation = [[[AFHTTPRequestOperation alloc] initWithRequest:_request] autorelease];

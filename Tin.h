@@ -25,6 +25,7 @@
 
 @end
 
+
 @interface Tin : NSObject
 
 // This can be used to avoid a lot of repetitive typing.
@@ -67,20 +68,24 @@
 
 - (TinResponse *)get:(NSString *)url;
 - (TinResponse *)get:(NSString *)url query:(id)query;
+- (NSURLRequest*)requestGet:(NSString *)url query:(id)query;
 
 - (TinResponse *)post:(NSString *)url query:(id)aQuery;
 - (TinResponse *)post:(NSString *)url body:(NSDictionary *)bodyData;
 - (TinResponse *)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData;
 - (TinResponse *)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData files:(NSMutableDictionary *)files;
+- (NSURLRequest*)requestPost:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData files:(NSMutableDictionary *)files;
 
 - (TinResponse *)put:(NSString *)url query:(id)aQuery;
 - (TinResponse *)put:(NSString *)url body:(id)body;
 - (TinResponse *)put:(NSString *)url query:(id)aQuery body:(id)body;
 - (TinResponse *)put:(NSString *)url query:(id)aQuery body:(id)body files:(NSMutableDictionary *)files;
+- (NSURLRequest *)requestPut:(NSString *)url query:(id)aQuery body:(id)body files:(NSMutableDictionary *)files;
 
 - (TinResponse *)delete:(NSString *)url query:(id)aQuery;
 - (TinResponse *)delete:(NSString *)url body:(id)body;
 - (TinResponse *)delete:(NSString *)url query:(id)aQuery body:(id)body;
+- (NSURLRequest *)requestDelete:(NSString *)url query:(id)aQuery body:(id)body;
 
 + (void)get:(NSString *)url success:(void(^)(TinResponse *response))callback;
 + (void)get:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback;
