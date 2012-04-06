@@ -10,12 +10,21 @@
 @class TinResponse;
 @class AFHTTPClient;
 
+@protocol TinDelegate <NSObject>
+
+- (void)willBeginRequest:(NSURLRequest*)request;
+- (void)didEndRequest:(NSURLRequest*)request withResponse:(TinResponse*)response;
+
+@end
+
+
 @protocol TinAuthenticator <NSObject>
 
 @required
 - (NSString *)tin:(Tin *)tin applyAuthenticationOnClient:(AFHTTPClient *)client withMethod:(NSString*)method url:(NSString *)url query:(NSString *)query;
 
 @end
+
 
 @interface Tin : NSObject
 
@@ -33,10 +42,12 @@
 // Especially useful if you keep the instance somewhere handy.
 @property (nonatomic, retain) NSString *baseURI;
 @property (nonatomic, retain) NSString *contentType;
+@property (nonatomic, retain) NSString *accept;
 @property (nonatomic, retain) NSDictionary *headers;
 @property (nonatomic, assign) NSTimeInterval timeoutSeconds;
 @property (nonatomic, assign) BOOL debugOutput;
 @property (nonatomic, retain) id<TinAuthenticator> authenticator;
+@property (nonatomic, retain) id<TinDelegate> delegate;
 
 + (TinResponse *)get:(NSString *)url;
 + (TinResponse *)get:(NSString *)url query:(id)query;
@@ -57,20 +68,24 @@
 
 - (TinResponse *)get:(NSString *)url;
 - (TinResponse *)get:(NSString *)url query:(id)query;
+- (NSURLRequest*)requestGet:(NSString *)url query:(id)query;
 
 - (TinResponse *)post:(NSString *)url query:(id)aQuery;
 - (TinResponse *)post:(NSString *)url body:(NSDictionary *)bodyData;
 - (TinResponse *)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData;
 - (TinResponse *)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData files:(NSMutableDictionary *)files;
+- (NSURLRequest*)requestPost:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData files:(NSMutableDictionary *)files;
 
 - (TinResponse *)put:(NSString *)url query:(id)aQuery;
 - (TinResponse *)put:(NSString *)url body:(id)body;
 - (TinResponse *)put:(NSString *)url query:(id)aQuery body:(id)body;
 - (TinResponse *)put:(NSString *)url query:(id)aQuery body:(id)body files:(NSMutableDictionary *)files;
+- (NSURLRequest *)requestPut:(NSString *)url query:(id)aQuery body:(id)body files:(NSMutableDictionary *)files;
 
 - (TinResponse *)delete:(NSString *)url query:(id)aQuery;
 - (TinResponse *)delete:(NSString *)url body:(id)body;
 - (TinResponse *)delete:(NSString *)url query:(id)aQuery body:(id)body;
+- (NSURLRequest *)requestDelete:(NSString *)url query:(id)aQuery body:(id)body;
 
 + (void)get:(NSString *)url success:(void(^)(TinResponse *response))callback;
 + (void)get:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback;
@@ -104,4 +119,8 @@
 - (void)delete:(NSString *)url query:(id)aQuery success:(void(^)(TinResponse *response))callback;
 - (void)delete:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback;
 - (void)delete:(NSString *)url query:(id)aQuery body:(id)body success:(void(^)(TinResponse *response))callback;
+
++ (NSDictionary*)splitQuery:(id)query;
++ (NSString *)decodeFromURL:(NSString*)source;
+
 @end

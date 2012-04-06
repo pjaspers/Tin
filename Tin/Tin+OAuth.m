@@ -5,6 +5,7 @@
 
 #import "Tin+OAuth.h"
 #import "TinOAuthAuthenticator.h"
+#import "TinOAuthAccessTokenAuthenticator.h"
 
 @implementation Tin (OAuth)
 
@@ -22,4 +23,8 @@
     return self;
 }
 
+- (Tin*)signedWithAccessToken:(NSString*)token {
+    self.authenticator = [TinOAuthAccessTokenAuthenticator oauthAuthenticatorWithAccessToken:token];
+    return self;
+}
 @end

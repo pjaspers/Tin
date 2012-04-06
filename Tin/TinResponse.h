@@ -6,7 +6,7 @@
 //  Copyright 2011 10to1. All rights reserved.
 //
 
-@class AFHTTPClient;
+@class AFHTTPRequestOperation;
 
 typedef enum {
     TinFormURLParseMethod,
@@ -15,14 +15,16 @@ typedef enum {
 
 @interface TinResponse : NSObject
 
-@property (nonatomic, retain) AFHTTPClient *client;
-@property (nonatomic, retain) NSURL *URL;
+//@property (nonatomic, retain) AFHTTPClient *client;
+@property (nonatomic, retain, readonly) NSURL *URL;
 @property (nonatomic, retain, readonly) id parsedResponse;
 @property (nonatomic, retain, readonly) NSString* bodyString;
+@property (nonatomic, retain, readonly) NSURLRequest *httpRequest;
+@property (nonatomic, retain, readonly) NSHTTPURLResponse *httpResponse;
 @property (nonatomic, retain) NSError * error;
 @property (nonatomic, retain) id body;
 @property (nonatomic, assign) TinResponseParseMethod parseMethod;
 
 
-+ (id)responseWithClient:(AFHTTPClient *)_client URL:(NSURL *)_URL body:(id)_body error:(NSError *)_error;
++ (id)responseWithOperation:(AFHTTPRequestOperation *)operation body:(id)body error:(NSError *)error;
 @end

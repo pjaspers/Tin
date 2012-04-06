@@ -19,3 +19,4 @@ typedef enum {
 + (TinOAuthAuthenticator*)oauthAuthenticatorWithClientKey:(NSString*)key clientSecret:(NSString*)secret token:(NSString*)token tokenSecret:(NSString*)tokenSecret method:(TinOAuthSignatureMethod)method verifier:(NSString *)verifier;
 
 @end
+
