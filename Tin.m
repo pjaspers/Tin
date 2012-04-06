@@ -470,6 +470,48 @@
     return nil;
 }
 
++ (NSDictionary*)splitQuery:(id)query
+{
+    if (!query) return nil;
+    if ([query isKindOfClass:[NSDictionary class]]) return query;
+    if ([query isKindOfClass:[NSArray class]]) return query;
+    if ([query isKindOfClass:[NSData class]]) 
+        query = [[[NSString alloc] initWithData:query encoding:NSUTF8StringEncoding] autorelease];
+    
+    // make sure we have a string
+    query = [query description];
+    
+    // Decode the parameters given in the query string, and add their encoded counterparts
+    if ([query length] > 0 && [query characterAtIndex:0] == '?')
+        query = [query substringFromIndex:1];
+    
+    NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    NSArray *pairs = [query componentsSeparatedByString:@"&"];
+    for (NSString *pair in pairs) {
+        NSString *key, *value;
+        NSRange separator = [pair rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"="]];
+        if (separator.location != NSNotFound) {
+            key = [self decodeFromURL:[pair substringToIndex:separator.location]];
+            value = [self decodeFromURL:[pair substringFromIndex:separator.location + 1]];
+        } else {
+            key = [self decodeFromURL:pair];
+            value = @"";
+        }
+        
+        if (key && key.length > 0) {
+            [result setObject:value forKey:key];
+        }
+    }
+    
+    return result;
+}
+
++ (NSString *)decodeFromURL:(NSString*)source
+{
+    NSString *decoded = [NSMakeCollectable(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (CFStringRef)source, CFSTR(""), kCFStringEncodingUTF8)) autorelease];
+    return [decoded stringByReplacingOccurrencesOfString:@"+" withString:@" "];
+}
+
 #pragma mark - Synchronous helper
 
 - (void)waitFor:(void(^)(void(^endCallback)(void)))block {

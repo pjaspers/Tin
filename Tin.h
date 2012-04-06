@@ -114,4 +114,8 @@
 - (void)delete:(NSString *)url query:(id)aQuery success:(void(^)(TinResponse *response))callback;
 - (void)delete:(NSString *)url body:(id)body success:(void(^)(TinResponse *response))callback;
 - (void)delete:(NSString *)url query:(id)aQuery body:(id)body success:(void(^)(TinResponse *response))callback;
+
++ (NSDictionary*)splitQuery:(id)query;
++ (NSString *)decodeFromURL:(NSString*)source;
+
 @end
