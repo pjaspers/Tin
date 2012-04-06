@@ -37,6 +37,7 @@
 @end
 
 @interface Tin (Requests)
+- (NSArray*)buildRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andFiles:(NSMutableDictionary *)files;
 - (TinResponse *)performSynchronousRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andFiles:(NSMutableDictionary *)files;
 - (TinResponse *)performSynchronousRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body;
 - (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andSuccessCallback:(void(^)(TinResponse *response))returnSuccess;
@@ -44,12 +45,15 @@
 @end
 
 @implementation Tin
+
 @synthesize baseURI;
 @synthesize authenticator = _authenticator;
 @synthesize timeoutSeconds;
 @synthesize contentType;
+@synthesize accept = _accept;
 @synthesize headers;
 @synthesize debugOutput;
+@synthesize delegate = _delegate;
 
 #pragma mark - Class methods
 
@@ -236,6 +240,10 @@
     return [self performSynchronousRequest:@"GET" withURL:url andQuery:query andBody:nil];
 }
 
+- (NSURLRequest*)requestGet:(NSString *)url query:(id)query {
+    return [[self buildRequest:@"GET" withURL:url andQuery:query andBody:nil andFiles:nil] objectAtIndex:1];
+}
+
 #pragma mark POST ASYNCHRONOUS
 
 - (void)post:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback {
@@ -269,6 +277,10 @@
 
 - (TinResponse *)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData files:(NSMutableDictionary *)files {
     return [self performSynchronousRequest:@"POST" withURL:url andQuery:aQuery andBody:bodyData andFiles:files];
+}
+
+- (NSURLRequest*)requestPost:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData files:(NSMutableDictionary *)files {
+    return [[self buildRequest:@"POST" withURL:url andQuery:aQuery andBody:bodyData andFiles:files] objectAtIndex:1];
 }
 
 #pragma mark PUT ASYNCHRONOUS
@@ -307,6 +319,10 @@
     return [self performSynchronousRequest:@"PUT" withURL:url andQuery:aQuery andBody:body andFiles:files];
 }
 
+- (NSURLRequest *)requestPut:(NSString *)url query:(id)aQuery body:(id)body files:(NSMutableDictionary *)files {
+    return [[self buildRequest:@"PUT" withURL:url andQuery:aQuery andBody:body andFiles:files] objectAtIndex:1];
+}
+
 #pragma mark DELETE ASYNCHRONOUS
 
 - (void)delete:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback {
@@ -335,6 +351,10 @@
     return [self performSynchronousRequest:@"DELETE" withURL:url andQuery:aQuery andBody:body andFiles:nil];
 }
 
+- (NSURLRequest*)requestDelete:(NSString *)url query:(id)aQuery body:(id)body {
+    return [[self buildRequest:@"DELETE" withURL:url andQuery:aQuery andBody:body andFiles:nil] objectAtIndex:1];
+}
+
 #pragma mark - Synchronous requests
 
 - (TinResponse *)performSynchronousRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body {
@@ -360,13 +380,17 @@
     [self performRequest:method withURL:urlString andQuery:query andBody:body andFiles:nil andSuccessCallback:returnSuccess];
 }
 
-- (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andFiles:(NSMutableDictionary *)files andSuccessCallback:(void(^)(TinResponse *response))returnSuccess {
+- (NSArray*)buildRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andFiles:(NSMutableDictionary *)files {
     // Initialize client
-    __block AFHTTPClient *_client = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:self.baseURI]];
+    AFHTTPClient *_client = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:self.baseURI]];
     [self setOptionsOnClient:_client];
     
     if (body && self.contentType != nil && ![self.contentType isEqualToString:@""]) {
         [_client setDefaultHeader:@"Content-Type" value:self.contentType];
+    }
+
+    if (self.accept) {
+        [_client setDefaultHeader:@"Accept" value:self.accept];
     }
 
     query = [self normalizeQuery:query];
@@ -389,6 +413,13 @@
     }
     
     [self setOptionsOnRequest:_request];
+    return [NSArray arrayWithObjects:_client, _request, nil];
+}
+
+- (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andFiles:(NSMutableDictionary *)files andSuccessCallback:(void(^)(TinResponse *response))returnSuccess {
+    NSArray* req = [self buildRequest:method withURL:urlString andQuery:query andBody:body andFiles:files];
+    __block AFHTTPClient* _client = [req objectAtIndex:0];
+    NSURLRequest* _request = [req objectAtIndex:1];
     
     // Initialize operation
     AFHTTPRequestOperation *_operation = [[[AFHTTPRequestOperation alloc] initWithRequest:_request] autorelease];
@@ -396,22 +427,22 @@
         if (self.debugOutput) NSLog(@"\t Request succesfull");
         
         NSError *_error = nil;
-        TinResponse *_response = [TinResponse responseWithClient:_client URL:operation.request.URL body:responseObject error:_error];
+        TinResponse *_response = [TinResponse responseWithOperation:operation body:responseObject error:_error];
+        [self.delegate didEndRequest:operation.request withResponse:_response];
         if (returnSuccess) {
-            dispatch_async(dispatch_get_main_queue(), ^{ 
-                returnSuccess(_response);
-            });
+            returnSuccess(_response);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (self.debugOutput) NSLog(@"\t Request failed, error: %@", error);
         
-        TinResponse *_response = [TinResponse responseWithClient:_client URL:operation.request.URL body:nil error:error];
+        TinResponse *_response = [TinResponse responseWithOperation:operation body:nil error:error];
+        [self.delegate didEndRequest:operation.request withResponse:_response];
         if (returnSuccess) {
-            dispatch_async(dispatch_get_main_queue(), ^{ 
-                returnSuccess(_response);
-            });
+            returnSuccess(_response);
         }
     }];
+    
+    [self.delegate willBeginRequest:_request];
     [_operation start];
 }
 
@@ -457,6 +488,48 @@
     if ([query isKindOfClass:[NSDictionary class]])
         return [(NSDictionary *) query toQueryString];
     return nil;
+}
+
++ (NSDictionary*)splitQuery:(id)query
+{
+    if (!query) return nil;
+    if ([query isKindOfClass:[NSDictionary class]]) return query;
+    if ([query isKindOfClass:[NSArray class]]) return query;
+    if ([query isKindOfClass:[NSData class]]) 
+        query = [[[NSString alloc] initWithData:query encoding:NSUTF8StringEncoding] autorelease];
+    
+    // make sure we have a string
+    query = [query description];
+    
+    // Decode the parameters given in the query string, and add their encoded counterparts
+    if ([query length] > 0 && [query characterAtIndex:0] == '?')
+        query = [query substringFromIndex:1];
+    
+    NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    NSArray *pairs = [query componentsSeparatedByString:@"&"];
+    for (NSString *pair in pairs) {
+        NSString *key, *value;
+        NSRange separator = [pair rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"="]];
+        if (separator.location != NSNotFound) {
+            key = [self decodeFromURL:[pair substringToIndex:separator.location]];
+            value = [self decodeFromURL:[pair substringFromIndex:separator.location + 1]];
+        } else {
+            key = [self decodeFromURL:pair];
+            value = @"";
+        }
+        
+        if (key && key.length > 0) {
+            [result setObject:value forKey:key];
+        }
+    }
+    
+    return result;
+}
+
++ (NSString *)decodeFromURL:(NSString*)source
+{
+    NSString *decoded = [NSMakeCollectable(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (CFStringRef)source, CFSTR(""), kCFStringEncodingUTF8)) autorelease];
+    return [decoded stringByReplacingOccurrencesOfString:@"+" withString:@" "];
 }
 
 #pragma mark - Synchronous helper
