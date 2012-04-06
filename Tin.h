@@ -41,6 +41,7 @@
 // Especially useful if you keep the instance somewhere handy.
 @property (nonatomic, retain) NSString *baseURI;
 @property (nonatomic, retain) NSString *contentType;
+@property (nonatomic, retain) NSString *accept;
 @property (nonatomic, retain) NSDictionary *headers;
 @property (nonatomic, assign) NSTimeInterval timeoutSeconds;
 @property (nonatomic, assign) BOOL debugOutput;

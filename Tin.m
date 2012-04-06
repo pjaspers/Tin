@@ -49,6 +49,7 @@
 @synthesize authenticator = _authenticator;
 @synthesize timeoutSeconds;
 @synthesize contentType;
+@synthesize accept = _accept;
 @synthesize headers;
 @synthesize debugOutput;
 @synthesize delegate = _delegate;
@@ -369,6 +370,10 @@
     
     if (body && self.contentType != nil && ![self.contentType isEqualToString:@""]) {
         [_client setDefaultHeader:@"Content-Type" value:self.contentType];
+    }
+
+    if (self.accept) {
+        [_client setDefaultHeader:@"Accept" value:self.accept];
     }
 
     query = [self normalizeQuery:query];
