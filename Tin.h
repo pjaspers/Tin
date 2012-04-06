@@ -10,6 +10,14 @@
 @class TinResponse;
 @class AFHTTPClient;
 
+@protocol TinDelegate <NSObject>
+
+- (void)willBeginRequest:(NSURLRequest*)request;
+- (void)didEndRequest:(NSURLRequest*)request withResponse:(TinResponse*)response;
+
+@end
+
+
 @protocol TinAuthenticator <NSObject>
 
 @required
@@ -37,6 +45,7 @@
 @property (nonatomic, assign) NSTimeInterval timeoutSeconds;
 @property (nonatomic, assign) BOOL debugOutput;
 @property (nonatomic, retain) id<TinAuthenticator> authenticator;
+@property (nonatomic, retain) id<TinDelegate> delegate;
 
 + (TinResponse *)get:(NSString *)url;
 + (TinResponse *)get:(NSString *)url query:(id)query;
