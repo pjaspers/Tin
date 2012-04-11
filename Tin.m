@@ -418,7 +418,6 @@
 
 - (void)performRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andFiles:(NSMutableDictionary *)files andSuccessCallback:(void(^)(TinResponse *response))returnSuccess {
     NSArray* req = [self buildRequest:method withURL:urlString andQuery:query andBody:body andFiles:files];
-    __block AFHTTPClient* _client = [req objectAtIndex:0];
     NSURLRequest* _request = [req objectAtIndex:1];
     
     // Initialize operation
