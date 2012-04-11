@@ -422,6 +422,13 @@
     
     // Initialize operation
     AFHTTPRequestOperation *_operation = [[[AFHTTPRequestOperation alloc] initWithRequest:_request] autorelease];
+    if (files) {
+        [_operation setUploadProgressBlock:^(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite) {
+            if ([self.delegate respondsToSelector:@selector(didProgressRequest:totalBytesWriten:totalBytesExpectedToWrite:)]) {
+                [self.delegate didProgressRequest:_request totalBytesWriten:totalBytesWritten totalBytesExpectedToWrite:totalBytesExpectedToWrite];
+            }
+        }];
+    }
     [_operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (self.debugOutput) NSLog(@"\t Request succesfull");
         

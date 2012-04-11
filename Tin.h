@@ -15,6 +15,7 @@
 @optional
 - (void)willBeginRequest:(NSURLRequest*)request;
 - (void)didEndRequest:(NSURLRequest*)request withResponse:(TinResponse*)response;
+- (void)didProgressRequest:(NSURLRequest*)request totalBytesWriten:(NSInteger)totalBytesWritten  totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite;
 
 @end
 
