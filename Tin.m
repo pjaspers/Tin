@@ -428,7 +428,9 @@
         
         NSError *_error = nil;
         TinResponse *_response = [TinResponse responseWithOperation:operation body:responseObject error:_error];
-        [self.delegate didEndRequest:operation.request withResponse:_response];
+        if ([self.delegate respondsToSelector:@selector(didEndRequest:withResponse:)]) {
+            [self.delegate didEndRequest:operation.request withResponse:_response];
+        }
         if (returnSuccess) {
             returnSuccess(_response);
         }
@@ -436,13 +438,17 @@
         if (self.debugOutput) NSLog(@"\t Request failed, error: %@", error);
         
         TinResponse *_response = [TinResponse responseWithOperation:operation body:nil error:error];
-        [self.delegate didEndRequest:operation.request withResponse:_response];
+        if ([self.delegate respondsToSelector:@selector(didEndRequest:withResponse:)]) {
+            [self.delegate didEndRequest:operation.request withResponse:_response];
+        }
         if (returnSuccess) {
             returnSuccess(_response);
         }
     }];
     
-    [self.delegate willBeginRequest:_request];
+    if ([self.delegate respondsToSelector:@selector(willBeginRequest:)]) {
+        [self.delegate willBeginRequest:_request];
+    }
     [_operation start];
 }
 

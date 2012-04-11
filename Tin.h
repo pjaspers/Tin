@@ -12,6 +12,7 @@
 
 @protocol TinDelegate <NSObject>
 
+@optional
 - (void)willBeginRequest:(NSURLRequest*)request;
 - (void)didEndRequest:(NSURLRequest*)request withResponse:(TinResponse*)response;
 
