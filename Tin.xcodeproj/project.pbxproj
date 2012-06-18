@@ -21,6 +21,7 @@
 		055E1A4C13A66CC600C7D258 /* TinResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 055E1A4B13A66CC600C7D258 /* TinResponse.m */; };
 		055E1A5613A68E0D00C7D258 /* TinTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 055E1A5513A68E0D00C7D258 /* TinTest.m */; };
 		055E1A6113A68EDE00C7D258 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 055E1A6013A68EDE00C7D258 /* libOCMock.a */; };
+		9D6BC171158F3288008BB2BB /* TinHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D6BC170158F3288008BB2BB /* TinHTTPRequestOperation.m */; };
 		9D85CD8B148E80B300DBEFAC /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D85CD8A148E80B300DBEFAC /* JSONKit.m */; };
 		9DDB7EBB148E4E4100EE6E90 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDB7EA6148E4E4100EE6E90 /* AFHTTPClient.m */; };
 		9DDB7EBC148E4E4100EE6E90 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DDB7EA8148E4E4100EE6E90 /* AFHTTPRequestOperation.m */; };
@@ -67,6 +68,8 @@
 		055E1A5E13A68EDE00C7D258 /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
 		055E1A5F13A68EDE00C7D258 /* OCMockRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockRecorder.h; sourceTree = "<group>"; };
 		055E1A6013A68EDE00C7D258 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
+		9D6BC16F158F3288008BB2BB /* TinHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TinHTTPRequestOperation.h; path = Tin/TinHTTPRequestOperation.h; sourceTree = "<group>"; };
+		9D6BC170158F3288008BB2BB /* TinHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TinHTTPRequestOperation.m; path = Tin/TinHTTPRequestOperation.m; sourceTree = "<group>"; };
 		9D85CD89148E80B300DBEFAC /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		9D85CD8A148E80B300DBEFAC /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		9DDB7EA5148E4E4100EE6E90 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
@@ -181,6 +184,8 @@
 		0520609013A54EBC005072D0 /* Tin */ = {
 			isa = PBXGroup;
 			children = (
+				9D6BC16F158F3288008BB2BB /* TinHTTPRequestOperation.h */,
+				9D6BC170158F3288008BB2BB /* TinHTTPRequestOperation.m */,
 				E2ECE00714E4718400CF91DB /* TinFile.h */,
 				E2ECE00814E4718400CF91DB /* TinFile.m */,
 				051423FF13A5508F00E5BD31 /* Tin+Extensions.h */,
@@ -376,6 +381,7 @@
 				E2AA690314E5286B007262B7 /* Tin+OAuth.m in Sources */,
 				E2AA690414E5286B007262B7 /* TinOAuthAuthenticator.m in Sources */,
 				E2F354D5152F0003008509A4 /* TinOAuthAccessTokenAuthenticator.m in Sources */,
+				9D6BC171158F3288008BB2BB /* TinHTTPRequestOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

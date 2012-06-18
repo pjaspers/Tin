@@ -17,6 +17,7 @@
 #import "TinBasicAuthenticator.h"
 #import "TinResponse.h"
 #import "TinFile.h"
+#import "TinHTTPRequestOperation.h"
 
 // Contains additions to default objects to aid Tin
 #import "Tin+Extensions.h"
@@ -421,7 +422,7 @@
     NSURLRequest* _request = [req objectAtIndex:1];
     
     // Initialize operation
-    AFHTTPRequestOperation *_operation = [[[AFHTTPRequestOperation alloc] initWithRequest:_request] autorelease];
+    TinHTTPRequestOperation *_operation = [[[TinHTTPRequestOperation alloc] initWithRequest:_request] autorelease];
     if (files) {
         [_operation setUploadProgressBlock:^(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite) {
             if ([self.delegate respondsToSelector:@selector(didProgressRequest:totalBytesWriten:totalBytesExpectedToWrite:)]) {
