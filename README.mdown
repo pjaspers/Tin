@@ -28,7 +28,7 @@ There are two ways to use `Tin`, the simplest way is to always call the class me
 For example if you create a:
 
 ```
-Tin *tin = [][Tin alloc] init];'
+Tin *tin = [[Tin alloc] init];
 tin.baseURI = @"http://tin.com";
 ```
 
