@@ -23,9 +23,9 @@ Pod::Spec.new do |s|
   }
   s.author   = { 'pjaspers' => 'piet@jaspe.rs' }
   s.platform     = :ios, '5.0'
-  s.source   = { :git => 'https://github.com/pjaspers/Tin.git' }
+  s.source   = { :git => 'https://github.com/pjaspers/Tin.git', :tag => "0.0.1" }
 
-  s.description = 'An optional longer description of Tin.'
+  s.description = 'Tin aims to make talking to webservices from Cocoa a lot simpler. It uses blocks and (the excellent HTTP library) ASIHttp to make requests look simple.'
 
   s.source_files = 'Classes', 'Classes/**/*.{h,m}', "Tin", "*.{h,m}"
 
