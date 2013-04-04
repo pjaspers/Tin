@@ -23,12 +23,12 @@ Pod::Spec.new do |s|
   }
   s.author   = { 'pjaspers' => 'piet@jaspe.rs' }
   s.platform     = :ios, '5.0'
-  s.source   = { :git => 'https://github.com/pjaspers/tin.git' }
+  s.source   = { :git => 'https://github.com/pjaspers/Tin.git' }
 
   s.description = 'An optional longer description of Tin.'
 
   s.source_files = 'Classes', 'Classes/**/*.{h,m}', "Tin", "*.{h,m}"
 
   s.dependency 'JSONKit'
-  s.dependency "AFNetworking"#, "~> 0.9.0"
+  s.dependency "AFNetworking", "~> 0.9.0"
 end
