@@ -1,6 +1,6 @@
 # Tin
 
-Tin aims to make talking to webservices from Cocoa a lot simpler. It uses `blocks` and (the excellent HTTP library) [ASIHttp](http://allseeing-i.com/ASIHTTPRequest/) to make requests look simple.
+Tin aims to make talking to webservices from Cocoa a lot simpler. It uses `blocks` and (the excellent HTTP library) [AFNetworking](https://github.com/AFNetworking/AFNetworking) to make requests look simple.
 
 ## Why?
 
@@ -19,7 +19,7 @@ Now with blocks it's finally possible to make it look like this:
 
 The simplest way to install (as long as I don't create downloads of it) will be to clone the project and copy the Tin header files and the Tin subfolder into your own project.
 
-Tin has one big dependency and that is [ASIHttp](http://allseeing-i.com/ASIHTTPRequest/) so make sure to have that installed as well.
+Tin has one big dependency and that is [AFNetworking](https://github.com/AFNetworking/AFNetworking/) so make sure to have that installed as well.
 
 ## Usage
 
