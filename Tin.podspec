@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
   }
   s.author   = { 'pjaspers' => 'piet@jaspe.rs' }
   s.platform     = :ios, '5.0'
-  s.source   = { :git => 'https://github.com/pjaspers/tin' }
+  s.source   = { :git => 'https://github.com/pjaspers/tin.git' }
 
   s.description = 'An optional longer description of Tin.'
 
