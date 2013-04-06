@@ -8,7 +8,7 @@
 typedef void (^BasicBlock)(void);
 
 void RunAfterDelay(NSTimeInterval delay, BasicBlock block) {
-    [[[block copy] autorelease] performSelector:@selector(ps_callBlock) withObject:nil afterDelay:delay];
+    [[block copy] performSelector:@selector(ps_callBlock) withObject:nil afterDelay:delay];
 }
 
 @implementation NSObject (BlocksAdditions)

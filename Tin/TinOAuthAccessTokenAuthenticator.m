@@ -31,7 +31,6 @@
 
 - (void)dealloc {
     self.accessToken = nil;
-    [super dealloc];
 }
 
 - (NSString *)tin:(Tin *)tin applyAuthenticationOnClient:(AFHTTPClient *)client withMethod:(NSString *)method url:(NSString *)url query:(NSString *)query 
@@ -42,7 +41,7 @@
 
 
 + (TinOAuthAccessTokenAuthenticator*)oauthAuthenticatorWithAccessToken:(NSString*)token {
-    return [[[TinOAuthAccessTokenAuthenticator alloc] initWithAccessToken:token] autorelease];
+    return [[TinOAuthAccessTokenAuthenticator alloc] initWithAccessToken:token];
     
 }
 

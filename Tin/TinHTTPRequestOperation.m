@@ -14,7 +14,7 @@
 - (NSURLRequest *)connection: (NSURLConnection *)inConnection willSendRequest: (NSURLRequest *)inRequest redirectResponse:(NSURLResponse *)inRedirectResponse {
     if (!inRedirectResponse && !_disableAutoRedirect) return inRequest;
     
-    NSMutableURLRequest *request = [[self.request mutableCopy] autorelease];
+    NSMutableURLRequest *request = [self.request mutableCopy];
     request.URL = inRequest.URL; 
     return request;
 }
