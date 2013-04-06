@@ -552,7 +552,6 @@
     });
     
     dispatch_semaphore_wait(waiter, DISPATCH_TIME_FOREVER);
-    dispatch_release(waiter);
 }
 
 @end
