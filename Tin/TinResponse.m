@@ -7,7 +7,6 @@
 //
 
 #import "TinResponse.h"
-#import "AFJSONUtilities.h"
 #import "Tin.h"
 #import "AFHTTPRequestOperation.h"
 
@@ -36,7 +35,7 @@
 #pragma mark - Initialization
 
 + (id)responseWithOperation:(AFHTTPRequestOperation *)operation body:(id)body error:(NSError *)error {
-    return [[[self alloc] initWithOperation:operation body:body error:error] autorelease];
+    return [[self alloc] initWithOperation:operation body:body error:error];
 }
 
 - (id)initWithOperation:(AFHTTPRequestOperation *)operation body:(id)body error:(NSError *)error {
@@ -57,7 +56,7 @@
 }
 
 - (NSString*)bodyString {
-    return self.body ? [[[NSString alloc] initWithData:self.body encoding:NSUTF8StringEncoding] autorelease] : nil;
+    return self.body ? [[NSString alloc] initWithData:self.body encoding:NSUTF8StringEncoding]  : nil;
 }
 
 - (id)parsedResponse {
@@ -72,7 +71,7 @@
                 
             case TinJSONParseMethod:
                 if (self.body) {
-                    parsedResponse = AFJSONDecode(self.body, &error);   
+                    parsedResponse = [NSJSONSerialization JSONObjectWithData:self.body options:0 error:&error];
                 }
                 break;
                 
@@ -83,8 +82,7 @@
         
         if ([self respondsToSelector:@selector(transformParsedResponse:)]) 
             parsedResponse = [self performSelector:@selector(transformParsedResponse:) withObject:parsedResponse];
-        [_parsedResponse release]; // should be nil but can't hurt
-        _parsedResponse = [parsedResponse retain];
+        _parsedResponse = parsedResponse;
         if (error) self.error = error;
     }
     
@@ -115,11 +113,9 @@
 //	self.client = nil;
     self.httpRequest = nil;
     self.httpResponse = nil;
-    [_parsedResponse release];
+    _parsedResponse = nil;
     self.error = nil;
     self.body = nil;
-    
-    [super dealloc];
 }
 
 @end

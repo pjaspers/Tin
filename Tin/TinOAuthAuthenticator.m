@@ -80,8 +80,6 @@ static const NSString *oauthSignatureMethodName[] = {
     self.token = nil;
     self.tokenSecret = nil;
     self.verifier = nil;
-    
-    [super dealloc];
 }
 
 - (NSString *)tin:(Tin *)tin applyAuthenticationOnClient:(AFHTTPClient *)client withMethod:(NSString*)method url:(NSString *)url query:(NSString *)query {
@@ -121,15 +119,15 @@ static const NSString *oauthSignatureMethodName[] = {
 }
 
 + (TinOAuthAuthenticator*)oauthAuthenticatorWithClientKey:(NSString*)key clientSecret:(NSString*)secret method:(TinOAuthSignatureMethod)method {
-    return [[[TinOAuthAuthenticator alloc] initWithClientKey:key clientSecret:secret token:nil tokenSecret:nil method:method verifier:nil] autorelease];
+    return [[TinOAuthAuthenticator alloc] initWithClientKey:key clientSecret:secret token:nil tokenSecret:nil method:method verifier:nil];
 }
 
 + (TinOAuthAuthenticator*)oauthAuthenticatorWithClientKey:(NSString*)key clientSecret:(NSString*)secret token:(NSString*)token tokenSecret:(NSString*)tokenSecret method:(TinOAuthSignatureMethod)method {
-    return [[[TinOAuthAuthenticator alloc] initWithClientKey:key clientSecret:secret token:token tokenSecret:tokenSecret method:method verifier:nil] autorelease];
+    return [[TinOAuthAuthenticator alloc] initWithClientKey:key clientSecret:secret token:token tokenSecret:tokenSecret method:method verifier:nil];
 }
 
 + (TinOAuthAuthenticator*)oauthAuthenticatorWithClientKey:(NSString*)key clientSecret:(NSString*)secret token:(NSString*)token tokenSecret:(NSString*)tokenSecret method:(TinOAuthSignatureMethod)method verifier:(NSString *)verifier {
-    return [[[TinOAuthAuthenticator alloc] initWithClientKey:key clientSecret:secret token:token tokenSecret:tokenSecret method:method verifier:verifier] autorelease];
+    return [[TinOAuthAuthenticator alloc] initWithClientKey:key clientSecret:secret token:token tokenSecret:tokenSecret method:method verifier:verifier];
 }
 
 #pragma mark - Timestamp and nonce handling
@@ -162,7 +160,7 @@ static const NSString *oauthSignatureMethodName[] = {
                 nonceBytes[i] = '0' + byte - 52;
         }
         
-        timestamp = [NSString stringWithFormat:@"%d", tv.tv_sec];
+        timestamp = [NSString stringWithFormat:@"%ld", tv.tv_sec];
         nonce = [NSString stringWithFormat:@"%.16s", nonceBytes];
     } while ((tv.tv_sec == last_timestamp) && [nonceHistory containsObject:nonce]);
     
@@ -349,13 +347,13 @@ static const NSString *oauthSignatureMethodName[] = {
     // See http://en.wikipedia.org/wiki/Percent-encoding and RFC3986
     // Hyphen, Period, Understore & Tilde are expressly legal
     const CFStringRef legalURLCharactersToBeEscaped = CFSTR("!*'();:@&=+$,/?#[]<>\"{}|\\`^% ");
-    return [NSMakeCollectable(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)self, NULL, legalURLCharactersToBeEscaped, kCFStringEncodingUTF8)) autorelease];
+    return (__bridge_transfer NSString*)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)self, NULL, legalURLCharactersToBeEscaped, kCFStringEncodingUTF8);
 }
 
 
 - (NSString *)TO_decodeFromURL
 {
-    NSString *decoded = [NSMakeCollectable(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (CFStringRef)self, CFSTR(""), kCFStringEncodingUTF8)) autorelease];
+    NSString *decoded = (__bridge_transfer NSString*)CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (CFStringRef)self, CFSTR(""), kCFStringEncodingUTF8);
     return [decoded stringByReplacingOccurrencesOfString:@"+" withString:@" "];
 }
 
@@ -544,7 +542,7 @@ char *NewBase64Encode(
 {
 	size_t outputLength;
 	char *outputBuffer = NewBase64Encode([self bytes], [self length], true, &outputLength);
-	NSString *result = [[[NSString alloc] initWithBytes:outputBuffer length:outputLength encoding:NSASCIIStringEncoding] autorelease];
+	NSString *result = [[NSString alloc] initWithBytes:outputBuffer length:outputLength encoding:NSASCIIStringEncoding];
 	free(outputBuffer);
 	return result;
 }

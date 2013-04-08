@@ -27,6 +27,10 @@
 
 @end
 
+typedef enum {
+    TinFormURLParameterEncoding,
+    TinJSONParameterEncoding
+} TinBodyParameterEncoding;
 
 @interface Tin : NSObject
 
@@ -47,6 +51,7 @@
 @property (nonatomic, retain) NSString *accept;
 @property (nonatomic, retain) NSDictionary *headers;
 @property (nonatomic, assign) NSTimeInterval timeoutSeconds;
+@property (nonatomic, assign) TinBodyParameterEncoding bodyParameterEncoding;
 @property (nonatomic, assign) BOOL debugOutput;
 @property (nonatomic, retain) id<TinAuthenticator> authenticator;
 @property (nonatomic, retain) id<TinDelegate> delegate;

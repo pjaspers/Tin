@@ -11,7 +11,6 @@
 // Since ASIHTTP is no longer maintained, we switched to [AFNetworking](https://github.com/AFNetworking/AFNetworking)
 #import "AFHTTPClient.h"
 #import "AFHTTPRequestOperation.h"
-#import "AFJSONUtilities.h"
 
 // Each request returns a [TinResponse](TinResponse.html)
 #import "TinBasicAuthenticator.h"
@@ -71,7 +70,7 @@
 }
 
 + (void)get:(NSString *)url query:(id)query success:(void(^)(TinResponse *response))callback {
-    [[[[self alloc] init] autorelease] get:url query:query success:callback];
+    [[[self alloc] init] get:url query:query success:callback];
 }
 
 #pragma mark GET SYNCHRONOUS
@@ -81,7 +80,7 @@
 }
 
 + (TinResponse *)get:(NSString *)url query:(id)query {
-    return [[[[self alloc] init] autorelease] get:url query:query];
+    return [[[self alloc] init] get:url query:query];
 }
 
 #pragma mark POST ASYNCHRONOUS
@@ -108,7 +107,7 @@
 }
 
 + (void)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData files:(NSMutableDictionary *)files success:(void(^)(TinResponse *response))callback {
-    [[[[self alloc] init] autorelease] post:url query:aQuery body:bodyData files:files success:callback];
+    [[[self alloc] init] post:url query:aQuery body:bodyData files:files success:callback];
 }
 
 #pragma mark POST SYNCHRONOUS
@@ -122,11 +121,11 @@
 }
 
 + (TinResponse *)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData {
-    return [[[[self alloc] init] autorelease] post:url query:aQuery body:bodyData files:nil];
+    return [[[self alloc] init] post:url query:aQuery body:bodyData files:nil];
 }
 
 + (TinResponse *)post:(NSString *)url query:(id)aQuery body:(NSDictionary *)bodyData files:(NSMutableDictionary *)files {
-    return [[[[self alloc] init] autorelease] post:url query:aQuery body:bodyData files:files];
+    return [[[self alloc] init] post:url query:aQuery body:bodyData files:files];
 }
 
 #pragma mark PUT ASYNCHRONOUS
@@ -153,7 +152,7 @@
 }
 
 + (void)put:(NSString *)url query:(id)aQuery body:(id)body files:(NSMutableDictionary *)files success:(void(^)(TinResponse *response))callback {
-    [[[[self alloc] init] autorelease] put:url query:aQuery body:body files:files success:callback];
+    [[[self alloc] init] put:url query:aQuery body:body files:files success:callback];
 }
 
 #pragma mark PUT SYNCHRONOUS
@@ -171,7 +170,7 @@
 }
 
 + (TinResponse *)put:(NSString *)url query:(id)aQuery body:(id)body files:(NSMutableDictionary *)files {
-    return [[[[self alloc] init] autorelease] put:url query:aQuery body:body files:files];
+    return [[[self alloc] init] put:url query:aQuery body:body files:files];
 }
 
 #pragma mark DELETE ASYNCHRONOUS
@@ -185,7 +184,7 @@
 }
 
 + (void)delete:(NSString *)url query:(id)query body:(id)body success:(void(^)(TinResponse *response))callback {
-    [[[[self alloc] init] autorelease] delete:url query:query body:body success:callback];
+    [[[self alloc] init] delete:url query:query body:body success:callback];
 }
 
 #pragma mark DELETE SYNCHRONOUS
@@ -199,7 +198,7 @@
 }
 
 + (TinResponse *)delete:(NSString *)url query:(id)aQuery body:(id)body {
-    return [[[[self alloc] init] autorelease] delete:url query:aQuery body:body];
+    return [[[self alloc] init] delete:url query:aQuery body:body];
 }
 
 #pragma mark - Instance Methods
@@ -208,6 +207,7 @@
 
 - (id)init {
     if ((self = [super init])) {
+        _bodyParameterEncoding = TinJSONParameterEncoding;
     }
     return self;
 }
@@ -217,8 +217,6 @@
     self.baseURI = nil;
     self.contentType = nil;
     self.headers = nil;
-
-    [super dealloc];
 }
 
 #pragma mark GET ASYNCHRONOUS
@@ -367,7 +365,7 @@
     
     [self waitFor:^(void(^done)(void)) {
         [self performRequest:method withURL:urlString andQuery:query andBody:body andFiles:files andSuccessCallback:^(TinResponse *response) {
-            synchronousRequest = [response retain];
+            synchronousRequest = response;
             done();
         }]; 
     }];
@@ -383,7 +381,7 @@
 
 - (NSArray*)buildRequest:(NSString *)method withURL:(NSString *)urlString andQuery:(id)query andBody:(id)body andFiles:(NSMutableDictionary *)files {
     // Initialize client
-    AFHTTPClient *_client = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:self.baseURI]];
+    AFHTTPClient *_client = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:self.baseURI ?: @"http://localhost"]];
     [self setOptionsOnClient:_client];
     
     if (body && self.contentType != nil && ![self.contentType isEqualToString:@""]) {
@@ -422,9 +420,9 @@
     NSURLRequest* _request = [req objectAtIndex:1];
     
     // Initialize operation
-    TinHTTPRequestOperation *_operation = [[[TinHTTPRequestOperation alloc] initWithRequest:_request] autorelease];
+    TinHTTPRequestOperation *_operation = [[TinHTTPRequestOperation alloc] initWithRequest:_request] ;
     if (files) {
-        [_operation setUploadProgressBlock:^(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite) {
+        [_operation setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
             if ([self.delegate respondsToSelector:@selector(didProgressRequest:totalBytesWriten:totalBytesExpectedToWrite:)]) {
                 [self.delegate didProgressRequest:_request totalBytesWriten:totalBytesWritten totalBytesExpectedToWrite:totalBytesExpectedToWrite];
             }
@@ -469,7 +467,7 @@
         }];
     }
 
-    client.parameterEncoding = AFJSONParameterEncoding;
+    client.parameterEncoding = _bodyParameterEncoding;
 }
 
 // Sets all specified options to the request
@@ -509,7 +507,7 @@
     if ([query isKindOfClass:[NSDictionary class]]) return query;
     if ([query isKindOfClass:[NSArray class]]) return query;
     if ([query isKindOfClass:[NSData class]]) 
-        query = [[[NSString alloc] initWithData:query encoding:NSUTF8StringEncoding] autorelease];
+        query = [[NSString alloc] initWithData:query encoding:NSUTF8StringEncoding];
     
     // make sure we have a string
     query = [query description];
@@ -541,7 +539,7 @@
 
 + (NSString *)decodeFromURL:(NSString*)source
 {
-    NSString *decoded = [NSMakeCollectable(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (CFStringRef)source, CFSTR(""), kCFStringEncodingUTF8)) autorelease];
+    NSString *decoded = (__bridge_transfer NSString*) CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (CFStringRef)source, CFSTR(""), kCFStringEncodingUTF8);
     return [decoded stringByReplacingOccurrencesOfString:@"+" withString:@" "];
 }
 
@@ -555,7 +553,6 @@
     });
     
     dispatch_semaphore_wait(waiter, DISPATCH_TIME_FOREVER);
-    dispatch_release(waiter);
 }
 
 @end

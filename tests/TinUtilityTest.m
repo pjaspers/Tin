@@ -36,7 +36,6 @@
 
 - (void)tearDown {
     // Run after each test method
-    [tinInstance release];
     tinInstance = nil;
 }  
 
