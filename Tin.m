@@ -207,6 +207,7 @@
 
 - (id)init {
     if ((self = [super init])) {
+        _bodyParameterEncoding = TinJSONParameterEncoding;
     }
     return self;
 }
@@ -466,7 +467,7 @@
         }];
     }
 
-    client.parameterEncoding = AFJSONParameterEncoding;
+    client.parameterEncoding = _bodyParameterEncoding;
 }
 
 // Sets all specified options to the request
