@@ -29,8 +29,6 @@
 - (void)dealloc {
     self.password = nil;
     self.username = nil;
-    
-    [super dealloc];
 }
 
 - (NSString *)tin:(Tin *)tin applyAuthenticationOnClient:(AFHTTPClient *)client withMethod:(NSString*)method url:(NSString *)url query:(NSString *)query {
@@ -43,11 +41,11 @@
 }
 
 + (TinBasicAuthenticator*)basicAuthenticatorWithUsername:(NSString*)username password:(NSString*)password {
-    return [[[TinBasicAuthenticator alloc] initWithUsername:username password:password] autorelease];
+    return [[TinBasicAuthenticator alloc] initWithUsername:username password:password];
 }
 
 + (TinBasicAuthenticator*)basicAuthenticatorWithToken:(NSString *)token {
-    return [[[TinBasicAuthenticator alloc] initWithToken:token] autorelease];
+    return [[TinBasicAuthenticator alloc] initWithToken:token];
 }
 
 @end

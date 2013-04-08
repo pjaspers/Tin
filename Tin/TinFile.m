@@ -18,7 +18,7 @@
 #pragma mark - Data
 
 + (id)fileWithData:(NSData *)aData {
-    TinFile *_file = [[[TinFile alloc] init] autorelease];
+    TinFile *_file = [[TinFile alloc] init];
     _file.data = aData;
     
     return _file;
@@ -38,7 +38,7 @@
 }
 
 + (id)fileWithPNGImage:(UIImage *)image {
-    TinFile *_file = [[[TinFile alloc] init] autorelease];
+    TinFile *_file = [[TinFile alloc] init];
     
     _file.data = UIImagePNGRepresentation(image);
     _file.mimeType = @"image/png";
@@ -65,7 +65,7 @@
 }
 
 + (id)fileWithJPEGImage:(UIImage *)image compressionQuality:(CGFloat)compressionQuality {
-    TinFile *_file = [[[TinFile alloc] init] autorelease];
+    TinFile *_file = [[TinFile alloc] init];
     
     _file.data = UIImageJPEGRepresentation(image, compressionQuality);
     _file.mimeType = @"image/jpeg";
